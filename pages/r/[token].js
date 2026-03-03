@@ -10,35 +10,19 @@ export async function getServerSideProps(context) {
 
   const { data } = await supabase
     .from('review_tokens')
-    .select('*')
+    .select('google_review_link')
     .eq('token', token)
     .single()
 
   if (!data) {
-    return {
-      notFound: true
-    }
-  }
-
-  const salonId = data.salon_id
-
-  const { data: salon } = await supabase
-    .from('salons')
-    .select('google_place_id')
-    .eq('id', salonId)
-    .single()
-
-  if (!salon) {
-    return {
-      notFound: true
-    }
+    return { notFound: true }
   }
 
   return {
     redirect: {
-      destination: `https://search.google.com/local/writereview?placeid=${salon.google_place_id}`,
-      permanent: false
-    }
+      destination: data.google_review_link,
+      permanent: false,
+    },
   }
 }
 
