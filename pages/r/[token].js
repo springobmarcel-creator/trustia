@@ -15,8 +15,10 @@ export async function getServerSideProps(context) {
     .single()
 
   if (!data) {
-    return { notFound: true }
+  return {
+    props: { error: "No token found" }
   }
+}
 
   const { data: salon } = await supabase
     .from('salons')
@@ -36,6 +38,6 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function RedirectPage() {
-  return null
+export default function RedirectPage(props) {
+  return <div>{props.error || "Redirecting..."}</div>
 }
