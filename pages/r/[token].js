@@ -27,13 +27,6 @@ permanent: false
 }
 
 }
-
 export default function RedirectPage() {
-return <div>Redirecting...</div>
-}    }
-  }
-}
-
-export default function RedirectPage(props) {
-  return <div>{props.error || "Redirecting..."}</div>
+  return <div>Redirecting...</div>
 }
