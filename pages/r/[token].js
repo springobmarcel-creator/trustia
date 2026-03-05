@@ -13,7 +13,7 @@ const { data } = await supabase
 .from('salons')
 .select('google_review_link')
 .eq('token', token)
-.maybeSingle()
+.maybeSingle();
 
 if (!data) {
 return { notFound: true }
