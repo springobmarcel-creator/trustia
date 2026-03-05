@@ -9,19 +9,19 @@ process.env.NEXT_PUBLIC_SUPABASE_URL,
 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
-const { data: salon } = await supabase
+const { data } = await supabase
 .from('review_tokens')
 .select('google_review_link')
 .eq('token', token)
 .maybeSingle()
 
-if (!salon) {
+if (!data) {
 return { notFound: true }
 }
 
 return {
 redirect: {
-destination: salon.google_review_link,
+destination: data.google_review_link,
 permanent: false
 }
 }
