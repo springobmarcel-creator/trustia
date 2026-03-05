@@ -10,7 +10,7 @@ process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
 const { data: salon } = await supabase
-.from('salons')
+.from('review_tokens')
 .select('google_review_link')
 .eq('token', token)
 .maybeSingle()
