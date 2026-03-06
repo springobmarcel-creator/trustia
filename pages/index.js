@@ -1,7 +1,12 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 export default function Home() {
-  return (
-    <div>
-      <h1>Trustia läuft 🚀</h1>
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/test");
+  }, []);
+
+  return null;
 }
