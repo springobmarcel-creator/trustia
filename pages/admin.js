@@ -8,10 +8,10 @@ const supabase = createClient(
 
 export default function Admin() {
 
-  const [salonName, setSalonName] = useState("")
+  const [name, setName] = useState("")
   const [token, setToken] = useState("")
-  const [googleLink, setGoogleLink] = useState("")
-  const [message, setMessage] = useState("")
+  const [link, setLink] = useState("")
+  const [msg, setMsg] = useState("")
 
   async function saveSalon() {
 
@@ -19,22 +19,62 @@ export default function Admin() {
       .from("salons")
       .insert([
         {
-          salon_name: salonName,
+          salon_name: name,
           token: token,
-          google_review_link: googleLink
+          google_review_link: link
         }
       ])
 
     if (error) {
-      setMessage("Fehler beim Speichern")
+      setMsg("Fehler beim Speichern")
     } else {
-      setMessage("Salon gespeichert ✅")
-      setSalonName("")
+      setMsg("Salon gespeichert ✅")
+      setName("")
       setToken("")
-      setGoogleLink("")
+      setLink("")
     }
+
   }
 
+  return (
+    <div style={{padding:40,fontFamily:"Arial"}}>
+
+      <h1>Trustia Admin</h1>
+      <h2>Neuen Salon anlegen</h2>
+
+      <input
+        placeholder="Salon Name"
+        value={name}
+        onChange={(e)=>setName(e.target.value)}
+      />
+
+      <br/><br/>
+
+      <input
+        placeholder="Token (z.B glowkoeln)"
+        value={token}
+        onChange={(e)=>setToken(e.target.value)}
+      />
+
+      <br/><br/>
+
+      <input
+        placeholder="Google Review Link"
+        value={link}
+        onChange={(e)=>setLink(e.target.value)}
+      />
+
+      <br/><br/>
+
+      <button onClick={saveSalon}>
+        Salon speichern
+      </button>
+
+      <p>{msg}</p>
+
+    </div>
+  )
+}
   return (
     <div style={{padding:40,fontFamily:"Arial"}}>
 
