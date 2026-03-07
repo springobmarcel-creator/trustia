@@ -6,9 +6,21 @@ export default function Admin() {
     const token = document.getElementById("token").value
     const link = document.getElementById("link").value
 
-    console.log(name, token, link)
+    await fetch("https://YOURPROJECT.supabase.co/rest/v1/salons", {
+      method: "POST",
+      headers: {
+        "apikey": "YOUR_ANON_KEY",
+        "Authorization": "Bearer YOUR_ANON_KEY",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        salon_name: name,
+        token: token,
+        google_review_link: link
+      })
+    })
 
-    alert("Salon gespeichert (Test)")
+    alert("Salon gespeichert!")
   }
 
   return (
@@ -16,19 +28,15 @@ export default function Admin() {
     <div style={{padding:40,fontFamily:"Arial"}}>
 
       <h1>Trustia Admin</h1>
-
       <h2>Neuen Salon anlegen</h2>
 
       <input id="name" placeholder="Salon Name" />
-
       <br/><br/>
 
       <input id="token" placeholder="Token (z.B glowkoeln)" />
-
       <br/><br/>
 
       <input id="link" placeholder="Google Review Link" />
-
       <br/><br/>
 
       <button onClick={saveSalon}>
