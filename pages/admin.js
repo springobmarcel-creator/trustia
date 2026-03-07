@@ -6,7 +6,7 @@ export default function Admin() {
     const token = document.getElementById("token").value
     const link = document.getElementById("link").value
 
-    await fetch("https://YOURPROJECT.supabase.co/rest/v1/salons", {
+    await fetch("https://cpyzrtojunohozidknaz.supabase.co/rest/v1/salons", {
       method: "POST",
       headers: {
         "apikey": "YOUR_ANON_KEY",
