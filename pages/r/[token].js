@@ -1,32 +1,87 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js"
+import { useState } from "react"
 
 export async function getServerSideProps(context) {
 
-const { token } = context.params
+  const { token } = context.params
 
-const supabase = createClient(
-process.env.NEXT_PUBLIC_SUPABASE_URL,
-process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
 
-const { data } = await supabase
-.from('salons')
-.select('google_review_link')
-.eq('token', token)
-.maybeSingle();
+  const { data } = await supabase
+    .from("salons")
+    .select("google_review_link, salon_name")
+    .eq("token", token)
+    .maybeSingle()
 
-if (!data) {
-return { notFound: true }
+  if (!data) {
+    return { notFound: true }
+  }
+
+  return {
+    props: {
+      googleLink: data.google_review_link,
+      salonName: data.salon_name
+    }
+  }
 }
 
-return {
-redirect: {
-destination: data.google_review_link,
-permanent: false
-}
-}
+export default function ReviewPage({ googleLink, salonName }) {
 
-}
-export default function RedirectPage() {
-  return <div>Redirecting...</div>
+  const [rating, setRating] = useState(null)
+
+  function handleRating(stars) {
+
+    setRating(stars)
+
+    if (stars >= 4) {
+      window.location.href = googleLink
+    }
+  }
+
+  return (
+
+    <div style={{
+      textAlign:"center",
+      marginTop:"120px",
+      fontFamily:"Arial"
+    }}>
+
+      <h1>Wie war dein Besuch?</h1>
+
+      <h3>{salonName}</h3>
+
+      <div style={{fontSize:"50px", marginTop:"30px"}}>
+
+        <span onClick={()=>handleRating(1)}>⭐</span>
+        <span onClick={()=>handleRating(2)}>⭐</span>
+        <span onClick={()=>handleRating(3)}>⭐</span>
+        <span onClick={()=>handleRating(4)}>⭐</span>
+        <span onClick={()=>handleRating(5)}>⭐</span>
+
+      </div>
+
+      {rating && rating < 4 && (
+
+        <div style={{marginTop:"40px"}}>
+
+          <h3>Was können wir verbessern?</h3>
+
+          <textarea
+            style={{
+              width:"300px",
+              height:"120px",
+              padding:"10px"
+            }}
+            placeholder="Dein Feedback..."
+          />
+
+        </div>
+
+      )}
+
+    </div>
+  )
 }
