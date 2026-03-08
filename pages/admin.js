@@ -11,223 +11,178 @@ const [link,setLink] = useState("")
 
 const ADMIN_PASSWORD = "trustia123"
 
-
 function login(){
-
-if(password === ADMIN_PASSWORD){
-
-setLoggedIn(true)
-
-}else{
-
-alert("Falsches Passwort")
-
+  if(password === ADMIN_PASSWORD){
+    setLoggedIn(true)
+  }else{
+    alert("Falsches Passwort")
+  }
 }
-
-}
-
 
 async function saveSalon(){
 
-await fetch("https://jfomycvzljazcjruetsy.supabase.co/rest/v1/salons",{
+  if(!name || !token || !link){
+    alert("Bitte alle Felder ausfüllen")
+    return
+  }
 
-method:"POST",
+  try{
 
-headers:{
-"apikey":"sb_publishable_4m-kPvQvfLsDTQC6Qw7EHg_CfcnbNCl",
-"Authorization":"Bearer sb_publishable_4m-kPvQvfLsDTQC6Qw7EHg_CfcnbNCl",
-"Content-Type":"application/json"
-},
+    const res = await fetch("https://jfomycvlzjazcjruetsv.supabase.co/rest/v1/salons",{
+      method:"POST",
+      headers:{
+        "apikey":"DEIN_SUPABASE_KEY",
+        "Authorization":"Bearer DEIN_SUPABASE_KEY",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        name:name,
+        token:token,
+        google_place_id:link
+      })
+    })
 
-body:JSON.stringify({
+    if(res.ok){
+      alert("Salon gespeichert")
 
-name:name,
-email:token,
-google_place_id:link
+      setName("")
+      setToken("")
+      setLink("")
 
-})
+    }else{
+      alert("Fehler beim Speichern")
+    }
 
-})
-
-alert("Salon gespeichert")
-
-setName("")
-setToken("")
-setLink("")
+  }catch(err){
+    console.log(err)
+    alert("Server Fehler")
+  }
 
 }
-
 
 if(!loggedIn){
+  return(
+    <div style={{
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      height:"100vh",
+      background:"linear-gradient(135deg,#0E3B2F,#1f7a52)"
+    }}>
 
-return(
+      <div style={{
+        background:"white",
+        padding:"40px",
+        borderRadius:"12px",
+        width:"320px",
+        textAlign:"center"
+      }}>
 
-<div style={{
+        <h2>Trustia Admin</h2>
 
-minHeight:"100vh",
-backgroundImage:"url('/trustia-logo.png')",
-backgroundSize:"cover",
-backgroundPosition:"center",
-backgroundRepeat:"no-repeat",
+        <input
+        type="password"
+        placeholder="Admin Passwort"
+        value={password}
+        onChange={(e)=>setPassword(e.target.value)}
+        style={{
+          width:"100%",
+          padding:"10px",
+          marginTop:"20px"
+        }}
+        />
 
-display:"flex",
-alignItems:"flex-start",
-justifyContent:"flex-start",
+        <button
+        onClick={login}
+        style={{
+          marginTop:"20px",
+          width:"100%",
+          padding:"12px",
+          background:"#C9A227",
+          border:"none",
+          borderRadius:"6px",
+          cursor:"pointer"
+        }}
+        >
+        Login
+        </button>
 
-padding:"40px"
-
-}}>
-
-<div style={{
-
-background:"rgba(255,255,255,0.9)",
-backdropFilter:"blur(10px)",
-padding:"30px",
-borderRadius:"16px",
-boxShadow:"0 20px 60px rgba(0,0,0,0.3)",
-width:"280px"
-
-}}>
-
-<h3 style={{marginBottom:20}}>Trustia Admin Login</h3>
-
-<input
-type="password"
-placeholder="Passwort"
-value={password}
-onChange={(e)=>setPassword(e.target.value)}
-style={{
-width:"100%",
-padding:"10px",
-borderRadius:"8px",
-border:"1px solid #ccc",
-marginBottom:"15px"
-}}
-/>
-
-<button
-onClick={login}
-style={{
-width:"100%",
-padding:"10px",
-background:"#cfa84b",
-color:"#fff",
-border:"none",
-borderRadius:"8px",
-fontWeight:"bold",
-cursor:"pointer"
-}}
->
-
-Login
-
-</button>
-
-</div>
-
-</div>
-
-)
-
+      </div>
+    </div>
+  )
 }
 
-
 return(
-
 <div style={{
-
-minHeight:"100vh",
-background:"#0f5132",
-padding:"60px",
-color:"white"
-
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  height:"100vh",
+  background:"linear-gradient(135deg,#0E3B2F,#1f7a52)"
 }}>
 
 <div style={{
-
-maxWidth:"600px",
-margin:"auto",
-background:"white",
-padding:"40px",
-borderRadius:"20px",
-boxShadow:"0 20px 60px rgba(0,0,0,0.3)",
-color:"#333"
-
+  background:"white",
+  padding:"40px",
+  borderRadius:"12px",
+  width:"420px"
 }}>
 
-<h1 style={{marginBottom:30}}>Trustia Admin</h1>
-
-<h3>Neuen Salon anlegen</h3>
+<h2>Trustia Admin</h2>
+<h4>Neuen Salon anlegen</h4>
 
 <input
 placeholder="Salon Name"
 value={name}
 onChange={(e)=>setName(e.target.value)}
 style={{
-
-width:"100%",
-padding:"12px",
-borderRadius:"10px",
-border:"1px solid #ccc",
-marginBottom:"15px"
-
+  width:"100%",
+  padding:"10px",
+  marginTop:"10px"
 }}
 />
 
 <input
-placeholder="Token"
+placeholder="Token / Email"
 value={token}
 onChange={(e)=>setToken(e.target.value)}
 style={{
-
-width:"100%",
-padding:"12px",
-borderRadius:"10px",
-border:"1px solid #ccc",
-marginBottom:"15px"
-
+  width:"100%",
+  padding:"10px",
+  marginTop:"10px"
 }}
 />
 
 <input
-placeholder="Google Bewertungslink"
+placeholder="Google Place ID"
 value={link}
 onChange={(e)=>setLink(e.target.value)}
 style={{
-
-width:"100%",
-padding:"12px",
-borderRadius:"10px",
-border:"1px solid #ccc",
-marginBottom:"20px"
-
+  width:"100%",
+  padding:"10px",
+  marginTop:"10px"
 }}
 />
 
 <button
 onClick={saveSalon}
 style={{
-
-padding:"14px",
-width:"100%",
-background:"#cfa84b",
-color:"white",
-border:"none",
-borderRadius:"10px",
-fontWeight:"bold",
-cursor:"pointer"
-
+  marginTop:"20px",
+  width:"100%",
+  padding:"14px",
+  background:"#C9A227",
+  border:"none",
+  borderRadius:"8px",
+  cursor:"pointer",
+  fontWeight:"bold"
 }}
 >
-
 Salon speichern
-
 </button>
 
 </div>
 
 </div>
-
 )
 
 }
