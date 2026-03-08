@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js"
 import { useState } from "react"
 
 export async function getServerSideProps(context) {
+
   const { token } = context.params
 
   const supabase = createClient(
@@ -25,16 +26,93 @@ export async function getServerSideProps(context) {
       salonName: data.name
     }
   }
+
 }
 
 export default function ReviewPage({ googleLink, salonName }) {
+
   const [rating, setRating] = useState(null)
+  const [message, setMessage] = useState("")
 
   function handleRating(stars) {
+
     setRating(stars)
 
     if (stars >= 4) {
       window.location.href = googleLink
+    }
+
+  }
+
+  async function sendFeedback() {
+
+    await fetch("https://jfomycwzljazcjructsy.supabase.co/rest/v1/feedback",{
+      method:"POST",
+      headers:{
+        "apikey":"sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl",
+        "Authorization":"Bearer sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        salon:salonName,
+        rating:rating,
+        message:message
+      })
+    })
+
+    alert("Danke für dein Feedback!")
+
+  }
+
+  return (
+
+    <div style={{textAlign:"center",marginTop:"120px",fontFamily:"Arial"}}>
+
+      <h1>Wie war dein Besuch?</h1>
+
+      <h3>{salonName}</h3>
+
+      <div style={{fontSize:"50px",marginTop:"30px"}}>
+
+        <span onClick={()=>handleRating(1)}>⭐</span>
+        <span onClick={()=>handleRating(2)}>⭐</span>
+        <span onClick={()=>handleRating(3)}>⭐</span>
+        <span onClick={()=>handleRating(4)}>⭐</span>
+        <span onClick={()=>handleRating(5)}>⭐</span>
+
+      </div>
+
+      {rating && rating < 4 && (
+
+        <div style={{marginTop:"40px"}}>
+
+          <h3>Was können wir verbessern?</h3>
+
+          <textarea
+            style={{
+              width:"300px",
+              height:"120px",
+              padding:"10px"
+            }}
+            placeholder="Dein Feedback..."
+            onChange={(e)=>setMessage(e.target.value)}
+          />
+
+          <br/><br/>
+
+          <button onClick={sendFeedback}>
+            Feedback senden
+          </button>
+
+        </div>
+
+      )}
+
+    </div>
+
+  )
+
+}      window.location.href = googleLink
     }
   }
 
