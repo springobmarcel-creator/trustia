@@ -7,175 +7,151 @@ const [password,setPassword] = useState("")
 
 const [name,setName] = useState("")
 const [token,setToken] = useState("")
-const [link,setLink] = useState("")
+const [placeId,setPlaceId] = useState("")
 
 const ADMIN_PASSWORD = "trustia123"
 
+const SUPABASE_URL = "https://jfomycvlzjazcjruetsv.supabase.co"
+const SUPABASE_KEY = "DEIN_ANON_PUBLIC_KEY"
+
 function login(){
-  if(password === ADMIN_PASSWORD){
-    setLoggedIn(true)
-  }else{
-    alert("Falsches Passwort")
-  }
+
+if(password === ADMIN_PASSWORD){
+setLoggedIn(true)
+}else{
+alert("Falsches Passwort")
+}
+
 }
 
 async function saveSalon(){
 
-  if(!name || !token || !link){
-    alert("Bitte alle Felder ausfüllen")
-    return
-  }
+if(!name || !token || !placeId){
+alert("Bitte alle Felder ausfüllen")
+return
+}
 
-  try{
+try{
 
-    const res = await fetch("https://jfomycvlzjazcjruetsv.supabase.co/rest/v1/salons",{
-      method:"POST",
-      headers:{
-        "apikey":"DEIN_SUPABASE_KEY",
-        "Authorization":"Bearer DEIN_SUPABASE_KEY",
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        name:name,
-        token:token,
-        google_place_id:link
-      })
-    })
+const res = await fetch(`${SUPABASE_URL}/rest/v1/salons`,{
 
-    if(res.ok){
-      alert("Salon gespeichert")
+method:"POST",
 
-      setName("")
-      setToken("")
-      setLink("")
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":`Bearer ${SUPABASE_KEY}`,
+"Content-Type":"application/json",
+"Prefer":"return=minimal"
+},
 
-    }else{
-      alert("Fehler beim Speichern")
-    }
+body:JSON.stringify({
 
-  }catch(err){
-    console.log(err)
-    alert("Server Fehler")
-  }
+name:name,
+token:token,
+google_place_id:placeId,
+slug:name.toLowerCase().replace(/\s/g,"")
+
+})
+
+})
+
+if(res.ok){
+
+alert("Salon gespeichert")
+
+setName("")
+setToken("")
+setPlaceId("")
+
+}else{
+
+const error = await res.text()
+alert("Server Fehler: "+error)
+
+}
+
+}catch(err){
+
+console.log(err)
+alert("Netzwerk Fehler")
+
+}
 
 }
 
 if(!loggedIn){
-  return(
-    <div style={{
-      display:"flex",
-      justifyContent:"center",
-      alignItems:"center",
-      height:"100vh",
-      background:"linear-gradient(135deg,#0E3B2F,#1f7a52)"
-    }}>
 
-      <div style={{
-        background:"white",
-        padding:"40px",
-        borderRadius:"12px",
-        width:"320px",
-        textAlign:"center"
-      }}>
+return(
 
-        <h2>Trustia Admin</h2>
+<div style={styles.page}>
 
-        <input
-        type="password"
-        placeholder="Admin Passwort"
-        value={password}
-        onChange={(e)=>setPassword(e.target.value)}
-        style={{
-          width:"100%",
-          padding:"10px",
-          marginTop:"20px"
-        }}
-        />
+<div style={styles.card}>
 
-        <button
-        onClick={login}
-        style={{
-          marginTop:"20px",
-          width:"100%",
-          padding:"12px",
-          background:"#C9A227",
-          border:"none",
-          borderRadius:"6px",
-          cursor:"pointer"
-        }}
-        >
-        Login
-        </button>
+<img src="/logo.png" style={styles.logo}/>
 
-      </div>
-    </div>
-  )
+<h1 style={styles.title}>TRUSTIA</h1>
+
+<p style={styles.subtitle}>Admin Login</p>
+
+<input
+type="password"
+placeholder="Admin Passwort"
+value={password}
+onChange={(e)=>setPassword(e.target.value)}
+style={styles.input}
+/>
+
+<button
+onClick={login}
+style={styles.button}
+>
+Login
+</button>
+
+</div>
+
+</div>
+
+)
+
 }
 
 return(
-<div style={{
-  display:"flex",
-  justifyContent:"center",
-  alignItems:"center",
-  height:"100vh",
-  background:"linear-gradient(135deg,#0E3B2F,#1f7a52)"
-}}>
 
-<div style={{
-  background:"white",
-  padding:"40px",
-  borderRadius:"12px",
-  width:"420px"
-}}>
+<div style={styles.page}>
 
-<h2>Trustia Admin</h2>
-<h4>Neuen Salon anlegen</h4>
+<div style={styles.card}>
+
+<img src="/logo.png" style={styles.logo}/>
+
+<h1 style={styles.title}>Trustia Admin</h1>
+
+<p style={styles.subtitle}>Neuen Salon anlegen</p>
 
 <input
 placeholder="Salon Name"
 value={name}
 onChange={(e)=>setName(e.target.value)}
-style={{
-  width:"100%",
-  padding:"10px",
-  marginTop:"10px"
-}}
+style={styles.input}
 />
 
 <input
-placeholder="Token / Email"
+placeholder="Token"
 value={token}
 onChange={(e)=>setToken(e.target.value)}
-style={{
-  width:"100%",
-  padding:"10px",
-  marginTop:"10px"
-}}
+style={styles.input}
 />
 
 <input
 placeholder="Google Place ID"
-value={link}
-onChange={(e)=>setLink(e.target.value)}
-style={{
-  width:"100%",
-  padding:"10px",
-  marginTop:"10px"
-}}
+value={placeId}
+onChange={(e)=>setPlaceId(e.target.value)}
+style={styles.input}
 />
 
 <button
 onClick={saveSalon}
-style={{
-  marginTop:"20px",
-  width:"100%",
-  padding:"14px",
-  background:"#C9A227",
-  border:"none",
-  borderRadius:"8px",
-  cursor:"pointer",
-  fontWeight:"bold"
-}}
+style={styles.button}
 >
 Salon speichern
 </button>
@@ -183,6 +159,65 @@ Salon speichern
 </div>
 
 </div>
+
 )
+
+}
+
+const styles = {
+
+page:{
+display:"flex",
+justifyContent:"center",
+alignItems:"center",
+height:"100vh",
+background:"radial-gradient(circle at top,#1f7a52,#0E3B2F)"
+},
+
+card:{
+background:"white",
+padding:"40px",
+borderRadius:"12px",
+width:"380px",
+textAlign:"center",
+boxShadow:"0 20px 40px rgba(0,0,0,0.2)"
+},
+
+logo:{
+width:"70px",
+marginBottom:"10px"
+},
+
+title:{
+margin:"5px",
+fontSize:"28px",
+fontWeight:"600",
+color:"#0E3B2F"
+},
+
+subtitle:{
+color:"#777",
+marginBottom:"20px"
+},
+
+input:{
+width:"100%",
+padding:"12px",
+marginBottom:"12px",
+borderRadius:"6px",
+border:"1px solid #ddd"
+},
+
+button:{
+width:"100%",
+padding:"14px",
+background:"#C9A227",
+border:"none",
+borderRadius:"8px",
+cursor:"pointer",
+fontWeight:"bold",
+fontSize:"16px",
+boxShadow:"0 6px 14px rgba(0,0,0,0.15)"
+}
 
 }
