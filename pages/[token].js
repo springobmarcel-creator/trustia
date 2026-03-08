@@ -31,8 +31,8 @@ salonName:data.name
 
 export default function ReviewPage({googleLink,salonName}){
 
-const [rating,setRating]=useState(null)
-const [hover,setHover]=useState(null)
+const [rating,setRating]=useState(0)
+const [hover,setHover]=useState(0)
 
 function rate(value){
 
@@ -52,18 +52,18 @@ height:"100vh",
 display:"flex",
 justifyContent:"center",
 alignItems:"center",
-background:"linear-gradient(160deg,#f8fafc,#eef2f7)",
+background:"linear-gradient(135deg,#f8fafc,#e2e8f0)",
 fontFamily:"Inter,system-ui,-apple-system"
 
 }}>
 
 <div style={{
 
-width:"560px",
-padding:"80px",
 background:"white",
-borderRadius:"30px",
-boxShadow:"0 40px 100px rgba(0,0,0,0.08)",
+padding:"70px",
+borderRadius:"24px",
+boxShadow:"0 25px 80px rgba(0,0,0,0.08)",
+width:"520px",
 textAlign:"center"
 
 }}>
@@ -72,7 +72,7 @@ textAlign:"center"
 
 fontSize:"34px",
 fontWeight:"600",
-marginBottom:"10px"
+marginBottom:"8px"
 
 }}>
 Wie war dein Besuch?
@@ -81,8 +81,8 @@ Wie war dein Besuch?
 <p style={{
 
 color:"#6b7280",
-fontSize:"17px",
-marginBottom:"50px"
+fontSize:"18px",
+marginBottom:"40px"
 
 }}>
 {salonName}
@@ -92,45 +92,36 @@ marginBottom:"50px"
 
 display:"flex",
 justifyContent:"center",
-gap:"18px"
+gap:"14px"
 
 }}>
 
 {[1,2,3,4,5].map((star)=>(
 
-<div
+<svg
 key={star}
 onClick={()=>rate(star)}
 onMouseEnter={()=>setHover(star)}
-onMouseLeave={()=>setHover(null)}
+onMouseLeave={()=>setHover(0)}
+xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
 style={{
 
-width:"60px",
-height:"60px",
-display:"flex",
-justifyContent:"center",
-alignItems:"center",
-fontSize:"34px",
+width:"46px",
+height:"46px",
 cursor:"pointer",
-borderRadius:"16px",
-background:(hover>=star||rating>=star)
-?"linear-gradient(135deg,#fbbf24,#f59e0b)"
-:"#f3f4f6",
-color:(hover>=star||rating>=star)
-?"white"
-:"#9ca3af",
 transition:"all 0.25s",
-transform:(hover>=star)
-?"translateY(-6px) scale(1.08)"
-:"scale(1)"
+transform:(hover>=star)?"scale(1.15)":"scale(1)"
 
 }}
 
+fill={(hover>=star||rating>=star)?"#FFC107":"#E5E7EB"}
+
 >
 
-★
+<path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.786 1.402 8.173L12 18.897l-7.336 3.873 1.402-8.173L.132 9.211l8.2-1.193z"/>
 
-</div>
+</svg>
 
 ))}
 
@@ -138,12 +129,12 @@ transform:(hover>=star)
 
 <p style={{
 
-marginTop:"40px",
-color:"#9ca3af",
+marginTop:"35px",
+color:"#9CA3AF",
 fontSize:"14px"
 
 }}>
-Deine Meinung hilft uns besser zu werden
+Dein Feedback hilft uns besser zu werden
 </p>
 
 </div>
