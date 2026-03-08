@@ -5,10 +5,10 @@ export async function getServerSideProps(context) {
 
   const { token } = context.params
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  )
+ const supabase = createClient(
+  "https://jfomycwzljazcjructsy.supabase.co",
+  "sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl"
+)
 
   const { data } = await supabase
     .from("salons")
