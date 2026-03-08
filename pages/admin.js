@@ -9,15 +9,33 @@ const [name,setName] = useState("")
 const [token,setToken] = useState("")
 const [link,setLink] = useState("")
 
+const ADMIN_PASSWORD = "trustia123"
+
+
+function login(){
+
+if(password === ADMIN_PASSWORD){
+
+setLoggedIn(true)
+
+}else{
+
+alert("Falsches Passwort")
+
+}
+
+}
+
+
 async function saveSalon(){
 
-await fetch("https://jfomycwzljazcjructsy.supabase.co/rest/v1/salons",{
+await fetch("https://jfomycvzljazcjruetsy.supabase.co/rest/v1/salons",{
 
 method:"POST",
 
 headers:{
-"apikey":"sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl",
-"Authorization":"Bearer sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl",
+"apikey":"sb_publishable_4m-kPvQvfLsDTQC6Qw7EHg_CfcnbNCl",
+"Authorization":"Bearer sb_publishable_4m-kPvQvfLsDTQC6Qw7EHg_CfcnbNCl",
 "Content-Type":"application/json"
 },
 
@@ -31,7 +49,7 @@ google_place_id:link
 
 })
 
-alert("Salon gespeichert!")
+alert("Salon gespeichert")
 
 setName("")
 setToken("")
@@ -44,23 +62,32 @@ if(!loggedIn){
 return(
 
 <div style={{
-height:"100vh",
+
+minHeight:"100vh",
 display:"flex",
-justifyContent:"center",
 alignItems:"center",
-background:"#f4f6fb",
-fontFamily:"Arial"
+justifyContent:"center",
+background:"linear-gradient(135deg,#0f5132,#0b3d2e)",
+backgroundImage:"url('/trustia-logo.png')",
+backgroundSize:"600px",
+backgroundRepeat:"no-repeat",
+backgroundPosition:"center"
+
 }}>
 
 <div style={{
-background:"white",
+
+background:"rgba(255,255,255,0.9)",
+backdropFilter:"blur(12px)",
 padding:"40px",
-borderRadius:"14px",
-boxShadow:"0 20px 50px rgba(0,0,0,0.1)",
-textAlign:"center"
+borderRadius:"20px",
+boxShadow:"0 20px 60px rgba(0,0,0,0.4)",
+textAlign:"center",
+width:"320px"
+
 }}>
 
-<h2>Trustia Admin Login</h2>
+<h2 style={{marginBottom:20}}>Trustia Admin Login</h2>
 
 <input
 type="password"
@@ -68,41 +95,34 @@ placeholder="Passwort"
 value={password}
 onChange={(e)=>setPassword(e.target.value)}
 style={{
+
+width:"100%",
 padding:"12px",
-marginTop:"10px",
-width:"220px",
-borderRadius:"8px",
-border:"1px solid #ddd"
+borderRadius:"10px",
+border:"1px solid #ccc",
+marginBottom:"15px"
+
 }}
 />
 
-<br/>
-
 <button
+onClick={login}
 style={{
-marginTop:"15px",
-padding:"12px 20px",
-background:"#6366F1",
-color:"white",
+
+width:"100%",
+padding:"12px",
+background:"#cfa84b",
+color:"#fff",
 border:"none",
-borderRadius:"8px",
-cursor:"pointer"
-}}
-onClick={()=>{
-
-if(password==="trustia123"){
-
-setLoggedIn(true)
-
-}else{
-
-alert("Falsches Passwort")
-
-}
+borderRadius:"10px",
+cursor:"pointer",
+fontWeight:"bold"
 
 }}
 >
+
 Login
+
 </button>
 
 </div>
@@ -116,50 +136,57 @@ Login
 return(
 
 <div style={{
-padding:"50px",
-fontFamily:"Arial",
-background:"#f4f6fb",
-minHeight:"100vh"
-}}>
 
-<h1>Trustia Admin</h1>
+minHeight:"100vh",
+background:"linear-gradient(135deg,#0f5132,#0b3d2e)",
+padding:"60px",
+color:"white"
+
+}}>
 
 <div style={{
-background:"white",
-padding:"30px",
-borderRadius:"12px",
-marginTop:"20px",
-maxWidth:"500px",
-boxShadow:"0 20px 40px rgba(0,0,0,0.05)"
+
+maxWidth:"600px",
+margin:"auto",
+background:"rgba(255,255,255,0.95)",
+padding:"40px",
+borderRadius:"20px",
+boxShadow:"0 20px 60px rgba(0,0,0,0.3)",
+color:"#333"
+
 }}>
 
-<h2>Neuen Salon anlegen</h2>
+<h1 style={{marginBottom:30}}>Trustia Admin</h1>
+
+<h3>Neuen Salon anlegen</h3>
 
 <input
 placeholder="Salon Name"
 value={name}
 onChange={(e)=>setName(e.target.value)}
 style={{
-display:"block",
-marginTop:"10px",
-padding:"10px",
+
 width:"100%",
-borderRadius:"6px",
-border:"1px solid #ddd"
+padding:"12px",
+borderRadius:"10px",
+border:"1px solid #ccc",
+marginBottom:"15px"
+
 }}
 />
 
 <input
-placeholder="Token (z.B. glowkoeln)"
+placeholder="Token"
 value={token}
 onChange={(e)=>setToken(e.target.value)}
 style={{
-display:"block",
-marginTop:"10px",
-padding:"10px",
+
 width:"100%",
-borderRadius:"6px",
-border:"1px solid #ddd"
+padding:"12px",
+borderRadius:"10px",
+border:"1px solid #ccc",
+marginBottom:"15px"
+
 }}
 />
 
@@ -168,30 +195,34 @@ placeholder="Google Bewertungslink"
 value={link}
 onChange={(e)=>setLink(e.target.value)}
 style={{
-display:"block",
-marginTop:"10px",
-padding:"10px",
+
 width:"100%",
-borderRadius:"6px",
-border:"1px solid #ddd"
+padding:"12px",
+borderRadius:"10px",
+border:"1px solid #ccc",
+marginBottom:"20px"
+
 }}
 />
 
 <button
 onClick={saveSalon}
 style={{
-marginTop:"20px",
-padding:"12px",
+
+padding:"14px",
 width:"100%",
-background:"#6366F1",
+background:"#cfa84b",
 color:"white",
 border:"none",
-borderRadius:"8px",
-cursor:"pointer",
-fontSize:"16px"
+borderRadius:"10px",
+fontWeight:"bold",
+cursor:"pointer"
+
 }}
 >
+
 Salon speichern
+
 </button>
 
 </div>
