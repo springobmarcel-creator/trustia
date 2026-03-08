@@ -6,17 +6,17 @@ export default function Admin() {
     const token = document.getElementById("token").value
     const link = document.getElementById("link").value
 
-    await fetch("https://cpyzrtojunohozidknaz.supabase.co/rest/v1/salons", {
+    await fetch("https://jfomycwzljazcjructsy.supabase.co/rest/v1/salons", {
       method: "POST",
       headers: {
-        "apikey": "YOUR_ANON_KEY",
-        "Authorization": "Bearer YOUR_ANON_KEY",
+        "apikey": "sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl",
+        "Authorization": "Bearer sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        salon_name: name,
-        token: token,
-        google_review_link: link
+        name: name,
+        email: token,
+        google_place_id: link
       })
     })
 
@@ -31,12 +31,15 @@ export default function Admin() {
       <h2>Neuen Salon anlegen</h2>
 
       <input id="name" placeholder="Salon Name" />
+
       <br/><br/>
 
       <input id="token" placeholder="Token (z.B glowkoeln)" />
+
       <br/><br/>
 
       <input id="link" placeholder="Google Review Link" />
+
       <br/><br/>
 
       <button onClick={saveSalon}>
