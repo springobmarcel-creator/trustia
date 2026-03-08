@@ -57,6 +57,7 @@ setLink("")
 
 }
 
+
 if(!loggedIn){
 
 return(
@@ -64,30 +65,31 @@ return(
 <div style={{
 
 minHeight:"100vh",
-display:"flex",
-alignItems:"center",
-justifyContent:"center",
-background:"linear-gradient(135deg,#0f5132,#0b3d2e)",
 backgroundImage:"url('/trustia-logo.png')",
-backgroundSize:"600px",
+backgroundSize:"cover",
+backgroundPosition:"center",
 backgroundRepeat:"no-repeat",
-backgroundPosition:"center"
+
+display:"flex",
+alignItems:"flex-start",
+justifyContent:"flex-start",
+
+padding:"40px"
 
 }}>
 
 <div style={{
 
 background:"rgba(255,255,255,0.9)",
-backdropFilter:"blur(12px)",
-padding:"40px",
-borderRadius:"20px",
-boxShadow:"0 20px 60px rgba(0,0,0,0.4)",
-textAlign:"center",
-width:"320px"
+backdropFilter:"blur(10px)",
+padding:"30px",
+borderRadius:"16px",
+boxShadow:"0 20px 60px rgba(0,0,0,0.3)",
+width:"280px"
 
 }}>
 
-<h2 style={{marginBottom:20}}>Trustia Admin Login</h2>
+<h3 style={{marginBottom:20}}>Trustia Admin Login</h3>
 
 <input
 type="password"
@@ -95,29 +97,25 @@ placeholder="Passwort"
 value={password}
 onChange={(e)=>setPassword(e.target.value)}
 style={{
-
 width:"100%",
-padding:"12px",
-borderRadius:"10px",
+padding:"10px",
+borderRadius:"8px",
 border:"1px solid #ccc",
 marginBottom:"15px"
-
 }}
 />
 
 <button
 onClick={login}
 style={{
-
 width:"100%",
-padding:"12px",
+padding:"10px",
 background:"#cfa84b",
 color:"#fff",
 border:"none",
-borderRadius:"10px",
-cursor:"pointer",
-fontWeight:"bold"
-
+borderRadius:"8px",
+fontWeight:"bold",
+cursor:"pointer"
 }}
 >
 
@@ -133,12 +131,13 @@ Login
 
 }
 
+
 return(
 
 <div style={{
 
 minHeight:"100vh",
-background:"linear-gradient(135deg,#0f5132,#0b3d2e)",
+background:"#0f5132",
 padding:"60px",
 color:"white"
 
@@ -148,7 +147,7 @@ color:"white"
 
 maxWidth:"600px",
 margin:"auto",
-background:"rgba(255,255,255,0.95)",
+background:"white",
 padding:"40px",
 borderRadius:"20px",
 boxShadow:"0 20px 60px rgba(0,0,0,0.3)",
