@@ -12,7 +12,7 @@ export async function getServerSideProps(context){
 
   const { data } = await supabase
     .from("salons")
-    .select("google_place_id,name")
+    .select("google_review_link,name")
     .eq("token",token)
     .maybeSingle()
 
@@ -22,8 +22,8 @@ export async function getServerSideProps(context){
 
   return{
     props:{
-      googleLink:`https://search.google.com/local/writereview?placeid=${data.google_place_id}`,
-      salonName:data.name,
+googleLink:data.google_review_link
+  salonName:data.name,
       token:token
     }
   }
