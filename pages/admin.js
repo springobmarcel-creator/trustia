@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabase"
 
-export default function Admin() {
+export default function Admin(){
 
 const ADMIN_PASSWORD = "trustia-admin"
 
@@ -9,24 +9,10 @@ const [loggedIn,setLoggedIn] = useState(false)
 const [password,setPassword] = useState("")
 
 const [salons,setSalons] = useState([])
+
 const [name,setName] = useState("")
 const [email,setEmail] = useState("")
 const [placeId,setPlaceId] = useState("")
-
-
-
-/* LOGIN CHECK */
-
-useEffect(()=>{
-
-const session = localStorage.getItem("trustia_admin")
-
-if(session==="true"){
-setLoggedIn(true)
-loadSalons()
-}
-
-},[])
 
 
 
@@ -38,27 +24,13 @@ e.preventDefault()
 
 if(password === ADMIN_PASSWORD){
 
-localStorage.setItem("trustia_admin","true")
 setLoggedIn(true)
-
-loadSalons()
 
 }else{
 
 alert("Falsches Passwort")
 
 }
-
-}
-
-
-
-/* LOGOUT */
-
-function logout(){
-
-localStorage.removeItem("trustia_admin")
-setLoggedIn(false)
 
 }
 
@@ -81,6 +53,14 @@ return
 setSalons(data)
 
 }
+
+useEffect(()=>{
+
+if(loggedIn){
+loadSalons()
+}
+
+},[loggedIn])
 
 
 
@@ -122,7 +102,6 @@ console.log(error)
 alert("Fehler beim Speichern")
 
 return
-
 }
 
 setName("")
@@ -135,7 +114,7 @@ loadSalons()
 
 
 
-/* LOGIN PAGE */
+/* LOGIN SCREEN */
 
 if(!loggedIn){
 
@@ -143,8 +122,8 @@ return(
 
 <div style={{
 display:"flex",
-justifyContent:"center",
 alignItems:"center",
+justifyContent:"center",
 height:"100vh",
 background:"#0f3d2e"
 }}>
@@ -200,6 +179,8 @@ return(
 
 <div style={{display:"flex",minHeight:"100vh"}}>
 
+{/* SIDEBAR */}
+
 <div style={{
 width:"220px",
 background:"#0f3d2e",
@@ -213,21 +194,31 @@ padding:"30px"
 <div>Dashboard</div>
 <div>Salons</div>
 <div>Reviews</div>
-<div onClick={logout} style={{cursor:"pointer"}}>
-Logout
-</div>
 </div>
 
 </div>
 
 
 
-<div style={{flex:1,padding:"40px",background:"#f4f6fb"}}>
+{/* CONTENT */}
+
+<div style={{
+flex:1,
+padding:"40px",
+background:"#f4f6fb"
+}}>
 
 <h1>Trustia Dashboard</h1>
 
 
-<div style={{display:"flex",gap:"20px",marginBottom:"30px"}}>
+
+{/* STAT */}
+
+<div style={{
+display:"flex",
+gap:"20px",
+marginBottom:"30px"
+}}>
 
 <div style={{
 background:"white",
@@ -242,6 +233,8 @@ width:"160px"
 </div>
 
 
+
+{/* CREATE SALON */}
 
 <div style={{
 background:"white",
@@ -291,6 +284,8 @@ Salon speichern
 
 
 
+{/* SALON LIST */}
+
 <div style={{
 background:"white",
 padding:"30px",
@@ -302,11 +297,13 @@ borderRadius:"10px"
 <table style={{width:"100%"}}>
 
 <thead>
+
 <tr>
 <th>Name</th>
 <th>Email</th>
 <th>Token</th>
 </tr>
+
 </thead>
 
 <tbody>
