@@ -1,35 +1,51 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { createClient } from "@supabase/supabase-js"
+
+
+const supabase = createClient(
+"https://jfomycvzlajzcjruetsv.supabase.co",
+"DEIN_SUPABASE_ANON_KEY"
+)
+
 
 export default function Admin(){
 
-const [loggedIn,setLoggedIn] = useState(false)
-const [password,setPassword] = useState("")
-
+const [salons,setSalons] = useState([])
 const [name,setName] = useState("")
 const [email,setEmail] = useState("")
 const [placeId,setPlaceId] = useState("")
-
-const ADMIN_PASSWORD = "trustia123"
-
-const SUPABASE_URL = "https://jfomycvzlajzcjruetsv.supabase.co"
-
-const SUPABASE_KEY = "DEIN_SUPABASE_KEY"
+const [loading,setLoading] = useState(true)
 
 
 
-function login(){
+async function loadSalons(){
 
-if(password === ADMIN_PASSWORD){
+const { data,error } = await supabase
+.from("salons")
+.select("*")
+.order("created_at",{ascending:false})
 
-setLoggedIn(true)
+if(error){
+
+alert("Fehler beim Laden")
 
 }else{
 
-alert("Falsches Passwort")
+setSalons(data)
 
 }
 
+setLoading(false)
+
 }
+
+
+
+useEffect(()=>{
+
+loadSalons()
+
+},[])
 
 
 
@@ -37,63 +53,46 @@ async function saveSalon(){
 
 if(!name || !placeId){
 
-alert("Salon Name und Google Place ID fehlen")
+alert("Bitte alle Felder ausfüllen")
 
 return
 
 }
 
-const token = name
+const token =
+name
 .toLowerCase()
 .replace(/[^a-z0-9]/g,"")
++ Math.floor(Math.random()*9999)
 
 const reviewLink =
 `https://search.google.com/local/writereview?placeid=${placeId}`
 
 
-try{
-
-const res = await fetch(`${SUPABASE_URL}/rest/v1/salons`,{
-
-method:"POST",
-
-headers:{
-apikey:SUPABASE_KEY,
-Authorization:`Bearer ${SUPABASE_KEY}`,
-"Content-Type":"application/json",
-Prefer:"return=minimal"
-},
-
-body:JSON.stringify({
-
+const { error } = await supabase
+.from("salons")
+.insert([
+{
 name:name,
 email:email,
 token:token,
 google_place_id:placeId,
 google_review_link:reviewLink
-
-})
-
-})
+}
+])
 
 
-if(res.ok){
+if(error){
 
-alert("Salon gespeichert")
+alert("Fehler beim Speichern")
+
+}else{
 
 setName("")
 setEmail("")
 setPlaceId("")
 
-}else{
-
-alert("Server Fehler")
-
-}
-
-}catch(err){
-
-alert("Netzwerk Fehler")
+loadSalons()
 
 }
 
@@ -101,52 +100,12 @@ alert("Netzwerk Fehler")
 
 
 
-function handleKeyPress(e,action){
-
-if(e.key === "Enter"){
-
-action()
-
-}
-
-}
-
-
-
-if(!loggedIn){
+if(loading){
 
 return(
-
-<div style={styles.page}>
-
-<img src="/logo.png" style={styles.bigLogo}/>
-
-<div style={styles.panel}>
-
-<h2 style={styles.title}>Admin Login</h2>
-
-<input
-type="password"
-placeholder="Admin Passwort"
-value={password}
-onChange={(e)=>setPassword(e.target.value)}
-onKeyDown={(e)=>handleKeyPress(e,login)}
-style={styles.input}
-/>
-
-<button
-onClick={login}
-style={styles.button}
->
-
-Login
-
-</button>
-
+<div style={styles.loading}>
+Dashboard lädt...
 </div>
-
-</div>
-
 )
 
 }
@@ -155,19 +114,65 @@ Login
 
 return(
 
-<div style={styles.page}>
+<div style={styles.layout}>
 
-<img src="/logo.png" style={styles.bigLogo}/>
 
-<div style={styles.panel}>
+<div style={styles.sidebar}>
 
-<h2 style={styles.title}>Neuen Salon anlegen</h2>
+<img src="/logo.png" style={styles.logo}/>
+
+<div style={styles.menu}>
+<div style={styles.menuItem}>Dashboard</div>
+<div style={styles.menuItem}>Salons</div>
+<div style={styles.menuItem}>Reviews</div>
+<div style={styles.menuItem}>Settings</div>
+</div>
+
+</div>
+
+
+
+<div style={styles.content}>
+
+
+<h1 style={styles.title}>Trustia Dashboard</h1>
+
+
+<div style={styles.cards}>
+
+<div style={styles.card}>
+<h3>{salons.length}</h3>
+<p>Salons</p>
+</div>
+
+<div style={styles.card}>
+<h3>0</h3>
+<p>Reviews</p>
+</div>
+
+<div style={styles.card}>
+<h3>0</h3>
+<p>Feedback</p>
+</div>
+
+</div>
+
+
+
+<form
+style={styles.panel}
+onSubmit={(e)=>{
+e.preventDefault()
+saveSalon()
+}}
+>
+
+<h2>Neuen Salon erstellen</h2>
 
 <input
 placeholder="Salon Name"
 value={name}
 onChange={(e)=>setName(e.target.value)}
-onKeyDown={(e)=>handleKeyPress(e,saveSalon)}
 style={styles.input}
 />
 
@@ -175,7 +180,6 @@ style={styles.input}
 placeholder="Email"
 value={email}
 onChange={(e)=>setEmail(e.target.value)}
-onKeyDown={(e)=>handleKeyPress(e,saveSalon)}
 style={styles.input}
 />
 
@@ -183,18 +187,55 @@ style={styles.input}
 placeholder="Google Place ID"
 value={placeId}
 onChange={(e)=>setPlaceId(e.target.value)}
-onKeyDown={(e)=>handleKeyPress(e,saveSalon)}
 style={styles.input}
 />
 
-<button
-onClick={saveSalon}
-style={styles.button}
->
-
+<button type="submit" style={styles.button}>
 Salon speichern
-
 </button>
+
+</form>
+
+
+
+<div style={styles.tableBox}>
+
+<h2>Salons</h2>
+
+<table style={styles.table}>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Token</th>
+<th>Copy</th>
+</tr>
+</thead>
+
+<tbody>
+
+{salons.map((s)=>(
+<tr key={s.id}>
+<td>{s.name}</td>
+<td>{s.email}</td>
+<td>{s.token}</td>
+<td>
+<button
+onClick={()=>navigator.clipboard.writeText(s.token)}
+>
+Copy
+</button>
+</td>
+</tr>
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
 
 </div>
 
@@ -206,59 +247,106 @@ Salon speichern
 
 
 
-const styles = {
+const styles={
 
-page:{
-position:"relative",
+layout:{
+display:"flex",
 height:"100vh",
-background:"linear-gradient(135deg,#0f3d2e,#145c43)",
-fontFamily:"Inter, sans-serif"
+fontFamily:"Inter, sans-serif",
+background:"#f5f7fb"
 },
 
-bigLogo:{
-position:"absolute",
-top:"50%",
-left:"50%",
-transform:"translate(-50%,-50%)",
-width:"380px",
-opacity:"0.15"
+sidebar:{
+width:"240px",
+background:"#0f3d2e",
+color:"white",
+padding:"30px"
 },
 
-panel:{
-position:"absolute",
-top:"40px",
-left:"40px",
-background:"white",
-padding:"30px",
-borderRadius:"16px",
-width:"320px",
-boxShadow:"0 20px 50px rgba(0,0,0,0.25)"
+logo:{
+width:"160px",
+marginBottom:"40px"
+},
+
+menu:{
+display:"flex",
+flexDirection:"column",
+gap:"15px"
+},
+
+menuItem:{
+cursor:"pointer",
+opacity:"0.8"
+},
+
+content:{
+flex:1,
+padding:"40px"
 },
 
 title:{
-marginBottom:"20px",
-fontSize:"20px",
-fontWeight:"600"
+marginBottom:"30px"
+},
+
+cards:{
+display:"flex",
+gap:"20px",
+marginBottom:"30px"
+},
+
+card:{
+background:"white",
+padding:"25px",
+borderRadius:"12px",
+boxShadow:"0 10px 30px rgba(0,0,0,0.08)",
+width:"180px"
+},
+
+panel:{
+background:"white",
+padding:"30px",
+borderRadius:"12px",
+boxShadow:"0 10px 30px rgba(0,0,0,0.08)",
+marginBottom:"30px",
+maxWidth:"400px"
 },
 
 input:{
 width:"100%",
-padding:"14px",
+padding:"12px",
 marginBottom:"12px",
-borderRadius:"10px",
-border:"1px solid #ddd",
-fontSize:"14px"
+borderRadius:"8px",
+border:"1px solid #ddd"
 },
 
 button:{
 width:"100%",
-padding:"14px",
-background:"linear-gradient(90deg,#d4af37,#f6d365)",
+padding:"12px",
+background:"#d4af37",
 border:"none",
-borderRadius:"10px",
+borderRadius:"8px",
 fontWeight:"bold",
-fontSize:"15px",
 cursor:"pointer"
+},
+
+tableBox:{
+background:"white",
+padding:"30px",
+borderRadius:"12px",
+boxShadow:"0 10px 30px rgba(0,0,0,0.08)"
+},
+
+table:{
+width:"100%",
+borderCollapse:"collapse"
+},
+
+loading:{
+display:"flex",
+alignItems:"center",
+justifyContent:"center",
+height:"100vh",
+fontSize:"20px"
 }
 
 }
