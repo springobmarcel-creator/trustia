@@ -11,8 +11,12 @@ const [placeId,setPlaceId] = useState("")
 
 const ADMIN_PASSWORD = "trustia123"
 
-const SUPABASE_URL = "https://jfomycvlzjazcjruetsv.supabase.co"
-const SUPABASE_KEY = "DEIN_ANON_PUBLIC_KEY"
+const SUPABASE_URL = "https://jfomycvzlajzcjruetsv.supabase.co"
+
+/* HIER DEIN ANON PUBLIC KEY */
+const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE"
+
+
 
 function login(){
 
@@ -23,6 +27,8 @@ alert("Falsches Passwort")
 }
 
 }
+
+
 
 async function saveSalon(){
 
@@ -38,19 +44,17 @@ const res = await fetch(`${SUPABASE_URL}/rest/v1/salons`,{
 method:"POST",
 
 headers:{
-"apikey":SUPABASE_KEY,
-"Authorization":`Bearer ${SUPABASE_KEY}`,
+apikey: SUPABASE_KEY,
+Authorization: `Bearer ${SUPABASE_KEY}`,
 "Content-Type":"application/json",
-"Prefer":"return=minimal"
+Prefer:"return=minimal"
 },
 
 body:JSON.stringify({
-
 name:name,
 token:token,
 google_place_id:placeId,
 slug:name.toLowerCase().replace(/\s/g,"")
-
 })
 
 })
@@ -78,6 +82,8 @@ alert("Netzwerk Fehler")
 }
 
 }
+
+
 
 if(!loggedIn){
 
@@ -115,6 +121,8 @@ Login
 )
 
 }
+
+
 
 return(
 
@@ -164,6 +172,8 @@ Salon speichern
 
 }
 
+
+
 const styles = {
 
 page:{
@@ -171,7 +181,7 @@ display:"flex",
 justifyContent:"center",
 alignItems:"center",
 height:"100vh",
-background:"radial-gradient(circle at top,#1f7a52,#0E3B2F)"
+background:"radial-gradient(circle at top,#1f7a52,#0e3b2f)"
 },
 
 card:{
@@ -184,8 +194,8 @@ boxShadow:"0 20px 40px rgba(0,0,0,0.2)"
 },
 
 logo:{
-width:"70px",
-marginBottom:"10px"
+width:"140px",
+marginBottom:"15px"
 },
 
 title:{
