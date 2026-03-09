@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react"
 import { supabase } from "../lib/supabase"
 
-export default function Admin(){
+export default function Admin() {
 
 const [salons,setSalons] = useState([])
 const [name,setName] = useState("")
 const [email,setEmail] = useState("")
 const [placeId,setPlaceId] = useState("")
-const [loading,setLoading] = useState(true)
 
 
 
@@ -18,13 +17,9 @@ const { data, error } = await supabase
 .select("*")
 .order("created_at",{ ascending:false })
 
-if(error){
-alert("Fehler beim Laden der Salons")
-}else{
+if(!error){
 setSalons(data)
 }
-
-setLoading(false)
 
 }
 
@@ -35,6 +30,278 @@ useEffect(()=>{
 loadSalons()
 
 },[])
+
+
+
+async function saveSalon(){
+
+try{
+
+const token =
+name
+.toLowerCase()
+.replace(/[^a-z0-9]/g,"")
++ Math.floor(Math.random()*9999)
+
+
+const reviewLink =
+`https://search.google.com/local/writereview?placeid=${placeId}`
+
+
+const { error } = await supabase
+.from("salons")
+.insert([
+{
+name:name,
+email:email,
+google_place_id:placeId,
+google_review_link:reviewLink,
+token:token
+}
+])
+
+
+if(error){
+console.log(error)
+alert("Fehler beim Speichern")
+return
+}
+
+
+setName("")
+setEmail("")
+setPlaceId("")
+
+loadSalons()
+
+}catch(e){
+
+console.log(e)
+alert("Fehler beim Speichern")
+
+}
+
+}
+
+
+
+return(
+
+<div style={styles.layout}>
+
+
+<div style={styles.sidebar}>
+
+<img src="/logo.png" style={styles.logo}/>
+
+<div style={styles.menu}>
+<div>Dashboard</div>
+<div>Salons</div>
+<div>Reviews</div>
+<div>Settings</div>
+</div>
+
+</div>
+
+
+
+<div style={styles.content}>
+
+<h1>Trustia Dashboard</h1>
+
+
+
+<div style={styles.cards}>
+
+<div style={styles.card}>
+<h2>{salons.length}</h2>
+<p>Salons</p>
+</div>
+
+<div style={styles.card}>
+<h2>0</h2>
+<p>Reviews</p>
+</div>
+
+<div style={styles.card}>
+<h2>0</h2>
+<p>Feedback</p>
+</div>
+
+</div>
+
+
+
+<div style={styles.panel}>
+
+<h2>Neuen Salon erstellen</h2>
+
+<input
+placeholder="Salon Name"
+value={name}
+onChange={(e)=>setName(e.target.value)}
+style={styles.input}
+/>
+
+<input
+placeholder="Email"
+value={email}
+onChange={(e)=>setEmail(e.target.value)}
+style={styles.input}
+/>
+
+<input
+placeholder="Google Place ID"
+value={placeId}
+onChange={(e)=>setPlaceId(e.target.value)}
+style={styles.input}
+/>
+
+<button onClick={saveSalon} style={styles.button}>
+Salon speichern
+</button>
+
+</div>
+
+
+
+<div style={styles.tableBox}>
+
+<h2>Salons</h2>
+
+<table style={styles.table}>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Token</th>
+<th>Copy</th>
+</tr>
+</thead>
+
+<tbody>
+
+{salons.map((s)=>(
+<tr key={s.id}>
+
+<td>{s.name}</td>
+<td>{s.email}</td>
+<td>{s.token}</td>
+
+<td>
+
+<button
+onClick={()=>navigator.clipboard.writeText(s.token)}
+>
+
+Copy
+
+</button>
+
+</td>
+
+</tr>
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+)
+
+}
+
+
+
+const styles = {
+
+layout:{
+display:"flex",
+fontFamily:"Arial",
+minHeight:"100vh",
+background:"#f4f6fb"
+},
+
+sidebar:{
+width:"220px",
+background:"#0f3d2e",
+color:"white",
+padding:"30px"
+},
+
+logo:{
+width:"140px",
+marginBottom:"30px"
+},
+
+menu:{
+display:"flex",
+flexDirection:"column",
+gap:"15px"
+},
+
+content:{
+flex:1,
+padding:"40px"
+},
+
+cards:{
+display:"flex",
+gap:"20px",
+marginBottom:"30px"
+},
+
+card:{
+background:"white",
+padding:"25px",
+borderRadius:"10px",
+width:"160px"
+},
+
+panel:{
+background:"white",
+padding:"30px",
+borderRadius:"10px",
+marginBottom:"30px",
+maxWidth:"420px"
+},
+
+input:{
+width:"100%",
+padding:"10px",
+marginBottom:"10px"
+},
+
+button:{
+background:"#d4af37",
+border:"none",
+padding:"12px",
+width:"100%",
+fontWeight:"bold",
+cursor:"pointer"
+},
+
+tableBox:{
+background:"white",
+padding:"30px",
+borderRadius:"10px"
+},
+
+table:{
+width:"100%",
+borderCollapse:"collapse"
+}
+
+}},[])
 
 
 
