@@ -31,10 +31,6 @@ return(
 
 <h2 style={styles.title}>Salon registrieren</h2>
 
-<p style={styles.subtitle}>
-Starten Sie mit Trustia und sammeln Sie mehr Bewertungen
-</p>
-
 <input
 style={styles.input}
 placeholder="Email"
@@ -73,15 +69,15 @@ page:{
 height:"100vh",
 width:"100%",
 backgroundImage:"url('/logo.png')",
-backgroundSize:"700px",
-backgroundRepeat:"no-repeat",
+backgroundSize:"cover",
 backgroundPosition:"center",
-backgroundColor:"#020617",
+backgroundRepeat:"no-repeat",
 display:"flex",
 alignItems:"flex-start",
 justifyContent:"flex-start",
-padding:"80px",
-fontFamily:"Inter, Arial"
+padding:"50px",
+fontFamily:"Inter, system-ui",
+position:"relative"
 },
 
 overlay:{
@@ -90,52 +86,48 @@ top:0,
 left:0,
 width:"100%",
 height:"100%",
-background:"rgba(2,6,23,0.85)"
+background:"rgba(2,6,23,0.75)"
 },
 
 card:{
 position:"relative",
-background:"#ffffff",
-padding:"45px",
-borderRadius:"14px",
-width:"360px",
-boxShadow:"0 40px 100px rgba(0,0,0,0.5)"
+width:"280px",
+padding:"28px",
+borderRadius:"12px",
+background:"rgba(255,255,255,0.9)",
+backdropFilter:"blur(20px)",
+boxShadow:"0 40px 80px rgba(0,0,0,0.4)"
 },
 
 title:{
-fontSize:"24px",
-marginBottom:"10px"
-},
-
-subtitle:{
-color:"#666",
-marginBottom:"25px",
-fontSize:"14px"
+fontSize:"18px",
+marginBottom:"16px",
+fontWeight:"600"
 },
 
 input:{
 width:"100%",
-padding:"13px",
-marginBottom:"15px",
-borderRadius:"8px",
-border:"1px solid #e5e5e5",
-fontSize:"14px"
+padding:"11px",
+marginBottom:"10px",
+borderRadius:"6px",
+border:"1px solid #ddd",
+fontSize:"13px"
 },
 
 button:{
 width:"100%",
-padding:"14px",
-background:"#111827",
+padding:"11px",
+background:"#0f172a",
 color:"#fff",
 border:"none",
-borderRadius:"8px",
-fontSize:"15px",
+borderRadius:"6px",
+fontSize:"14px",
 cursor:"pointer"
 },
 
 login:{
-marginTop:"18px",
-fontSize:"13px"
+marginTop:"12px",
+fontSize:"12px"
 }
 
 }
