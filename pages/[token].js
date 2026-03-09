@@ -22,7 +22,7 @@ export async function getServerSideProps(context){
 
   return{
     props:{
-googleLink:data.google_review_link
+googleLink:data.google_review_link,
   salonName:data.name,
       token:token
     }
