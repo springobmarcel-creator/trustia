@@ -9,21 +9,28 @@ const [name,setName] = useState("")
 const [token,setToken] = useState("")
 const [placeId,setPlaceId] = useState("")
 
+/* ADMIN LOGIN */
+
 const ADMIN_PASSWORD = "trustia123"
+
+/* SUPABASE */
 
 const SUPABASE_URL = "https://jfomycvzlajzcjruetsv.supabase.co"
 
-/* HIER DEIN ANON PUBLIC KEY */
-const SUPABASE_KEY = "PASTE_YOUR_ANON_KEY_HERE"
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmb215Y3d6bGphemNqcnVjdHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMzU4NjMsImV4cCI6MjA4NzYxMTg2M30.Go8kXZlfozFqNQ9qa1GZf88ue3o1Mga3ZLYsm2Uh_Aw"
 
 
 
 function login(){
 
 if(password === ADMIN_PASSWORD){
+
 setLoggedIn(true)
+
 }else{
+
 alert("Falsches Passwort")
+
 }
 
 }
@@ -33,8 +40,10 @@ alert("Falsches Passwort")
 async function saveSalon(){
 
 if(!name || !token || !placeId){
+
 alert("Bitte alle Felder ausfüllen")
 return
+
 }
 
 try{
@@ -44,17 +53,19 @@ const res = await fetch(`${SUPABASE_URL}/rest/v1/salons`,{
 method:"POST",
 
 headers:{
-apikey: SUPABASE_KEY,
-Authorization: `Bearer ${SUPABASE_KEY}`,
+apikey:SUPABASE_KEY,
+Authorization:`Bearer ${SUPABASE_KEY}`,
 "Content-Type":"application/json",
 Prefer:"return=minimal"
 },
 
 body:JSON.stringify({
+
 name:name,
 token:token,
 google_place_id:placeId,
 slug:name.toLowerCase().replace(/\s/g,"")
+
 })
 
 })
@@ -70,6 +81,7 @@ setPlaceId("")
 }else{
 
 const error = await res.text()
+
 alert("Server Fehler: "+error)
 
 }
@@ -77,6 +89,7 @@ alert("Server Fehler: "+error)
 }catch(err){
 
 console.log(err)
+
 alert("Netzwerk Fehler")
 
 }
@@ -194,7 +207,7 @@ boxShadow:"0 20px 40px rgba(0,0,0,0.2)"
 },
 
 logo:{
-width:"140px",
+width:"150px",
 marginBottom:"15px"
 },
 
