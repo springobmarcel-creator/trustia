@@ -8,26 +8,25 @@ const supabase = createClient(
 
 export async function getServerSideProps(context){
 
-const { token } = context.params
+  const { token } = context.params
 
-const { data } = await supabase
-.from("salons")
-.select("google_place_id,name")
-.eq("email",token)
-.maybeSingle()
+  const { data } = await supabase
+    .from("salons")
+    .select("google_place_id,name")
+    .eq("token",token)
+    .maybeSingle()
 
-if(!data){
-return{notFound:true}
-}
+  if(!data){
+    return { notFound:true }
+  }
 
-return{
-props:{
-googleLink:data.google_place_id,
-salonName:data.name,
-token:token
-}
-}
-
+  return{
+    props:{
+      googleLink:`https://search.google.com/local/writereview?placeid=${data.google_place_id}`,
+      salonName:data.name,
+      token:token
+    }
+  }
 }
 
 export default function ReviewPage({googleLink,salonName,token}){
