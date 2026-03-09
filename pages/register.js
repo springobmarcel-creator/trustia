@@ -16,7 +16,6 @@ async function register(){
  if(error){
    alert("Registrierung fehlgeschlagen")
  }else{
-   alert("Account erstellt – bitte einloggen")
    window.location.href="/login"
  }
 
@@ -28,15 +27,12 @@ return(
 
 <div style={styles.card}>
 
-<img 
-src="/logo.png"
-style={styles.logo}
-/>
+<img src="/logo.png" style={styles.logo}/>
 
 <h1 style={styles.title}>Salon registrieren</h1>
 
 <p style={styles.subtitle}>
-Erstellen Sie Ihren Trustia Account und sammeln Sie mehr Bewertungen.
+Starten Sie mit Trustia und sammeln Sie mehr Google Bewertungen.
 </p>
 
 <input
@@ -59,8 +55,7 @@ Account erstellen
 </button>
 
 <p style={styles.login}>
-Bereits registriert?
-<a href="/login"> Login</a>
+Bereits registriert? <a href="/login">Login</a>
 </p>
 
 </div>
@@ -78,16 +73,16 @@ height:"100vh",
 display:"flex",
 justifyContent:"center",
 alignItems:"center",
-background:"linear-gradient(135deg,#0f172a,#1e293b)",
-fontFamily:"Arial"
+background:"linear-gradient(135deg,#0f172a,#020617)",
+fontFamily:"Inter, Arial"
 },
 
 card:{
 background:"#ffffff",
 padding:"50px",
-borderRadius:"12px",
-width:"380px",
-boxShadow:"0 20px 60px rgba(0,0,0,0.3)",
+borderRadius:"14px",
+width:"420px",
+boxShadow:"0 30px 80px rgba(0,0,0,0.5)",
 textAlign:"center"
 },
 
@@ -97,27 +92,29 @@ marginBottom:"20px"
 },
 
 title:{
-fontSize:"26px",
-marginBottom:"10px"
+fontSize:"28px",
+marginBottom:"10px",
+fontWeight:"600"
 },
 
 subtitle:{
 color:"#666",
-marginBottom:"30px"
+marginBottom:"30px",
+fontSize:"15px"
 },
 
 input:{
 width:"100%",
-padding:"12px",
+padding:"14px",
 marginBottom:"15px",
 borderRadius:"8px",
-border:"1px solid #ddd",
-fontSize:"16px"
+border:"1px solid #e5e5e5",
+fontSize:"15px"
 },
 
 button:{
 width:"100%",
-padding:"14px",
+padding:"15px",
 background:"#111827",
 color:"#fff",
 border:"none",
