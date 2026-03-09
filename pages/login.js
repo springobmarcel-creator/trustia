@@ -75,7 +75,7 @@ page:{
 height:"100vh",
 width:"100%",
 backgroundImage:"url('/logo.png')",
-backgroundSize:"contain",
+backgroundSize:"cover",
 backgroundPosition:"center",
 backgroundRepeat:"no-repeat",
 display:"flex",
@@ -91,7 +91,7 @@ top:0,
 left:0,
 width:"100%",
 height:"100%",
-background:"rgba(2,6,23,0.75)"
+background:"rgba(2,6,23,0.35)"
 },
 
 card:{
