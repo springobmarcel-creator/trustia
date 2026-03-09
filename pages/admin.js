@@ -14,17 +14,54 @@ const [email,setEmail] = useState("")
 const [placeId,setPlaceId] = useState("")
 
 
+
+/* LOGIN CHECK */
+
+useEffect(()=>{
+
+const session = localStorage.getItem("trustia_admin")
+
+if(session==="true"){
+setLoggedIn(true)
+loadSalons()
+}
+
+},[])
+
+
+
 /* LOGIN */
 
 function login(e){
+
 e.preventDefault()
 
 if(password === ADMIN_PASSWORD){
+
+localStorage.setItem("trustia_admin","true")
 setLoggedIn(true)
+
+loadSalons()
+
 }else{
+
 alert("Falsches Passwort")
+
 }
+
 }
+
+
+
+/* LOGOUT */
+
+function logout(){
+
+localStorage.removeItem("trustia_admin")
+setLoggedIn(false)
+
+}
+
 
 
 /* LOAD SALONS */
@@ -36,17 +73,14 @@ const { data, error } = await supabase
 .select("*")
 .order("created_at",{ascending:false})
 
-if(!error){
+if(error){
+console.log(error)
+return
+}
+
 setSalons(data)
-}
 
 }
-
-useEffect(()=>{
-if(loggedIn){
-loadSalons()
-}
-},[loggedIn])
 
 
 
@@ -54,11 +88,17 @@ loadSalons()
 
 async function saveSalon(){
 
+if(!name || !placeId){
+alert("Name und Place ID fehlen")
+return
+}
+
 const token =
 name
 .toLowerCase()
 .replace(/[^a-z0-9]/g,"")
 + Math.floor(Math.random()*9999)
+
 
 const reviewLink =
 `https://search.google.com/local/writereview?placeid=${placeId}`
@@ -77,8 +117,12 @@ token:token
 ])
 
 if(error){
+
+console.log(error)
 alert("Fehler beim Speichern")
+
 return
+
 }
 
 setName("")
@@ -91,7 +135,7 @@ loadSalons()
 
 
 
-/* LOGIN SCREEN */
+/* LOGIN PAGE */
 
 if(!loggedIn){
 
@@ -108,12 +152,12 @@ background:"#0f3d2e"
 <form onSubmit={login} style={{
 background:"white",
 padding:"40px",
-borderRadius:"12px",
+borderRadius:"10px",
 width:"320px",
 textAlign:"center"
 }}>
 
-<img src="/logo.png" style={{width:"140px",marginBottom:"20px"}} />
+<img src="/logo.png" style={{width:"140px",marginBottom:"20px"}}/>
 
 <h2>Trustia Admin</h2>
 
@@ -125,7 +169,6 @@ onChange={(e)=>setPassword(e.target.value)}
 style={{
 width:"100%",
 padding:"12px",
-marginTop:"15px",
 marginBottom:"15px"
 }}
 />
@@ -155,10 +198,7 @@ Login
 
 return(
 
-<div style={{display:"flex",minHeight:"100vh",fontFamily:"Arial"}}>
-
-
-{/* SIDEBAR */}
+<div style={{display:"flex",minHeight:"100vh"}}>
 
 <div style={{
 width:"220px",
@@ -167,27 +207,25 @@ color:"white",
 padding:"30px"
 }}>
 
-<img src="/logo.png" style={{width:"140px",marginBottom:"30px"}} />
+<img src="/logo.png" style={{width:"140px",marginBottom:"30px"}}/>
 
 <div style={{display:"flex",flexDirection:"column",gap:"15px"}}>
 <div>Dashboard</div>
 <div>Salons</div>
 <div>Reviews</div>
-<div>Settings</div>
+<div onClick={logout} style={{cursor:"pointer"}}>
+Logout
+</div>
 </div>
 
 </div>
 
 
-
-{/* CONTENT */}
 
 <div style={{flex:1,padding:"40px",background:"#f4f6fb"}}>
 
 <h1>Trustia Dashboard</h1>
 
-
-{/* CARDS */}
 
 <div style={{display:"flex",gap:"20px",marginBottom:"30px"}}>
 
@@ -201,31 +239,9 @@ width:"160px"
 <p>Salons</p>
 </div>
 
-<div style={{
-background:"white",
-padding:"25px",
-borderRadius:"10px",
-width:"160px"
-}}>
-<h2>0</h2>
-<p>Reviews</p>
-</div>
-
-<div style={{
-background:"white",
-padding:"25px",
-borderRadius:"10px",
-width:"160px"
-}}>
-<h2>0</h2>
-<p>Feedback</p>
-</div>
-
 </div>
 
 
-
-{/* CREATE SALON */}
 
 <div style={{
 background:"white",
@@ -258,7 +274,9 @@ onChange={(e)=>setPlaceId(e.target.value)}
 style={{width:"100%",padding:"10px",marginBottom:"10px"}}
 />
 
-<button onClick={saveSalon} style={{
+<button
+onClick={saveSalon}
+style={{
 width:"100%",
 padding:"12px",
 background:"#d4af37",
@@ -272,8 +290,6 @@ Salon speichern
 </div>
 
 
-
-{/* SALON LIST */}
 
 <div style={{
 background:"white",
@@ -308,7 +324,6 @@ borderRadius:"10px"
 </table>
 
 </div>
-
 
 </div>
 
