@@ -3,7 +3,7 @@ import { useState } from "react"
 
 const supabase = createClient(
 "https://jfomycwzljazcjructsy.supabase.co",
-"sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl"
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmb215Y3d6bGphemNqcnVjdHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMzU4NjMsImV4cCI6MjA4NzYxMTg2M30.Go8kXZlfozFqNQ9qa1GZf88ue3o1Mga3ZLYsm2Uh_Aw"
 )
 
 export async function getServerSideProps(context){
