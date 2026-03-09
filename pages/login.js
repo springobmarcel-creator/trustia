@@ -75,7 +75,7 @@ page:{
 height:"100vh",
 width:"100%",
 backgroundImage:"url('/logo.png')",
-backgroundSize:"cover",
+backgroundSize:"contain",
 backgroundPosition:"center",
 backgroundRepeat:"no-repeat",
 display:"flex",
