@@ -41,8 +41,10 @@ return(
 
 <div style={styles.loginBox}>
 
-<h2 style={styles.title}>Trustia Admin</h2>
-
+<h2 style={styles.title}>TRUSTIA ADMIN PANEL</h2>
+  <p style={{color:"#ccc",fontSize:"13px",marginBottom:"20px"}}>
+Systemverwaltung
+</p>
 <form onSubmit={handleLogin}>
 
 <input
@@ -156,43 +158,60 @@ const styles = {
 
 page:{
 height:"100vh",
+width:"100vw",
+display:"flex",
+justifyContent:"center",
+alignItems:"center",
 backgroundImage:"url('/logo.png')",
 backgroundSize:"cover",
 backgroundPosition:"center",
-fontFamily:"Arial",
-color:"#fff"
+fontFamily:"Arial"
 },
 
 loginBox:{
-width:"280px",
-margin:"200px auto",
-padding:"30px",
-background:"rgba(0,0,0,0.5)",
-borderRadius:"12px",
-backdropFilter:"blur(10px)"
+width:"340px",
+padding:"40px",
+borderRadius:"16px",
+background:"rgba(0,0,0,0.55)",
+backdropFilter:"blur(18px)",
+WebkitBackdropFilter:"blur(18px)",
+boxShadow:"0 15px 40px rgba(0,0,0,0.5)",
+textAlign:"center"
 },
 
 title:{
-textAlign:"center"
+fontSize:"22px",
+color:"#fff",
+marginBottom:"25px",
+letterSpacing:"1px"
 },
 
 input:{
 width:"100%",
-padding:"10px",
-marginBottom:"10px",
-borderRadius:"6px",
-border:"none"
+padding:"12px",
+marginBottom:"15px",
+borderRadius:"8px",
+border:"1px solid rgba(255,255,255,0.25)",
+background:"rgba(255,255,255,0.1)",
+color:"#fff",
+fontSize:"14px",
+outline:"none"
 },
 
 button:{
 width:"100%",
-padding:"10px",
-background:"#4c6ef5",
+padding:"12px",
+borderRadius:"8px",
 border:"none",
+background:"linear-gradient(135deg,#3b82f6,#2563eb)",
 color:"#fff",
-borderRadius:"6px"
-},
+fontWeight:"bold",
+cursor:"pointer",
+fontSize:"14px",
+transition:"0.2s"
+}
 
+}
 dashboard:{
 display:"flex"
 },
