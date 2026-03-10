@@ -32,7 +32,7 @@ return(
 
 <div style={styles.page}>
 
-<div style={styles.loginBox}>
+<div style={styles.window}>
 
 <h2 style={styles.title}>Login</h2>
 
