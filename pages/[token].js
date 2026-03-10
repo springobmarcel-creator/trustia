@@ -48,7 +48,8 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   }}>
 
   <div style={{
-    background:"rgba(30,41,59,0.7)",
+    background:"rgba(15,23,42,0.85)",
+    border:"1px solid rgba(255,255,255,0.08)"
     backdropFilter:"blur(20px)",
     border:"1px solid rgba(255,255,255,0.1)",
     padding:"70px",
