@@ -14,9 +14,12 @@ const [error,setError] = useState("")
 async function handleLogin(e) {
   e.preventDefault()
 
+async function handleLogin(e) {
+  e.preventDefault()
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email,
-    password: password,
+    password: password
   })
 
   if (error) {
@@ -24,10 +27,11 @@ async function handleLogin(e) {
     return
   }
 
-  if (data?.session) {
+  if (data.session) {
     router.push("/dashboard")
   }
 }
+
 return(
 
 <div style={styles.page}>
