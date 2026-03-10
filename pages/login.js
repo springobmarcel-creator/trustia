@@ -1,27 +1,28 @@
 import { useState } from "react"
+import { useRouter } from "next/router"
 import { supabase } from "../lib/supabase"
 
-export default function Login(){
+export default function Login() {
+
+const router = useRouter()
 
 const [email,setEmail] = useState("")
 const [password,setPassword] = useState("")
-const [loading,setLoading] = useState(false)
+const [error,setError] = useState("")
 
-async function login(){
+async function handleLogin(e){
 
-setLoading(true)
+e.preventDefault()
 
 const { error } = await supabase.auth.signInWithPassword({
 email,
 password
 })
 
-setLoading(false)
-
 if(error){
-alert(error.message)
+setError("Login fehlgeschlagen")
 }else{
-window.location.href="/dashboard"
+router.push("/dashboard")
 }
 
 }
@@ -30,36 +31,35 @@ return(
 
 <div style={styles.page}>
 
-<div style={styles.overlay}></div>
+<div style={styles.container}>
 
-<div style={styles.card}>
+<h2 style={styles.title}>Login</h2>
 
-<h1 style={styles.logo}>TRUSTIA</h1>
-
-<h2 style={styles.title}>Salon Login</h2>
+<form onSubmit={handleLogin}>
 
 <input
-style={styles.input}
+type="email"
 placeholder="Email"
 value={email}
 onChange={(e)=>setEmail(e.target.value)}
+style={styles.input}
 />
 
 <input
-style={styles.input}
 type="password"
 placeholder="Passwort"
 value={password}
 onChange={(e)=>setPassword(e.target.value)}
+style={styles.input}
 />
 
-<button style={styles.button} onClick={login}>
-{loading ? "Login..." : "Einloggen"}
+<button style={styles.button}>
+Login
 </button>
 
-<p style={styles.register}>
-Noch kein Account? <a href="/register">Registrieren</a>
-</p>
+</form>
+
+{error && <p style={styles.error}>{error}</p>}
 
 </div>
 
@@ -69,53 +69,33 @@ Noch kein Account? <a href="/register">Registrieren</a>
 
 }
 
-const styles={
+const styles = {
 
 page:{
 height:"100vh",
-width:"100%",
-backgroundImage:"url('/logo.png')",
-backgroundSize:"cover",
-backgroundPosition:"center",
-backgroundRepeat:"no-repeat",
 display:"flex",
-alignItems:"center",
 justifyContent:"center",
-fontFamily:"Inter, Arial",
-position:"relative"
+alignItems:"center",
+background:"linear-gradient(135deg,#0f2027,#203a43,#2c5364)",
+fontFamily:"Arial"
 },
 
-overlay:{
-position:"absolute",
-top:0,
-left:0,
-width:"100%",
-height:"100%",
-background:"rgba(0,0,0,0.55)"
-},
-
-card:{
-position:"relative",
-width:"320px",
-padding:"40px",
-borderRadius:"16px",
-background:"rgba(15,23,42,0.75)",
-backdropFilter:"blur(20px)",
-boxShadow:"0 40px 100px rgba(0,0,0,0.5)",
-textAlign:"center"
-},
-
-logo:{
-fontSize:"26px",
-letterSpacing:"4px",
-color:"#e5e7eb",
-marginBottom:"6px"
+container:{
+width:"380px",
+padding:"35px",
+borderRadius:"18px",
+background:"rgba(0, 201, 167, 0.55)",
+backdropFilter:"blur(15px)",
+WebkitBackdropFilter:"blur(15px)",
+border:"1px solid rgba(255,255,255,0.25)",
+boxShadow:"0 20px 40px rgba(0,0,0,0.4)",
+color:"#ffffff"
 },
 
 title:{
-fontSize:"16px",
+fontSize:"24px",
 marginBottom:"25px",
-color:"#cbd5e1"
+textAlign:"center"
 },
 
 input:{
@@ -123,9 +103,9 @@ width:"100%",
 padding:"12px",
 marginBottom:"14px",
 borderRadius:"8px",
-border:"1px solid rgba(192,192,192,0.4)",
-background:"rgba(255,255,255,0.06)",
-color:"#c0c0c0",
+border:"1px solid rgba(255,255,255,0.2)",
+background:"rgba(255,255,255,0.08)",
+color:"#ffffff",
 fontSize:"14px",
 outline:"none"
 },
@@ -133,18 +113,18 @@ outline:"none"
 button:{
 width:"100%",
 padding:"12px",
-background:"#1e293b",
-color:"#e5e7eb",
+background:"#00c9a7",
+color:"#ffffff",
 border:"none",
-borderRadius:"6px",
+borderRadius:"8px",
 fontSize:"15px",
 cursor:"pointer"
 },
 
-register:{
-marginTop:"15px",
-fontSize:"13px",
-color:"#cbd5e1"
+error:{
+marginTop:"10px",
+color:"#ffbaba",
+textAlign:"center"
 }
 
 }
