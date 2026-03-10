@@ -55,18 +55,24 @@ setShowFeedback(true)
 
 async function sendFeedback(){
 
-await supabase.from("feedback").insert({
+  const { data, error } = await supabase
+    .from("feedback")
+    .insert([
+      {
+        token: token,
+        rating: rating,
+        message: feedback
+      }
+    ])
 
-token:token,
-rating:rating,
-message:feedback
-
-})
-
-setSent(true)
+  if(error){
+    console.log(error)
+    alert("Fehler beim Speichern")
+  } else {
+    setSent(true)
+  }
 
 }
-
 return(
 
 <div style={{
