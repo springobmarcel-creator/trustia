@@ -92,7 +92,7 @@ fontFamily:"Inter,system-ui"
 
 <div style={{
 
-background:"rgba(0,0,0,0.55)",
+background:"rgba(15,23,42,0.75)",
 backdropFilter:"blur(18px)",
 WebkitBackdropFilter:"blur(18px)",
 border:"1px solid rgba(255,255,255,0.15)",
