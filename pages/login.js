@@ -122,11 +122,12 @@ input:{
 width:"100%",
 padding:"12px",
 marginBottom:"14px",
-borderRadius:"6px",
-border:"1px solid rgba(255,255,255,0.2)",
-background:"rgba(255,255,255,0.05)",
-color:"#e5e7eb",
-fontSize:"14px"
+borderRadius:"8px",
+border:"1px solid rgba(192,192,192,0.4)",
+background:"rgba(255,255,255,0.06)",
+color:"#c0c0c0",
+fontSize:"14px",
+outline:"none"
 },
 
 button:{
