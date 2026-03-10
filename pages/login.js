@@ -11,23 +11,23 @@ const [email,setEmail] = useState("")
 const [password,setPassword] = useState("")
 const [error,setError] = useState("")
 
-async function handleLogin(e){
+async function handleLogin(e) {
+  e.preventDefault()
 
-e.preventDefault()
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  })
 
-const { error } = await supabase.auth.signInWithPassword({
-email,
-password
-})
+  if (error) {
+    setError(error.message)
+    return
+  }
 
-if(error){
-setError("Login fehlgeschlagen")
-}else{
-router.push("/dashboard")
+  if (data?.session) {
+    router.push("/dashboard")
+  }
 }
-
-}
-
 return(
 
 <div style={styles.page}>
