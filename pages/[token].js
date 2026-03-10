@@ -106,11 +106,10 @@ textAlign:"center"
 
 }}>
 <h1 style={{
-
+color:"white",
 fontSize:"34px",
 fontWeight:"600",
 marginBottom:"10px"
-
 }}>
 Wie war dein Besuch?
 </h1>
