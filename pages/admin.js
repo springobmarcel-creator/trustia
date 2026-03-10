@@ -210,10 +210,8 @@ cursor:"pointer",
 fontSize:"14px",
 transition:"0.2s"
 }
-
-}
 dashboard:{
-display:"flex"
+display:"flex",
 },
 
 sidebar:{
