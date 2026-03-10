@@ -85,17 +85,17 @@ fontFamily:"Arial"
 },
 
 loginBox:{
-width:"240px",
-padding:"20px",
-borderRadius:"14px",
-background:"rgba(255,255,255,0.08)",
-backdropFilter:"blur(12px)",
-WebkitBackdropFilter:"blur(12px)",
-border:"1px solid rgba(255,255,255,0.25)",
-boxShadow:"0 6px 25px rgba(0,0,0,0.35)",
-display:"flex",
-flexDirection:"column",
-alignItems:"center"
+  width:"240px",
+  padding:"20px",
+  borderRadius:"14px",
+  background:"rgba(0,0,0,0.45)",   // dunkles transparent
+  backdropFilter:"blur(14px)",
+  WebkitBackdropFilter:"blur(14px)",
+  border:"1px solid rgba(255,255,255,0.25)",
+  boxShadow:"0 8px 30px rgba(0,0,0,0.45)",
+  display:"flex",
+  flexDirection:"column",
+  alignItems:"center"
 },
 
 title:{
