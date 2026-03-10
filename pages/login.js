@@ -31,11 +31,7 @@ return(
 
 <div style={styles.page}>
 
-{/* LOGO */}
-<img src="/logo.png" style={styles.logo}/>
-
-{/* LOGIN BOX */}
-<div style={styles.container}>
+<div style={styles.loginBox}>
 
 <h2 style={styles.title}>Login</h2>
 
@@ -77,36 +73,36 @@ const styles = {
 
 page:{
 height:"100vh",
+width:"100vw",
 display:"flex",
-flexDirection:"column",
 justifyContent:"center",
 alignItems:"center",
+backgroundImage:"url('/logo.png')",
+backgroundSize:"cover",
+backgroundPosition:"center",
+backgroundRepeat:"no-repeat",
 fontFamily:"Arial"
 },
 
-logo:{
-width:"80px",
-marginBottom:"20px"
-},
-
-container:{
-width:"260px",
+loginBox:{
+width:"240px",
 padding:"20px",
 borderRadius:"14px",
-background:"rgba(220,220,220,0.15)",
-backdropFilter:"blur(16px)",
-WebkitBackdropFilter:"blur(16px)",
-border:"1px solid rgba(255,255,255,0.35)",
-boxShadow:"0 6px 20px rgba(0,0,0,0.25)",
+background:"rgba(255,255,255,0.08)",
+backdropFilter:"blur(12px)",
+WebkitBackdropFilter:"blur(12px)",
+border:"1px solid rgba(255,255,255,0.25)",
+boxShadow:"0 6px 25px rgba(0,0,0,0.35)",
 display:"flex",
 flexDirection:"column",
 alignItems:"center"
 },
 
 title:{
-fontSize:"16px",
-marginBottom:"12px",
-color:"#e5e5e5"
+fontSize:"18px",
+marginBottom:"14px",
+color:"#c0c0c0",  // silber
+textAlign:"center"
 },
 
 input:{
@@ -114,9 +110,9 @@ width:"100%",
 padding:"8px",
 marginBottom:"8px",
 borderRadius:"6px",
-border:"1px solid rgba(255,255,255,0.25)",
+border:"1px solid rgba(255,255,255,0.3)",
 background:"rgba(255,255,255,0.10)",
-color:"#ffffff",
+color:"#c0c0c0",
 fontSize:"13px",
 outline:"none"
 },
@@ -124,9 +120,9 @@ outline:"none"
 button:{
 width:"100%",
 padding:"8px",
-background:"rgba(255,255,255,0.18)",
-color:"#ffffff",
-border:"1px solid rgba(255,255,255,0.25)",
+background:"rgba(255,255,255,0.15)",
+color:"#c0c0c0",
+border:"1px solid rgba(255,255,255,0.35)",
 borderRadius:"6px",
 fontSize:"13px",
 cursor:"pointer"
