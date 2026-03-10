@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useRouter } from "next/router"
 import { supabase } from "../lib/supabase"
 
-export default function Login() {
+export default function Login(){
 
 const router = useRouter()
 
@@ -31,11 +31,15 @@ return(
 
 <div style={styles.page}>
 
+{/* LOGO */}
+<img src="/logo.png" style={styles.logo}/>
+
+{/* LOGIN BOX */}
 <div style={styles.container}>
 
 <h2 style={styles.title}>Login</h2>
 
-<form onSubmit={handleLogin}>
+<form onSubmit={handleLogin} style={{width:"100%"}}>
 
 <input
 type="email"
@@ -74,57 +78,64 @@ const styles = {
 page:{
 height:"100vh",
 display:"flex",
+flexDirection:"column",
 justifyContent:"center",
 alignItems:"center",
-background:"linear-gradient(135deg,#0f2027,#203a43,#2c5364)",
 fontFamily:"Arial"
 },
 
+logo:{
+width:"80px",
+marginBottom:"20px"
+},
+
 container:{
-width:"380px",
-padding:"35px",
-borderRadius:"18px",
-background:"rgba(0, 201, 167, 0.55)",
-backdropFilter:"blur(15px)",
-WebkitBackdropFilter:"blur(15px)",
-border:"1px solid rgba(255,255,255,0.25)",
-boxShadow:"0 20px 40px rgba(0,0,0,0.4)",
-color:"#ffffff"
+width:"260px",
+padding:"20px",
+borderRadius:"14px",
+background:"rgba(220,220,220,0.15)",
+backdropFilter:"blur(16px)",
+WebkitBackdropFilter:"blur(16px)",
+border:"1px solid rgba(255,255,255,0.35)",
+boxShadow:"0 6px 20px rgba(0,0,0,0.25)",
+display:"flex",
+flexDirection:"column",
+alignItems:"center"
 },
 
 title:{
-fontSize:"24px",
-marginBottom:"25px",
-textAlign:"center"
+fontSize:"16px",
+marginBottom:"12px",
+color:"#e5e5e5"
 },
 
 input:{
 width:"100%",
-padding:"12px",
-marginBottom:"14px",
-borderRadius:"8px",
-border:"1px solid rgba(255,255,255,0.2)",
-background:"rgba(255,255,255,0.08)",
+padding:"8px",
+marginBottom:"8px",
+borderRadius:"6px",
+border:"1px solid rgba(255,255,255,0.25)",
+background:"rgba(255,255,255,0.10)",
 color:"#ffffff",
-fontSize:"14px",
+fontSize:"13px",
 outline:"none"
 },
 
 button:{
 width:"100%",
-padding:"12px",
-background:"#00c9a7",
+padding:"8px",
+background:"rgba(255,255,255,0.18)",
 color:"#ffffff",
-border:"none",
-borderRadius:"8px",
-fontSize:"15px",
+border:"1px solid rgba(255,255,255,0.25)",
+borderRadius:"6px",
+fontSize:"13px",
 cursor:"pointer"
 },
 
 error:{
 marginTop:"10px",
 color:"#ffbaba",
-textAlign:"center"
+fontSize:"13px"
 }
 
 }
