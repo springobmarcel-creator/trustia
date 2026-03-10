@@ -1,32 +1,57 @@
-import { useEffect } from "react"
-import { useRouter } from "next/router"
-import { supabase } from "../lib/supabase"
+import { useState } from "react"
 
 export default function Admin(){
 
-const router = useRouter()
+const [password,setPassword] = useState("")
+const [loggedIn,setLoggedIn] = useState(false)
 
-useEffect(()=>{
-checkUser()
-},[])
+const ADMIN_PASSWORD = "trustia-admin"
 
-async function checkUser(){
+function handleLogin(e){
+e.preventDefault()
 
-const { data } = await supabase.auth.getUser()
-
-if(!data.user){
-router.push("/login")
+if(password === ADMIN_PASSWORD){
+setLoggedIn(true)
+}else{
+alert("Falsches Passwort")
 }
 
+}
+
+if(!loggedIn){
+return(
+
+<div style={{padding:"40px",fontFamily:"Arial"}}>
+
+<h2>Admin Login</h2>
+
+<form onSubmit={handleLogin}>
+
+<input
+type="password"
+placeholder="Admin Passwort"
+value={password}
+onChange={(e)=>setPassword(e.target.value)}
+/>
+
+<button>
+Login
+</button>
+
+</form>
+
+</div>
+
+)
 }
 
 return(
 
 <div style={{padding:"40px"}}>
 
-<h1>Admin Panel</h1>
+<h1>Trustia Admin Panel</h1>
 
-<p>Hier kommen später:</p>
+<p>Hier kommt dein Admin Dashboard.</p>
 
 <ul>
 <li>User Übersicht</li>
