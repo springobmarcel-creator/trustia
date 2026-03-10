@@ -96,7 +96,7 @@ background:"rgba(15,23,42,0.75)",
 backdropFilter:"blur(18px)",
 WebkitBackdropFilter:"blur(18px)",
 border:"1px solid rgba(255,255,255,0.15)",
-color:"white",
+color:"black",
 
 padding:"70px",
 borderRadius:"20px",
