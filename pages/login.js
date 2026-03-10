@@ -58,8 +58,7 @@ onChange={(e)=>setPassword(e.target.value)}
 </button>
 
 <p style={styles.register}>
-Noch kein Account?
-<a href="/register"> Registrieren</a>
+Noch kein Account? <a href="/register">Registrieren</a>
 </p>
 
 </div>
@@ -76,7 +75,7 @@ page:{
 height:"100vh",
 width:"100%",
 backgroundImage:"url('/logo.png')",
-backgroundSize:"1200px",
+backgroundSize:"cover",
 backgroundPosition:"center",
 backgroundRepeat:"no-repeat",
 display:"flex",
@@ -92,7 +91,7 @@ top:0,
 left:0,
 width:"100%",
 height:"100%",
-background:"rgba(2,6,23,0.55)"
+background:"rgba(0,0,0,0.55)"
 },
 
 card:{
@@ -100,22 +99,23 @@ position:"relative",
 width:"320px",
 padding:"40px",
 borderRadius:"16px",
-background:"rgba(255,255,255,0.95)",
+background:"rgba(15,23,42,0.75)",
 backdropFilter:"blur(20px)",
-boxShadow:"0 40px 100px rgba(0,0,0,0.4)",
+boxShadow:"0 40px 100px rgba(0,0,0,0.5)",
 textAlign:"center"
 },
 
 logo:{
 fontSize:"26px",
 letterSpacing:"4px",
-marginBottom:"5px"
+color:"#e5e7eb",
+marginBottom:"6px"
 },
 
 title:{
-fontSize:"18px",
+fontSize:"16px",
 marginBottom:"25px",
-color:"#555"
+color:"#cbd5e1"
 },
 
 input:{
@@ -123,15 +123,17 @@ width:"100%",
 padding:"12px",
 marginBottom:"14px",
 borderRadius:"6px",
-border:"1px solid #ddd",
+border:"1px solid rgba(255,255,255,0.2)",
+background:"rgba(255,255,255,0.05)",
+color:"#e5e7eb",
 fontSize:"14px"
 },
 
 button:{
 width:"100%",
 padding:"12px",
-background:"#0f172a",
-color:"#fff",
+background:"#1e293b",
+color:"#e5e7eb",
 border:"none",
 borderRadius:"6px",
 fontSize:"15px",
@@ -140,7 +142,8 @@ cursor:"pointer"
 
 register:{
 marginTop:"15px",
-fontSize:"13px"
+fontSize:"13px",
+color:"#cbd5e1"
 }
 
 }
