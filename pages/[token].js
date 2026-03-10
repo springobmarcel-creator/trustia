@@ -92,15 +92,19 @@ fontFamily:"Inter,system-ui"
 
 <div style={{
 
-background:"white",
+background:"rgba(0,0,0,0.55)",
+backdropFilter:"blur(18px)",
+WebkitBackdropFilter:"blur(18px)",
+border:"1px solid rgba(255,255,255,0.15)",
+color:"white",
+
 padding:"70px",
-borderRadius:"26px",
-boxShadow:"0 30px 80px rgba(0,0,0,0.08)",
+borderRadius:"20px",
+boxShadow:"0 30px 80px rgba(0,0,0,0.4)",
 width:"520px",
 textAlign:"center"
 
 }}>
-
 <h1 style={{
 
 fontSize:"34px",
