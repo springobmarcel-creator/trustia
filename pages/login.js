@@ -80,14 +80,12 @@ Noch kein Konto? <a href="/register">Registrieren</a>
 
 const styles = {
 page:{
-height:"100vh",
-display:"flex",
-justifyContent:"center",
-alignItems:"center",
-backgroundImage:"url('/logo.png')",
-backgroundSize:"cover",
-backgroundPosition:"center",
-fontFamily:"Arial"
+  height:"100vh",
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  background:"radial-gradient(circle at top, #1e293b, #020617)",
+  fontFamily:"Inter, system-ui"
 },
 
 bbox:{
