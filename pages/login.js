@@ -35,8 +35,8 @@ return(
 <div style={styles.box}>
 
 <div style={{textAlign:"center", marginBottom:"20px"}}>
-<img src="/trustia-logo3.png" style={{width:"140px"}} />
-</div>
+<img src="/trustia-logo3.png" style={{width:"220px", marginBottom:"10px"}} />
+  </div>
 
 <h2 style={styles.title}>Login</h2>
   
@@ -90,15 +90,17 @@ backgroundPosition:"center",
 fontFamily:"Arial"
 },
 
-box:{
-width:"260px",
-padding:"28px",
-background:"rgba(0,0,0,0.45)",
-borderRadius:"14px",
-backdropFilter:"blur(12px)",
-display:"flex",
-flexDirection:"column",
-alignItems:"center"
+bbox:{
+  width:"440px",
+  padding:"60px",
+  background:"linear-gradient(180deg, rgba(30,41,59,0.9), rgba(16,23,42,0.95))",
+  border:"1px solid rgba(255,255,255,0.08)",
+  borderRadius:"20px",
+  backdropFilter:"blur(20px)",
+  boxShadow:"0 50px 140px rgba(0,0,0,0.65)",
+  display:"flex",
+  flexDirection:"column",
+  alignItems:"center"
 },
 
 title:{
