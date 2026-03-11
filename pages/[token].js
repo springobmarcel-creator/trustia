@@ -49,7 +49,6 @@ export default function ReviewPage({ googleLink, salonName, token }) {
 <div style={{
   height:"100vh",
   display:"flex",
-  <div style={{
     height:"100vh",
     display:"flex",
     justifyContent:"center",
