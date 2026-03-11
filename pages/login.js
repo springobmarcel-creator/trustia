@@ -34,8 +34,12 @@ return(
 
 <div style={styles.box}>
 
-<h2 style={styles.title}>Login</h2>
+<div style={{textAlign:"center", marginBottom:"20px"}}>
+<img src="/trustia-logo3.png" style={{width:"140px"}} />
+</div>
 
+<h2 style={styles.title}>Login</h2>
+  
 <form onSubmit={handleLogin} style={{width:"100%"}}>
 
 <input
