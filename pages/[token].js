@@ -56,10 +56,10 @@ export default function ReviewPage({ googleLink, salonName, token }) {
 <div style={{
  background:"linear-gradient(180deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))",
  border:"1px solid rgba(255,255,255,0.08)",
- padding:"48px",
- borderRadius:"14px",
- boxShadow:"0 25px 80px rgba(0,0,0,0.55)",
- backdropFilter:"blur(20px)",
+ padding:"70px 60px",
+ borderRadius:"18px",
+ boxShadow:"0 40px 120px rgba(0,0,0,0.65)",
+  backdropFilter:"blur(20px)",
  width:"520px",
  textAlign:"center",
  color:"white"
@@ -82,8 +82,8 @@ Wie war dein Besuch?
 }}>
 
 <img
- src="https://www.gstatic.com/images/branding/product/1x/google_g_48dp.png"
- style={{height:"22px"}}
+ src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+ style={{height:"18px"}}
 />
 
 <span style={{
