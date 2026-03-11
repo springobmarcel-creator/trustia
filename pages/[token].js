@@ -48,18 +48,16 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   }}>
 
   <div style={{
-    background:"rgba(15,23,42,0.85)",
-    border:"1px solid rgba(255,255,255,0.08)"
-    backdropFilter:"blur(20px)",
-    border:"1px solid rgba(255,255,255,0.1)",
-    padding:"70px",
-    borderRadius:"20px",
-    boxShadow:"0 30px 80px rgba(0,0,0,0.6)",
-    width:"520px",
-    textAlign:"center",
-    color:"white"
-  }}>
-
+ background:"rgba(15,23,42,0.85)",
+ border:"1px solid rgba(255,255,255,0.08)",
+ backdropFilter:"blur(20px)",
+ padding:"70px",
+ borderRadius:"20px",
+ boxShadow:"0 30px 80px rgba(0,0,0,0.6)",
+ width:"520px",
+ textAlign:"center",
+ color:"white"
+}}>
   <h1 style={{
     fontSize:"34px",
     fontWeight:"600",
