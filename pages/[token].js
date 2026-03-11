@@ -43,36 +43,58 @@ export default function ReviewPage({ googleLink, salonName, token }) {
     display:"flex",
     justifyContent:"center",
     alignItems:"center",
-    background:"#0f172a",
+    background:"radial-gradient(circle at top, #1e293b, #020617)",
     fontFamily:"Inter, system-ui"
   }}>
 
   <div style={{
  background:"rgba(15,23,42,0.85)",
  border:"1px solid rgba(255,255,255,0.08)",
- backdropFilter:"blur(20px)",
- padding:"70px",
- borderRadius:"20px",
- boxShadow:"0 30px 80px rgba(0,0,0,0.6)",
- width:"520px",
+ padding:"60px",
+ borderRadius:"24px",
+ boxShadow:"0 40px 120px rgba(0,0,0,0.6)",
+ backdropFilter:"blur(25px)",
+  width:"520px",
  textAlign:"center",
  color:"white"
 }}>
-  <h1 style={{
-    fontSize:"34px",
-    fontWeight:"600",
-    marginBottom:"10px"
-  }}>
-  Wie war dein Besuch?
-  </h1>
+<h1 style={{
+ fontSize:"34px",
+ fontWeight:"600",
+ marginBottom:"10px"
+}}>
+Wie war dein Besuch?
+</h1>
 
-  <p style={{
-    color:"rgba(255,255,255,0.7)",
-    fontSize:"18px",
-    marginBottom:"40px"
-  }}>
-  {salonName}
-  </p>
+<div style={{
+ display:"flex",
+ justifyContent:"center",
+ alignItems:"center",
+ gap:"8px",
+ marginBottom:"15px"
+}}>
+
+<img
+ src="https://www.gstatic.com/images/branding/product/1x/google_g_48dp.png"
+ style={{height:"22px"}}
+/>
+
+<span style={{
+ fontSize:"14px",
+ color:"#94a3b8"
+}}>
+Google Bewertung
+</span>
+
+</div>
+
+<p style={{
+ color:"rgba(255,255,255,0.7)",
+ fontSize:"18px",
+ marginBottom:"40px"
+}}>
+{salonName}
+</p>
 
   <div style={{
     display:"flex",
