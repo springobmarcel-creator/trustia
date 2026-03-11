@@ -16,15 +16,21 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   const [sent,setSent] = useState(false)
 
   function rate(value){
-    setRating(value)
+ setRating(value)
 
-    if(value >= 4){
+ if(value >= 4){
+
+  alert("Vielen Dank! Würdest du uns kurz auf Google bewerten? ⭐")
+
   window.open(googleLink, "_blank")
-    } else {
-      setShowFeedback(true)
-    }
-  }
 
+ } else {
+
+  setShowFeedback(true)
+
+ }
+
+}
   async function sendFeedback(){
 
     await supabase.from("feedback").insert({
@@ -47,21 +53,22 @@ export default function ReviewPage({ googleLink, salonName, token }) {
     fontFamily:"Inter, system-ui"
   }}>
 
-  <div style={{
- background:"rgba(15,23,42,0.85)",
+<div style={{
+ background:"linear-gradient(180deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))",
  border:"1px solid rgba(255,255,255,0.08)",
- padding:"60px",
- borderRadius:"24px",
- boxShadow:"0 40px 120px rgba(0,0,0,0.6)",
- backdropFilter:"blur(25px)",
-  width:"520px",
+ padding:"48px",
+ borderRadius:"14px",
+ boxShadow:"0 25px 80px rgba(0,0,0,0.55)",
+ backdropFilter:"blur(20px)",
+ width:"520px",
  textAlign:"center",
  color:"white"
 }}>
 <h1 style={{
- fontSize:"34px",
+ fontSize:"32px",
  fontWeight:"600",
- marginBottom:"10px"
+ letterSpacing:"-0.3px",
+ marginBottom:"14px"
 }}>
 Wie war dein Besuch?
 </h1>
@@ -83,7 +90,7 @@ Wie war dein Besuch?
  fontSize:"14px",
  color:"#94a3b8"
 }}>
-Google Bewertung
+Bewerte uns auf Google
 </span>
 
 </div>
@@ -110,15 +117,15 @@ Google Bewertung
     onMouseLeave={()=>setHover(0)}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    width="46"
-    height="46"
+    width="32"
+    height="32"
    style={{
  cursor:"pointer",
  transition:"all 0.2s ease",
- transform: hover >= star ? "scale(1.2)" : "scale(1)",
+ transform: hover >= star ? "scale(1.1)" : "scale(1)",
  filter: hover >= star ? "drop-shadow(0 0 6px rgba(250,204,21,0.8))" : "none",
  fill:(hover >= star || rating >= star)
-   ? "#facc15"
+   ? "#fbbf24"
    : "#374151"
 }}
   >
@@ -177,7 +184,7 @@ Google Bewertung
     fontSize:"12px",
     color:"rgba(255,255,255,0.4)"
   }}>
-  Bewertet mit Trustia
+Bewertungen über Trustia gesammelt
   </div>
 
   </div>
