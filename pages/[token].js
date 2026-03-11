@@ -64,8 +64,17 @@ export default function ReviewPage({ googleLink, salonName, token }) {
  textAlign:"center",
  color:"white"
 }}>
+  <div style={{
+fontSize:"14px",
+letterSpacing:"2px",
+color:"#94a3b8",
+marginBottom:"18px",
+textTransform:"uppercase"
+}}>
+Trustia Review
+</div>
 <h1 style={{
- fontSize:"32px",
+ fontSize:"36px",
  fontWeight:"600",
  letterSpacing:"-0.3px",
  marginBottom:"14px"
@@ -117,8 +126,8 @@ Bewerte uns auf Google
     onMouseLeave={()=>setHover(0)}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    width="32"
-    height="32"
+    width="54"
+    height="54"
    style={{
  cursor:"pointer",
  transition:"all 0.2s ease",
@@ -144,27 +153,32 @@ Bewerte uns auf Google
     onChange={(e)=>setFeedback(e.target.value)}
     placeholder="Was können wir verbessern?"
     style={{
-      width:"100%",
-      height:"120px",
-      padding:"12px",
-      borderRadius:"10px",
-      border:"1px solid rgba(255,255,255,0.2)",
-      background:"#020617",
-      color:"white",
-      marginBottom:"20px"
-    }}
-  />
-
+width:"100%",
+height:"120px",
+padding:"18px",
+borderRadius:"12px",
+border:"1px solid rgba(255,255,255,0.08)",
+background:"rgba(2,6,23,0.8)",
+color:"white",
+fontSize:"15px",
+outline:"none",
+resize:"none",
+marginBottom:"25px"
+}}
   <button
     onClick={sendFeedback}
-    style={{
-      background:"#6366f1",
-      border:"none",
-      padding:"12px 24px",
-      borderRadius:"10px",
-      color:"white",
-      cursor:"pointer"
-    }}
+   style={{
+padding:"16px 34px",
+fontSize:"16px",
+fontWeight:"600",
+borderRadius:"10px",
+border:"none",
+background:"linear-gradient(135deg,#6366f1,#8b5cf6)",
+color:"white",
+cursor:"pointer",
+boxShadow:"0 10px 40px rgba(99,102,241,0.35)",
+transition:"all 0.2s ease"
+}}
   >
   Feedback senden
   </button>
