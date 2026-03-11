@@ -168,6 +168,7 @@ outline:"none",
 resize:"none",
 marginBottom:"25px"
 }}
+/>
   <button
     onClick={sendFeedback}
    style={{
