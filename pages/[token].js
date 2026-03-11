@@ -44,6 +44,11 @@ export default function ReviewPage({ googleLink, salonName, token }) {
 
   return(
 
+
+
+<div style={{
+  height:"100vh",
+  display:"flex",
   <div style={{
     height:"100vh",
     display:"flex",
@@ -54,22 +59,31 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   }}>
 
 <div style={{
- background:"linear-gradient(180deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))",
- border:"1px solid rgba(255,255,255,0.08)",
- padding:"70px 60px",
- borderRadius:"18px",
- boxShadow:"0 40px 120px rgba(0,0,0,0.65)",
+  background:"linear-gradient(180deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))",
+  border:"1px solid rgba(255,255,255,0.08)",
+  padding:"70px 60px",
+  borderRadius:"18px",
+  boxShadow:"0 40px 120px rgba(0,0,0,0.65)",
   backdropFilter:"blur(20px)",
- width:"520px",
- textAlign:"center",
- color:"white"
+  width:"520px",
+  textAlign:"center",
+  color:"white"
 }}>
-  <div style={{
-fontSize:"14px",
-letterSpacing:"2px",
-color:"#94a3b8",
-marginBottom:"18px",
-textTransform:"uppercase"
+
+<img
+  src="/trustia-logo3.png"
+  style={{
+    width:"150px",
+    marginBottom:"25px"
+  }}
+/>
+
+<div style={{
+  fontSize:"14px",
+  letterSpacing:"2px",
+  color:"#94a3b8",
+  marginBottom:"18px",
+  textTransform:"uppercase"
 }}>
 Trustia Review
 </div>
