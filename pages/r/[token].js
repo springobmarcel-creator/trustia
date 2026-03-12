@@ -22,8 +22,8 @@ export default function ReviewPage({ googleLink, salonName, token }) {
 
   alert("Vielen Dank! Würdest du uns kurz auf Google bewerten? ⭐")
 
-  window.open(googleLink, "_blank")
-
+window.open("https://google.com", "_blank")
+   
  } else {
 
   setShowFeedback(true)
