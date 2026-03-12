@@ -18,12 +18,11 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   function rate(value){
  setRating(value)
 
- if(value >= 4){
+ if(value >= 5){
 
   alert("Vielen Dank! Würdest du uns kurz auf Google bewerten? ⭐")
 
-window.open("https://google.com", "_blank")
-   
+window.open(googleLink, "_blank")   
  } else {
 
   setShowFeedback(true)
@@ -132,7 +131,7 @@ marginBottom:"30px"
     justifyContent:"center",
     gap:"14px"
   }}>
-
+<div style={{display:"flex", justifyContent:"center", gap:"12px"}}>
   {[1,2,3,4,5].map((star)=>(
   <svg
     key={star}
@@ -146,8 +145,8 @@ marginBottom:"30px"
     height="52"
    style={{
 cursor:"pointer",
-transition:"all 0.2s ease",
-transform: hover >= star ? "scale(1.12)" : "scale(1)",
+transition:"transform 0.15s ease",
+     transform: hover >= star ? "scale(1.05)" : "scale(1)",
 filter:(hover >= star || rating >= star)
 ? "drop-shadow(0 0 8px rgba(250,204,21,0.7))"
 : "none",
@@ -159,7 +158,7 @@ fill:(hover >= star || rating >= star)
   <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.782 1.402 8.177L12 18.896l-7.336 3.874 1.402-8.177L.132 9.211l8.2-1.193z"/>
   </svg>
   ))}
-    
+    </div>
 <div style={{
   marginTop:"20px",
   fontSize:"14px",
