@@ -18,10 +18,7 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   function rate(value){
  setRating(value)
 
- if(value >= 5){
-
-  alert("Vielen Dank! Würdest du uns kurz auf Google bewerten? ⭐")
-
+ if(value >= 4){
 window.open(googleLink, "_blank")   
  } else {
 
@@ -143,9 +140,9 @@ marginBottom:"30px"
    style={{
 cursor:"pointer",
 transition:"transform 0.15s ease",
-     transform: hover >= star ? "scale(1.05)" : "scale(1)",
+     transform: hover >= star ? "scale(1.03)" : "scale(1)",
 filter:(hover >= star || rating >= star)
-? "drop-shadow(0 0 8px rgba(250,204,21,0.7))"
+? "drop-shadow(0 0 6px rgba(250,204,21,0.5))"
 : "none",
 fill:(hover >= star || rating >= star)
 ? "#facc15"
@@ -157,7 +154,7 @@ fill:(hover >= star || rating >= star)
   ))}
     </div>
 <div style={{
-  marginTop:"20px",
+  marginTop:"12px",
   fontSize:"14px",
   color:"#cbd5e1",
   height:"28px",
@@ -198,17 +195,20 @@ marginBottom:"25px"
 />
   <button
     onClick={sendFeedback}
+onMouseEnter={(e)=>e.currentTarget.style.transform="translateY(-2px)"}
+onMouseLeave={(e)=>e.currentTarget.style.transform="translateY(0px)"}
    style={{
 padding:"16px 34px",
 fontSize:"16px",
 fontWeight:"600",
 borderRadius:"10px",
 border:"none",
-background:"linear-gradient(135deg,#6366f1,#8b5cf6)",
+background:"linear-gradient(135deg,#6366f1,#7c3aed)",
 color:"white",
 cursor:"pointer",
-boxShadow:"0 10px 40px rgba(99,102,241,0.35)",
-transition:"all 0.2s ease"
+boxShadow:"0 6px 18px rgba(99,102,241,0.25)",   
+transition:"all 0.2s ease",
+transform:"translateY(0)"
 }}
   >
   Feedback senden
