@@ -126,11 +126,8 @@ marginBottom:"30px"
 {salonName}
 </p>
 
-  <div style={{
-    display:"flex",
-    justifyContent:"center",
-    gap:"14px"
-  }}>
+<div>  
+  
 <div style={{display:"flex", justifyContent:"center", gap:"12px"}}>
   {[1,2,3,4,5].map((star)=>(
   <svg
