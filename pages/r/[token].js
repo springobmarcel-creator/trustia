@@ -147,7 +147,7 @@ marginBottom:"30px"
    style={{
 cursor:"pointer",
 transition:"all 0.2s ease",
-transform: hover >= star ? "scale(1.25)" : "scale(1)",
+transform: hover >= star ? "scale(1.12)" : "scale(1)",
 filter:(hover >= star || rating >= star)
 ? "drop-shadow(0 0 8px rgba(250,204,21,0.7))"
 : "none",
@@ -161,10 +161,14 @@ fill:(hover >= star || rating >= star)
   ))}
     
 <div style={{
-  marginTop:"14px",
+  marginTop:"20px",
   fontSize:"14px",
   color:"#cbd5e1",
-  minHeight:"20px"
+  height:"28px",
+  display:"flex",
+  alignItems:"center",
+  justifyContent:"center",
+  transition:"opacity 0.2s ease"
 }}>
   {hover === 1 && "Oh nein 😔 Was können wir verbessern?"}
   {hover === 2 && "Das tut uns leid. Was war nicht gut?"}
