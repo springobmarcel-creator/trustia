@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
+import QRCode from "qrcode.react"
 
 export default function Onboarding(){
 
@@ -84,25 +85,43 @@ style={styles.button}
 
 {result && (
 
-<div style={styles.resultBox}>
+<div style={{marginTop:"25px", textAlign:"center"}}>
 
-<h3>{result.name}</h3>
+<h3 style={{color:"#fff"}}>{result.name}</h3>
 
-<p style={{marginTop:"10px"}}>
-Google Review Link
+<p style={{marginTop:"10px", color:"#bbb"}}>
+Google Bewertungslink
 </p>
 
 <a
 href={result.reviewLink}
 target="_blank"
-style={styles.link}
+style={{color:"#38bdf8", wordBreak:"break-all"}}
 >
 {result.reviewLink}
 </a>
 
+<div style={{marginTop:"20px"}}>
+<QRCode value={result.reviewLink} size={140} />
+</div>
+
+<p style={{marginTop:"10px", color:"#bbb"}}>
+QR Code zum Bewerten
+</p>
+
 <button
 onClick={finish}
-style={{...styles.button, marginTop:"20px"}}
+style={{
+marginTop:"20px",
+width:"100%",
+padding:"12px",
+borderRadius:"10px",
+border:"none",
+background:"linear-gradient(90deg,#3b82f6,#06b6d4)",
+color:"white",
+fontWeight:"600",
+cursor:"pointer"
+}}
 >
 Weiter zum Dashboard
 </button>
