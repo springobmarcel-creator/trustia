@@ -2,8 +2,8 @@ import { useState } from "react"
 import { useRouter } from "next/router"
 import { supabase } from "../lib/supabase"
 
-export default function Register(){
-
+export default function Dashboard(){
+  
 const router = useRouter()
 
 const [name,setName] = useState("")
