@@ -96,7 +96,7 @@ style={styles.input}
 />
 
 <button
-onClick={searchSalon}
+onClick={() => searchSalon()}
 style={styles.button}
 >
 {loading ? "Suche..." : "Salon suchen"}
