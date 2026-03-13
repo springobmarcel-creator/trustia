@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
 import QRCode from "qrcode.react"
+import { supabase } from "../lib/supabase"
 
 export default function Onboarding(){
 
@@ -32,11 +33,12 @@ const reviewLink =
 `https://search.google.com/local/writereview?placeid=${placeId}`
 
 setResult({
-name:data.candidates[0].name,
-placeId,
-reviewLink
+name: data.candidates[0].name,
+placeId: data.candidates[0].place_id,
+address: data.candidates[0].formatted_address,
+rating: data.candidates[0].rating,
+reviewLink: reviewLink
 })
-
 }
 
 }catch(err){
@@ -47,10 +49,23 @@ setLoading(false)
 
 }
 
-function finish(){
-router.push("/dashboard")
-}
+async function finish(){
 
+const { data: { user } } = await supabase.auth.getUser()
+
+await supabase
+.from("salons")
+.update({
+google_place_id: result.placeId,
+google_review_link: result.reviewLink,
+adresse: result.addresse,
+rating: result.rating
+})
+.eq("user_id", user.id)
+
+router.push("/dashboard")
+
+}
 return(
 
 <div style={styles.page}>
