@@ -6,10 +6,7 @@ export default function Dashboard(){
   
 const router = useRouter()
 
-const [name,setName] = useState("")
-const [email,setEmail] = useState("")
-const [password,setPassword] = useState("")
-const [error,setError] = useState("")
+
 
 async function handleRegister(e){
 e.preventDefault()
