@@ -116,9 +116,11 @@ style={{color:"#38bdf8", wordBreak:"break-all"}}
 {result.reviewLink}
 </a>
 
+{result && (
 <div style={{marginTop:"20px"}}>
 <QRCode value={result.reviewLink} size={140} />
 </div>
+)}
 
 <p style={{marginTop:"10px", color:"#bbb"}}>
 QR Code zum Bewerten
