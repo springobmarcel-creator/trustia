@@ -6,6 +6,8 @@ export default async function handler(req, res) {
 
   const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(salon)}&inputtype=textquery&fields=name,place_id,formatted_address,rating&key=${apiKey}`
 
+  console.log(url)
+  
   const response = await fetch(url)
 
   const data = await response.json()
