@@ -26,8 +26,8 @@ setLoading(true)
 try{
 
 const res = await fetch(
-`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${salon}&inputtype=textquery&fields=name,place_id,formatted_address,rating&key=${apiKey}`)
-
+`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${salon}&inputtype=textquery&fields=name,place_id,formatted_address,rating&key=${apiKey}`
+)
 const data = await res.json()
 
 if(data.candidates && data.candidates.length > 0){
