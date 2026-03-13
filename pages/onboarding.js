@@ -22,7 +22,8 @@ return
 
 setLoading(true)
 
-const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY  
+const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY
+console.log("API KEY TEST:", apiKey)
   try{
 
 const res = await fetch(
