@@ -1,40 +1,96 @@
+"use client"
+
 import { useState } from "react"
-import { useRouter } from "next/router"
-import { supabase } from "../lib/supabase"
+import { createClient } from "@supabase/supabase-js"
+import { useRouter } from "next/navigation"
+
+const supabase = createClient(
+  "https://jfomycwzljazcjrructvs.supabase.co",
+  "DEIN_PUBLIC_ANON_KEY"
+)
 
 export default function Login(){
 
-const router = useRouter()
+  const router = useRouter()
 
-const [email,setEmail] = useState("")
-const [password,setPassword] = useState("")
-const [error,setError] = useState("")
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+  const [error,setError] = useState("")
 
-async function handleLogin(e){
+  async function login(){
 
-e.preventDefault()
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
 
-const { data,error } = await supabase.auth.signInWithPassword({
-email,
-password
-})
+    if(error){
+      setError(error.message)
+      return
+    }
 
-if(error){
-setError(error.message)
-return
-}
+    router.push("/onboarding")
+  }
 
-router.push("/dashboard")
+  return (
+    <div style={{
+      height:"100vh",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      background:"#020617",
+      color:"white"
+    }}>
 
-}
+      <div style={{
+        width:"400px",
+        background:"rgba(30,41,59,0.6)",
+        padding:"40px",
+        borderRadius:"16px"
+      }}>
 
-return(
+        <h2 style={{marginBottom:"20px"}}>Login</h2>
 
-<div style={styles.page}>
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+          style={{width:"100%",padding:"12px",marginBottom:"12px"}}
+        />
 
-<div style={styles.box}>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
+          style={{width:"100%",padding:"12px",marginBottom:"20px"}}
+        />
 
-<div style={{textAlign:"center", marginBottom:"20px"}}>
+        <button
+          onClick={login}
+          style={{
+            width:"100%",
+            padding:"14px",
+            background:"#3b82f6",
+            color:"white",
+            border:"none",
+            borderRadius:"8px"
+          }}
+        >
+          Login
+        </button>
+
+        {error && (
+          <p style={{color:"red",marginTop:"10px"}}>
+            {error}
+          </p>
+        )}
+
+      </div>
+
+    </div>
+  )
+}<div style={{textAlign:"center", marginBottom:"20px"}}>
 <img src="/trustia-logo3.png" style={{width:"220px", marginBottom:"10px"}} />
   </div>
 
