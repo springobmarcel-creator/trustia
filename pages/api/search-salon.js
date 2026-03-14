@@ -1,13 +1,15 @@
 export default async function handler(req, res) {
 
- const { city } = req.query
- const apiKey = process.env.GOOGLE_API_KEY
+const { salon } = req.query
 
- const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=friseur+in+${city}&key=${apiKey}`
+const apiKey = process.env.GOOGLE_API_KEY
 
- const response = await fetch(url)
- const data = await response.json()
+const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${salon}&key=${apiKey}`
 
- res.status(200).json(data)
+const response = await fetch(url)
+
+const data = await response.json()
+
+res.status(200).json(data)
 
 }
