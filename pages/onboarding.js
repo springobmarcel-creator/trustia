@@ -131,7 +131,7 @@ QR Code zum Bewerten
 </p>
 
 <button
-onClick={finish}
+onClick={() => router.push("/dashboard")}
 style={{
 marginTop:"20px",
 width:"100%",
