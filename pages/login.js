@@ -4,10 +4,7 @@ import { useState } from "react"
 import { supabase } from "../lib/supabase"
 import { useRouter } from "next/navigation"
 
-const supabase = createClient(
-  "https://jfomycwzljazcjrructvs.supabase.co",
-  "sb_publishable_4m-kPvQvfLSdTQC6Qw7EHg_CfcnbNCl"
-)
+
 
 export default function Login() {
 
