@@ -5,8 +5,8 @@ import { createClient } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 
 const supabase = createClient(
-  "https://jfomycwzljazcjructsy.supabase.co",
-  "DEIN_PUBLIC_ANON_KEY"
+"https://jfomycwzljazcjructvs.supabase.co",
+"DEIN_PUBLIC_ANON_KEY"
 )
 
 export default function Onboarding(){
@@ -31,7 +31,7 @@ return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://tr
 
 async function findSalon(name){
 
-const res = await fetch(`/api/search-salon?salon=${name}`)
+const res = await fetch(`/api/search-salon?salon=${encodeURIComponent(name)}`)
 
 const data = await res.json()
 
@@ -43,15 +43,16 @@ async function finishOnboarding(){
 
 setLoading(true)
 
-const { data:userData } = await supabase.auth.getUser()
-
-const user = userData.user
+const { data: { user } } = await supabase.auth.getUser()
 
 if(!user){
 
-alert("User nicht gefunden")
+alert("User nicht eingeloggt")
+
+setLoading(false)
 
 return
+
 }
 
 const salonData = await findSalon(salonName)
@@ -60,7 +61,10 @@ if(!salonData){
 
 alert("Salon nicht gefunden")
 
+setLoading(false)
+
 return
+
 }
 
 const token = generateToken()
@@ -74,8 +78,10 @@ name: salonData.name,
 email: user.email,
 phone: phone,
 address: salonData.address,
+rating: salonData.rating,
 google_place_id: salonData.placeId,
 google_review_link: salonData.reviewLink,
+photo_url: salonData.photo,
 token: token,
 qr_code_url: qr
 
@@ -104,9 +110,7 @@ borderRadius:"16px"
 }}>
 
 <h1 style={{marginBottom:"30px"}}>
-
 Salon einrichten
-
 </h1>
 
 <input
