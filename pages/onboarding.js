@@ -25,7 +25,7 @@ setLoading(true)
 
   try {
 
-const res = await fetch(`/api/google?salon=${salon}`)
+const res = await fetch(`/api/search-salon?salon=${salon}`)
     
 const data = await res.json()
 
