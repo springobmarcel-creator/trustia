@@ -3,7 +3,8 @@ export default async function handler(req, res) {
 const { salon } = req.query
 const apiKey = process.env.GOOGLE_API_KEY
 
-// 1️⃣ Salon suchen
+
+// 1 Salon suchen
 const searchUrl =
 `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${salon}+friseur&key=${apiKey}`
 
@@ -11,23 +12,24 @@ const searchRes = await fetch(searchUrl)
 const searchData = await searchRes.json()
 
 if (!searchData.results || searchData.results.length === 0) {
-
 return res.status(200).json(null)
-
 }
 
 const place = searchData.results[0]
 const placeId = place.place_id
 
-// 2️⃣ Details holen
+
+// 2 Details holen
 const detailsUrl =
-`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,website,formatted_phone_number,photos,rating,url&key=${apiKey}`
+`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,website,formatted_phone_number,rating,photos,url&key=${apiKey}`
 
 const detailsRes = await fetch(detailsUrl)
 const detailsData = await detailsRes.json()
 
 const details = detailsData.result
 
+
+// Foto holen
 let photo = null
 
 if (details.photos && details.photos.length > 0) {
@@ -37,8 +39,11 @@ photo =
 
 }
 
+
+// Review Link
 const reviewLink =
 `https://search.google.com/local/writereview?placeid=${placeId}`
+
 
 res.status(200).json({
 
@@ -47,9 +52,11 @@ address: details.formatted_address,
 phone: details.formatted_phone_number,
 website: details.website,
 rating: details.rating,
-photo,
-placeId,
-reviewLink,
+photo: photo,
+
+placeId: placeId,
+reviewLink: reviewLink,
+
 googleMaps: details.url
 
 })
