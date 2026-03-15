@@ -11,75 +11,78 @@ const [phone,setPhone] = useState("")
 const [loading,setLoading] = useState(false)
 
 function generateToken(){
-
 return Math.random().toString(36).substring(2,10)
-
 }
 
 function generateQR(token){
-
 return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://trustia.info/r/${token}`
-
 }
 
 async function findSalon(name){
 
 const res = await fetch(`/api/search-salon?salon=${encodeURIComponent(name)}`)
-
 const data = await res.json()
 
-return data
+if(!data) return null
 
+return data
 }
 
 async function finishOnboarding(){
 
 setLoading(true)
 
-const { data: { session } } = await supabase.auth.getSession()
+const { data:{ session } } = await supabase.auth.getSession()
+
 const user = session?.user
-  
+
 if(!user){
-
 alert("User nicht eingeloggt")
-
 setLoading(false)
-
 return
-
 }
 
 const salonData = await findSalon(salonName)
 
 if(!salonData){
-
 alert("Salon nicht gefunden")
-
 setLoading(false)
-
 return
-
 }
 
 const token = generateToken()
 
 const qr = generateQR(token)
 
-await supabase.from("salons").insert({
+const { error } = await supabase
+.from("salons")
+.insert({
 
 user_id: user.id,
 name: salonData.name,
 email: user.email,
 phone: phone,
+
 address: salonData.address,
 rating: salonData.rating,
+
 google_place_id: salonData.placeId,
 google_review_link: salonData.reviewLink,
+
 photo_url: salonData.photo,
+website: salonData.website,
+
 token: token,
 qr_code_url: qr
 
 })
+
+if(error){
+console.log(error)
+alert("Fehler beim Speichern")
+setLoading(false)
+return
+}
 
 router.push("/dashboard")
 
