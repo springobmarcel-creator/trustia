@@ -24,7 +24,7 @@ alert("Falsches Passwort")
 async function loadUsers(){
 
 const { data, error } = await supabase
-.from("profiles")
+.from("salons")
 .select("*")
 
 if(data){
