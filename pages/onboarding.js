@@ -52,14 +52,13 @@ async function finishOnboarding(){
 
 setLoading(true)
 
-const { data:{ session } } = await supabase.auth.getSession()
-
-const user = session?.user
+const { data } = await supabase.auth.getSession()
+const user = data?.session?.user
 
 if(!user){
-alert("User nicht eingeloggt")
-setLoading(false)
-return
+ alert("User nicht eingeloggt")
+ setLoading(false)
+ return
 }
 
 const salonData = await findSalon(salonName)
