@@ -10,6 +10,9 @@ const [salonName,setSalonName] = useState("")
 const [phone,setPhone] = useState("")
 const [loading,setLoading] = useState(false)
 
+const [results,setResults] = useState([])
+const [search,setSearch] = useState("")
+  
 function generateToken(){
 return Math.random().toString(36).substring(2,10)
 }
@@ -28,6 +31,23 @@ if(!data) return null
 return data
 }
 
+ async function handleSearch(value){
+
+  setSearch(value)
+
+  if(value.length < 3){
+    setResults([])
+    return
+  }
+
+  const data = await findSalon(value)
+
+  if(data?.results){
+    setResults(data.results)
+  }
+
+} 
+  
 async function finishOnboarding(){
 
 setLoading(true)
@@ -67,8 +87,8 @@ address: salonData.address,
 rating: salonData.rating,
 
 google_place_id: salonData.placeId,
-google_review_link: salonData.reviewLink,
-
+google_review_link: salonData.url,
+  
 photo_url: salonData.photo,
 website: salonData.website,
 
@@ -111,17 +131,37 @@ Salon einrichten
 </h1>
 
 <input
-placeholder="Salonname"
-value={salonName}
-onChange={(e)=>setSalonName(e.target.value)}
+placeholder="Salon bei Google suchen"
+value={search}
+onChange={(e)=>handleSearch(e.target.value)}
 style={{
-width:"100%",
-padding:"14px",
-marginBottom:"20px",
-borderRadius:"8px",
-border:"none"
+  width:"100%",
+  padding:"14px",
+  marginBottom:"10px",
+  borderRadius:"8px",
+  border:"none"
 }}
 />
+
+{results.map((place)=>(
+  <div
+    key={place.place_id}
+    onClick={()=>{
+      setSalonName(place.name)
+      setSearch(place.name)
+      setResults([])
+    }}
+    style={{
+      padding:"10px",
+      cursor:"pointer",
+      background:"#111",
+      marginBottom:"6px",
+      borderRadius:"6px"
+    }}
+  >
+    {place.name}
+  </div>
+))}
 
 <input
 placeholder="Telefonnummer"
