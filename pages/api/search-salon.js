@@ -12,7 +12,7 @@ const searchRes = await fetch(searchUrl)
 const searchData = await searchRes.json()
 
 if (!searchData.results || searchData.results.length === 0) {
-return res.status(200).json(null)
+ return res.status(200).json({ error: "Salon not found" })
 }
 
 const place = searchData.results[0]
