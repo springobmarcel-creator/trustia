@@ -29,14 +29,22 @@ window.open(googleLink, "_blank")
 }
   async function sendFeedback(){
 
-    await supabase.from("feedback").insert({
-      token:token,
-      rating:rating,
-      message:feedback
-    })
+  const { error } = await supabase
+    .from("feedback")
+    .insert([
+      {
+        token: token,
+        rating: rating,
+        message: feedback
+      }
+    ])
 
+  if(!error){
     setSent(true)
   }
+
+}
+  
 
   return(
 
