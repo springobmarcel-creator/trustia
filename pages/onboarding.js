@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { createClient } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
@@ -43,8 +41,9 @@ async function finishOnboarding(){
 
 setLoading(true)
 
-const { data: { user } } = await supabase.auth.getUser()
-
+const { data: { session } } = await supabase.auth.getSession()
+const user = session?.user
+  
 if(!user){
 
 alert("User nicht eingeloggt")
