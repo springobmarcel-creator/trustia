@@ -7,43 +7,49 @@ export default function Dashboard(){
 const router = useRouter()
 
 const [user,setUser] = useState(null)
-const [token,setToken] = useState("")
-const [qr,setQr] = useState("")
+const [salon,setSalon] = useState(null)
+const [loading,setLoading] = useState(true)
 
 useEffect(()=>{
+
+load()
+
+},[])
 
 async function load(){
 
 const {data} = await supabase.auth.getUser()
 
 if(!data.user){
+
 router.push("/login")
 return
+
 }
 
 setUser(data.user)
 
-const newToken = Math.random().toString(36).substring(2,10)
+const { data:salonData } = await supabase
+.from("salons")
+.select("*")
+.eq("user_id", data.user.id)
+.single()
 
-setToken(newToken)
+setSalon(salonData)
 
-const qrUrl =
-"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://trustia.info/r/"+newToken
-
-setQr(qrUrl)
+setLoading(false)
 
 }
-
-load()
-
-},[])
 
 async function logout(){
+
 await supabase.auth.signOut()
+
 router.push("/login")
+
 }
 
-if(!user) return <p>Lade Dashboard...</p>
+if(loading) return <p>Lade Dashboard...</p>
 
 return(
 
@@ -56,20 +62,40 @@ return(
 <p>Eingeloggt als:</p>
 <p>{user.email}</p>
 
-{qr && (
+{salon && (
+
 <>
-<h3>Dein Bewertungs-QR Code</h3>
 
-<img src={qr} width="200"/>
+<img
+src={salon.photo_url}
+style={{
+width:"120px",
+borderRadius:"12px",
+marginBottom:"20px"
+}}
+/>
+
+<h2>{salon.name}</h2>
+
+<p>{salon.address}</p>
+
+<p>⭐ {salon.rating}</p>
+
+<h3 style={{marginTop:"30px"}}>Dein Bewertungs-QR Code</h3>
+
+<img
+src={salon.qr_code_url}
+width="200"
+/>
+
+<p style={{marginTop:"20px"}}>Bewertungslink:</p>
 
 <p>
-Bewertungslink:
+https://trustia.info/r/{salon.token}
 </p>
 
-<p>
-https://trustia.info/r/{token}
-</p>
 </>
+
 )}
 
 <button onClick={logout} style={styles.button}>
@@ -93,7 +119,7 @@ justifyContent:"center",
 alignItems:"center",
 background:"radial-gradient(circle at top,#1e293b,#020617)",
 color:"white",
-fontFamily:"Inter,system-ui"
+fontFamily:"Inter, system-ui"
 },
 
 box:{
