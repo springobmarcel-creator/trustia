@@ -1,150 +1,103 @@
 import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
 import { supabase } from "../lib/supabase"
+import { useRouter } from "next/router"
 
-export default function Dashboard(){
+export default function Dashboard() {
+  const [salon, setSalon] = useState(null)
+  const router = useRouter()
 
-const router = useRouter()
+  useEffect(() => {
+    loadSalon()
+  }, [])
 
-const [user,setUser] = useState(null)
-const [salon,setSalon] = useState(null)
-const [loading,setLoading] = useState(true)
+  async function loadSalon() {
+    const { data: { session } } = await supabase.auth.getSession()
 
-useEffect(()=>{
+    if (!session) {
+      router.push("/login")
+      return
+    }
 
-load()
+    const user = session.user
 
-},[])
+    const { data, error } = await supabase
+      .from("salons")
+      .select("*")
+      .eq("user_id", user.id)
+      .single()
 
-async function load(){
+    if (error) {
+      console.error(error)
+      return
+    }
 
-const {data} = await supabase.auth.getUser()
+    setSalon(data)
+  }
 
-if(!data.user){
+  if (!salon) return <p style={{color:"white",textAlign:"center"}}>Loading...</p>
 
-router.push("/login")
-return
+  return (
+    <div style={styles.page}>
+      <div style={styles.box}>
 
+        <h2>{salon.name}</h2>
+
+        <p>⭐ Google Bewertung sammeln</p>
+
+        <img
+          src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://trustia.info/r/${salon.token}`}
+          alt="QR Code"
+        />
+
+        <p style={{marginTop:20}}>Bewertungslink</p>
+
+        <input
+          style={styles.input}
+          value={`https://trustia.info/r/${salon.token}`}
+          readOnly
+        />
+
+        <a
+          href={salon.google_review_link}
+          target="_blank"
+          style={styles.button}
+        >
+          Google Bewertung öffnen
+        </a>
+
+      </div>
+    </div>
+  )
 }
 
-setUser(data.user)
-
-const { data:salonData } = await supabase
-.from("salons")
-.select("*")
-.eq("user_id", data.user.id)
-.single()
-
-setSalon(salonData)
-
-setLoading(false)
-
-}
-
-async function logout(){
-
-await supabase.auth.signOut()
-
-router.push("/login")
-
-}
-
-if(loading) return <p>Lade Dashboard...</p>
-
-return(
-
-<div style={styles.page}>
-
-<div style={styles.box}>
-
-<h1 style={styles.title}>Trustia Dashboard</h1>
-
-<p>Eingeloggt als:</p>
-<p>{user.email}</p>
-
-{salon && (
-
-<>
-
-<img
-src={salon.photo_url}
-style={{
-width:"120px",
-borderRadius:"12px",
-marginBottom:"20px"
-}}
-/>
-
-<h2>{salon.name}</h2>
-
-<p>{salon.address}</p>
-
-<p>⭐ {salon.rating}</p>
-
-<h3 style={{marginTop:"30px"}}>Dein Bewertungs-QR Code</h3>
-
-<img
-src={salon.qr_code_url}
-width="200"
-/>
-
-<p style={{marginTop:"20px"}}>Bewertungslink:</p>
-
-<p>
-https://trustia.info/r/{salon.token}
-</p>
-
-</>
-
-)}
-
-<button onClick={logout} style={styles.button}>
-Logout
-</button>
-
-</div>
-
-</div>
-
-)
-
-}
-
-const styles={
-
-page:{
-height:"100vh",
-display:"flex",
-justifyContent:"center",
-alignItems:"center",
-background:"radial-gradient(circle at top,#1e293b,#020617)",
-color:"white",
-fontFamily:"Inter, system-ui"
-},
-
-box:{
-width:"420px",
-padding:"40px",
-background:"rgba(255,255,255,0.08)",
-borderRadius:"18px",
-backdropFilter:"blur(20px)",
-textAlign:"center"
-},
-
-title:{
-marginBottom:"20px"
-},
-
-button:{
-marginTop:"20px",
-padding:"12px",
-width:"100%",
-borderRadius:"10px",
-border:"none",
-background:"linear-gradient(90deg,#3b82f6,#06b6d4)",
-color:"white",
-fontWeight:"600",
-cursor:"pointer"
-}
-
+const styles = {
+  page:{
+    height:"100vh",
+    background:"#0f172a",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  box:{
+    background:"#1e293b",
+    padding:40,
+    borderRadius:12,
+    textAlign:"center",
+    color:"white",
+    width:400
+  },
+  input:{
+    width:"100%",
+    padding:10,
+    marginTop:10,
+    marginBottom:20
+  },
+  button:{
+    display:"block",
+    padding:12,
+    background:"#2563eb",
+    color:"white",
+    textDecoration:"none",
+    borderRadius:6
+  }
 }
