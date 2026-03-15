@@ -98,8 +98,15 @@ textAlign:"center",
 color:"white"
 }}>
 
-<h2 style={{marginBottom:"10px"}}>Trustia Review</h2>
-
+<img
+src={logo}
+style={{
+width:"120px",
+marginBottom:"20px",
+objectFit:"contain"
+}}
+/>
+  
 <h1 style={{marginBottom:"30px"}}>
 Wie war dein Besuch bei
 <br/>
