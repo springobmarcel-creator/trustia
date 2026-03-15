@@ -17,7 +17,8 @@ export default function ReviewPage() {
   const [feedback,setFeedback] = useState("")
   const [showFeedback,setShowFeedback] = useState(false)
   const [sent,setSent] = useState(false)
-
+  const [logo,setLogo] = useState("")
+  
   const [salonName,setSalonName] = useState("")
   const [googleLink,setGoogleLink] = useState("")
 
@@ -36,6 +37,7 @@ export default function ReviewPage() {
       if(data){
         setSalonName(data.name)
         setGoogleLink(data.google_review_link)
+        setlogo(data.logo_url)
       }
 
     }
