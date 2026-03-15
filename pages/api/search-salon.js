@@ -6,7 +6,7 @@ const apiKey = process.env.GOOGLE_API_KEY
 
 // 1 Salon suchen
 const searchUrl =
-`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${salon}+friseur&key=${apiKey}`
+`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${salon}+friseur+köln&region=de&key=${apiKey}`
 
 const searchRes = await fetch(searchUrl)
 const searchData = await searchRes.json()
