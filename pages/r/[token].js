@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 
 const supabase = createClient(
   "https://jfomycwzljazcjructsy.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impmb215Y3d6bGphemNqcnVjdHN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMzU4NjMsImV4cCI6MjA4NzYxMTg2M30.Go8kXZlfozFqNQ9qa1GZf88ue3o1Mga3ZLYsm2Uh_Aw"
-
 )
 
-export default function ReviewPage({ googleLink, salonName, token }) {
+export default function ReviewPage() {
+
+  const router = useRouter()
+  const { token } = router.query
 
   const [rating,setRating] = useState(0)
   const [hover,setHover] = useState(0)
@@ -15,233 +18,186 @@ export default function ReviewPage({ googleLink, salonName, token }) {
   const [showFeedback,setShowFeedback] = useState(false)
   const [sent,setSent] = useState(false)
 
-  function rate(value){
- setRating(value)
+  const [salonName,setSalonName] = useState("")
+  const [googleLink,setGoogleLink] = useState("")
 
- if(value >= 4){
-window.open(googleLink, "_blank")   
- } else {
+  useEffect(()=>{
 
-  setShowFeedback(true)
+    if(!token) return
 
- }
+    async function loadSalon(){
 
-}
-  async function sendFeedback(){
+      const { data,error } = await supabase
+        .from("salons")
+        .select("*")
+        .eq("token",token)
+        .single()
 
-  const { error } = await supabase
-    .from("feedback")
-    .insert([
-      {
-        token: token,
-        rating: rating,
-        message: feedback
+      if(data){
+        setSalonName(data.name)
+        setGoogleLink(data.google_review_link)
       }
-    ])
 
-  if(!error){
-    setSent(true)
+    }
+
+    loadSalon()
+
+  },[token])
+
+
+  function rate(value){
+
+    setRating(value)
+
+    if(value >= 4){
+      window.open(googleLink,"_blank")
+    }else{
+      setShowFeedback(true)
+    }
+
   }
 
-}
-  
+
+  async function sendFeedback(){
+
+    const { error } = await supabase
+      .from("feedback")
+      .insert([
+        {
+          token:token,
+          rating:rating,
+          message:feedback,
+          created_at:new Date()
+        }
+      ])
+
+    if(!error){
+      setSent(true)
+    }
+
+  }
+
 
   return(
 
-
+<div style={{
+height:"100vh",
+display:"flex",
+justifyContent:"center",
+alignItems:"center",
+background:"#0f172a",
+fontFamily:"Inter, sans-serif"
+}}>
 
 <div style={{
-  height:"100vh",
-  display:"flex",
-    height:"100vh",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
-background:"radial-gradient(circle at top, #1e40af 0%, #020617 80%)",
-  fontFamily:"Inter, system-ui"
-  }}>
-
-<div style={{
-background:"rgba(30,41,59,0.45)",
-  backdropFilter:"blur(24px)",
-border:"1px solid rgba(255,255,255,0.15)",
-padding:"60px 50px",
+background:"#1e293b",
+padding:"60px",
 borderRadius:"20px",
-boxShadow:"0 40px 120px rgba(0,0,0,0.45), 0 0 120px rgba(59,130,246,0.25)",
-  width:"520px",
+width:"500px",
 textAlign:"center",
 color:"white"
 }}>
 
-<img
-  src="/trustia-logo3.png"
-  style={{
-    width:"130px",
-    marginBottom:"25px",
-    filter:"drop-shadow(0 0 25px rgba(59,130,246,0.45))"
-  }}
-/>
+<h2 style={{marginBottom:"10px"}}>Trustia Review</h2>
 
-<div style={{
-  fontSize:"14px",
-  letterSpacing:"2px",
-  color:"#94a3b8",
-  marginBottom:"18px",
-  textTransform:"uppercase"
-}}>
-Trustia Review
-</div>
-<h1 style={{
- fontSize:"36px",
- fontWeight:"600",
- letterSpacing:"-0.3px",
- marginBottom:"14px"
-}}>
-Wie war dein Besuch?
+<h1 style={{marginBottom:"30px"}}>
+Wie war dein Besuch bei
+<br/>
+{salonName}
 </h1>
 
-<div style={{
- display:"flex",
- justifyContent:"center",
- alignItems:"center",
- gap:"10px",
- marginBottom:"20px"
-}}>
 
-<img
- src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
- style={{height:"18px"}}
-/>
+<div style={{display:"flex",justifyContent:"center",gap:"15px",marginBottom:"30px"}}>
 
-<span style={{
- fontSize:"14px",
- color:"#94a3b8"
-}}>
-Bewerte uns auf Google
-</span>
+{[1,2,3,4,5].map((star)=>(
 
-</div>
-
-<p style={{
-fontSize:"20px",
-fontWeight:"500",
-color:"white",
-marginBottom:"30px"
-}}>
-{salonName}
-</p>
-
-<div>  
-  
-<div style={{display:"flex", justifyContent:"center", gap:"12px"}}>
-  {[1,2,3,4,5].map((star)=>(
-  <svg
-    key={star}
-    onClick={()=>rate(star)}
-    onMouseEnter={()=>setHover(star)}
-    onMouseLeave={()=>setHover(0)}
-
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    width="52"
-    height="52"
-   style={{
+<svg
+key={star}
+onClick={()=>rate(star)}
+onMouseEnter={()=>setHover(star)}
+onMouseLeave={()=>setHover(0)}
+xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+width="50"
+height="50"
+style={{
 cursor:"pointer",
-transition:"transform 0.15s ease",
-     transform: hover >= star ? "scale(1.03)" : "scale(1)",
-filter:(hover >= star || rating >= star)
-? "drop-shadow(0 0 6px rgba(250,204,21,0.5))"
-: "none",
-fill:(hover >= star || rating >= star)
-? "#facc15"
-: "#374151"
+fill:(hover >= star || rating >= star) ? "#facc15" : "#475569"
 }}
-  >
-  <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.782 1.402 8.177L12 18.896l-7.336 3.874 1.402-8.177L.132 9.211l8.2-1.193z"/>
-  </svg>
-  ))}
-    </div>
-<div style={{
-  marginTop:"12px",
-  fontSize:"14px",
-  color:"#cbd5e1",
-  height:"28px",
-  display:"flex",
-  alignItems:"center",
-  justifyContent:"center",
-  transition:"opacity 0.2s ease"
-}}>
-  {hover === 1 && "Oh nein 😔 Was können wir verbessern?"}
-  {hover === 2 && "Das tut uns leid. Was war nicht gut?"}
-  {hover === 3 && "Danke! Was können wir besser machen?"}
-  {hover === 4 && "Super! Würdest du uns auf Google bewerten?"}
-  {hover === 5 && "Mega! Vielen Dank für deine Bewertung ⭐"}
+>
+
+<path d="M12 .587l3.668 7.431L24 9.748l-6 5.847L19.335 24 12 20.201 4.665 24 6 15.595 0 9.748l8.332-1.73z"/>
+
+</svg>
+
+))}
+
 </div>
-  </div>
 
-  {showFeedback && !sent && (
 
-  <div style={{marginTop:"40px"}}>
+<div style={{marginBottom:"20px"}}>
 
-  <textarea
-    value={feedback}
-    onChange={(e)=>setFeedback(e.target.value)}
-    placeholder="Was können wir verbessern?"
-    style={{
+{hover === 1 && "Oh nein 😔 Was können wir verbessern?"}
+{hover === 2 && "Das tut uns leid. Was war nicht gut?"}
+{hover === 3 && "Danke! Was können wir besser machen?"}
+{hover === 4 && "Super! Würdest du uns auf Google bewerten?"}
+{hover === 5 && "Mega! Vielen Dank für deine Bewertung ⭐"}
+
+</div>
+
+
+{showFeedback && !sent &&(
+
+<div>
+
+<textarea
+value={feedback}
+onChange={(e)=>setFeedback(e.target.value)}
+placeholder="Was können wir verbessern?"
+style={{
 width:"100%",
 height:"120px",
-padding:"18px",
-borderRadius:"12px",
-border:"1px solid rgba(255,255,255,0.08)",
-background:"rgba(2,6,23,0.8)",
-color:"white",
-fontSize:"15px",
-outline:"none",
-resize:"none",
-marginBottom:"25px"
-}}
-/>
-  <button
-    onClick={sendFeedback}
-onMouseEnter={(e)=>e.currentTarget.style.transform="translateY(-2px)"}
-onMouseLeave={(e)=>e.currentTarget.style.transform="translateY(0px)"}
-   style={{
-padding:"16px 34px",
-fontSize:"16px",
-fontWeight:"600",
 borderRadius:"10px",
 border:"none",
-background:"linear-gradient(135deg,#6366f1,#7c3aed)",
-color:"white",
-cursor:"pointer",
-boxShadow:"0 6px 18px rgba(99,102,241,0.25)",   
-transition:"all 0.2s ease",
-transform:"translateY(0)"
+padding:"15px",
+marginBottom:"20px"
 }}
-  >
-  Feedback senden
-  </button>
+/>
 
-  </div>
+<button
+onClick={sendFeedback}
+style={{
+background:"#6366f1",
+border:"none",
+padding:"15px 30px",
+borderRadius:"10px",
+color:"white",
+fontWeight:"600",
+cursor:"pointer"
+}}
+>
 
-  )}
+Feedback senden
 
-  {sent && (
-  <div style={{marginTop:"40px"}}>
-  Vielen Dank für dein Feedback 🙏
-  </div>
-  )}
+</button>
 
-  <div style={{
-    marginTop:"50px",
-    fontSize:"12px",
-    color:"rgba(255,255,255,0.4)"
-  }}>
-Bewertungen über Trustia gesammelt
-  </div>
+</div>
 
-  </div>
-  </div>
+)}
 
-  )
+
+{sent &&(
+
+<div style={{marginTop:"20px"}}>
+Vielen Dank für dein Feedback 🙏
+</div>
+
+)}
+
+</div>
+
+</div>
+
+)
+
 }
