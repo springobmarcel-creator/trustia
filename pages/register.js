@@ -12,20 +12,32 @@ const [password,setPassword] = useState("")
 const [error,setError] = useState("")
 
 async function handleRegister(e){
-e.preventDefault()
+  e.preventDefault()
 
-const { data, error } = await supabase.auth.signUp({
-email: email,
-password: password
-})
+  const { error } = await supabase.auth.signUp({
+    email: email,
+    password: password
+  })
 
-if(error){
-setError(error.message)
-return
+  if(error){
+    setError(error.message)
+    return
+  }
+
+  // Auto Login nach Registrierung
+  const { error: loginError } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password
+  })
+
+  if(loginError){
+    setError(loginError.message)
+    return
+  }
+
+  router.push("/onboarding")
 }
 
-router.push("/onboarding")
-}
 
 return(
 
