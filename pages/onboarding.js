@@ -52,7 +52,7 @@ async function finishOnboarding(){
 
 setLoading(true)
 
-const { data:{ user } } = await supabase.auth.getSession()
+const { data:{ session } } = await supabase.auth.getSession()
 
 const user = session?.user
 
