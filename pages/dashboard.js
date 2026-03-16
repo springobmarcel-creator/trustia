@@ -59,6 +59,17 @@ async function loadReviews(placeId) {
       <div style={styles.box}>
 
         <h2>{salon.name}</h2>
+    <div style={{marginTop:20}}>
+
+<div style={{fontSize:32,fontWeight:"bold"}}>
+⭐ {salon.rating} / 5
+</div>
+
+<div style={{opacity:0.8}}>
+{salon.user_ratings_total} Bewertungen auf Google
+</div>
+
+</div>
 
         <p>⭐ Google Bewertung sammeln</p>
 
