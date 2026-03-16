@@ -42,9 +42,9 @@ return data
 
   const data = await findSalon(value)
 
-  if(data?.results){
-    setResults(data.results)
-  }
+  if(data){
+  setResults([data])
+}
 
 } 
   
