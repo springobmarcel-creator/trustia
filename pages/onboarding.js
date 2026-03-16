@@ -61,8 +61,8 @@ if(!user){
  return
 }
 
-const salonData = await findSalon(salonName)
-
+const salonData = await findSalon(search)
+  
 if(!salonData){
 alert("Salon nicht gefunden")
 setLoading(false)
