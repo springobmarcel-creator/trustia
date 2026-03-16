@@ -24,20 +24,30 @@ export default function ReviewPage() {
 
   useEffect(()=>{
 
+    
+    
     if(!token) return
 
     async function loadSalon(){
+      
+      const {data: tokenData} = await supabase
+       .from("review_tokens")
+       .select("salon_id")
+       .eq("token", token)
+       .single()
 
-      const { data,error } = await supabase
+      if (!tokenData) return
+      
+      const { data } = await supabase
         .from("salons")
         .select("*")
-        .eq("token",token)
+        .eq("id",tokenData.salon_id)
         .single()
 
       if(data){
         setSalonName(data.name)
         setGoogleLink(data.google_review_link)
-        setlogo(data.logo_url)
+        setlogo(data.logo || data.photo_url)
       }
 
     }
