@@ -44,7 +44,7 @@ export default function ReviewPage() {
         .eq("id",tokenData.salon_id)
         .single()
 
-      if(data){.
+      if(data){
         setSalonName(data.name)
         setGoogleLink(data.google_review_link)
         setlogo(data.logo || data.photo_url)
