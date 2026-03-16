@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
 
-const { salon } = req.query
+const { salon } = req.body || req.query
 const apiKey = process.env.GOOGLE_API_KEY
 
 
