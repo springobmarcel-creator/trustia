@@ -3,8 +3,9 @@ import { supabase } from "../lib/supabase"
 import { useRouter } from "next/router"
 
 export default function Dashboard() {
-  const [salon, setSalon] = useState(null)
-  const router = useRouter()
+const [salon, setSalon] = useState(null)
+const [reviews, setReviews] = useState([])
+const router = useRouter()
 
   useEffect(() => {
     loadSalon()
@@ -12,7 +13,8 @@ export default function Dashboard() {
 
   async function loadSalon() {
     const { data: { session } } = await supabase.auth.getSession()
-
+   
+    
     if (!session) {
       router.push("/login")
       return
@@ -38,8 +40,18 @@ if (!data) {
 }
 
 setSalon(data)
+loadReviews(data.google_place_id)
   }
+async function loadReviews(placeId) {
 
+   const res = await fetch(`/api/place-details?place_id=${placeId}`)
+   const data = await res.json()
+
+   if (data.result && data.result.reviews) {
+      setReviews(data.result.reviews)
+   }
+
+}
   if (!salon) return <p style={{color:"white",textAlign:"center"}}>Loading...</p>
 
   return (
@@ -71,9 +83,32 @@ setSalon(data)
           Google Bewertung öffnen
         </a>
 
-      </div>
-    </div>
-  )
+      <div style={{marginTop:30}}>
+
+<h3>Letzte Google Bewertungen</h3>
+
+{reviews.map((r,i)=>(
+  <div key={i} style={{
+    marginTop:15,
+    padding:12,
+    background:"#0f2233",
+    borderRadius:8
+  }}>
+
+    <div>{"⭐".repeat(r.rating)}</div>
+
+    <b>{r.author_name}</b>
+
+    <p>{r.text}</p>
+
+  </div>
+))}
+
+</div>
+
+</div>
+</div>
+)
 }
 
 const styles = {
