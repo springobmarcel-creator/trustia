@@ -23,7 +23,8 @@ export default function Dashboard() {
     const { data, error } = await supabase
   .from("salons")
   .select("*")
-  .eq("owner_id", user.id)
+  .eq("user_id", user.id)
+  .limit(1)
   .maybeSingle()
 
 if (error) {
