@@ -124,7 +124,9 @@ async function loadReviews(placeId) {
 
 const styles = {
   page:{
-    height:"100vh",
+    minHeight:"100vh",
+    paddingTop:40,
+    paddingBottom:40,
     background:"#0f172a",
     display:"flex",
     justifyContent:"center",
