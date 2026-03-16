@@ -97,9 +97,36 @@ async function loadReviews(placeId) {
       <div style={{marginTop:30}}>
 
 <h3>Letzte Google Bewertungen</h3>
+<div style={{marginTop:30}}>
 
-{reviews.map((r,i)=>(
-  <div key={i} style={{
+<h3>Bewertungsübersicht</h3>
+
+<div>
+5⭐ {reviews.filter(r => r.rating === 5).length}
+</div>
+
+<div>
+4⭐ {reviews.filter(r => r.rating === 4).length}
+</div>
+
+<div>
+3⭐ {reviews.filter(r => r.rating === 3).length}
+</div>
+
+<div>
+2⭐ {reviews.filter(r => r.rating === 2).length}
+</div>
+
+<div>
+1⭐ {reviews.filter(r => r.rating === 1).length}
+</div>
+
+</div>
+{reviews.map((r,i)=>{
+
+const isBad = r.rating <= 2
+
+return (  <div key={i} style={{
     marginTop:15,
     padding:12,
     background:"#0f2233",
