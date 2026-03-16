@@ -129,7 +129,7 @@ const isBad = r.rating <= 2
 return (  <div key={i} style={{
     marginTop:15,
     padding:12,
-    background:"#0f2233",
+    background: isBad ? "#7f1d1d" : "#0f2233",
     borderRadius:8
   }}>
 
