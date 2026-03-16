@@ -130,7 +130,7 @@ const styles = {
     background:"#0f172a",
     display:"flex",
     justifyContent:"center",
-    alignItems:"center"
+    alignItems:"flex-start"
   },
   box:{
     background:"#1e293b",
