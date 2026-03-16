@@ -140,7 +140,8 @@ return (  <div key={i} style={{
     <p>{r.text}</p>
 
   </div>
-))}
+)
+})}
 
 </div>
 
