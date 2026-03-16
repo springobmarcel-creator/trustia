@@ -24,7 +24,7 @@ export default function Dashboard() {
   .from("salons")
   .select("*")
   .eq("owner_id", user.id)
-  .single()
+  .maybeSingle()
 
 if (error) {
   console.error(error)
