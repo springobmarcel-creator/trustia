@@ -21,17 +21,22 @@ export default function Dashboard() {
     const user = session.user
 
     const { data, error } = await supabase
-      .from("salons")
-      .select("*")
-      .eq("user_id", user.id)
-      .single()
+  .from("salons")
+  .select("*")
+  .eq("owner_id", user.id)
+  .single()
 
-    if (error) {
-      console.error(error)
-      return
-    }
+if (error) {
+  console.error(error)
+  return
+}
 
-    setSalon(data)
+if (!data) {
+  router.push("/onboarding")
+  return
+}
+
+setSalon(data)
   }
 
   if (!salon) return <p style={{color:"white",textAlign:"center"}}>Loading...</p>
