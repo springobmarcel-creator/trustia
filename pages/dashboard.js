@@ -26,7 +26,8 @@ const router = useRouter()
   .from("salons")
   .select("*")
   .eq("user_id", user.id)
-  .Single()
+  .limit(1)
+  .maybeSingle()
 
 if (error) {
   console.error(error)
