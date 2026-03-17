@@ -6,7 +6,9 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer
+  ResponsiveContainer,
+  BarChart,
+  Bar
 } from "recharts"
 
 export default function Dashboard() {
@@ -36,6 +38,7 @@ export default function Dashboard() {
     time: Math.floor(Date.now() / 1000) - 2 * 86400
   }
 ]
+  
 function getChartData() {
   const days = {}
 
@@ -55,7 +58,12 @@ function getChartData() {
     count: days[date]
   }))
 }
-  
+ // 👇 DAS HIER EINFÜGEN
+const funnelData = [
+  { name: "Besucher", value: 120 },
+  { name: "Bewertungen", value: 90 },
+  { name: "Google Bewertungen", value: 65 }
+  ]
   return (
     <Layout>
 
@@ -128,6 +136,24 @@ function getChartData() {
         strokeWidth={3}
       />
     </LineChart>
+  </ResponsiveContainer>
+</div>
+<div style={{
+  background: "#020617",
+  padding: "25px",
+  borderRadius: "14px",
+  border: "1px solid #1e293b",
+  marginBottom: "40px"
+}}>
+  <h2 style={{ marginBottom: "20px" }}>Conversion Funnel</h2>
+
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart data={funnelData}>
+      <XAxis dataKey="name" stroke="#94a3b8" />
+      <YAxis stroke="#94a3b8" />
+      <Tooltip />
+      <Bar dataKey="value" fill="#22c55e" />
+    </BarChart>
   </ResponsiveContainer>
 </div>
 
