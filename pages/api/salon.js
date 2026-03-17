@@ -44,18 +44,18 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No user_id" })
     }
 
-    const { data, error } = await supabase
-      .from("salons")
-      .insert([{
-        name,
-        address,
-        rating,
-        google_place_id,
-        photo_url,
-        user_id,
-        category: category || "beauty" // 👈 fallback!
-      }])
-      .select()
+   const { data, error } = await supabase
+  .from("salons")
+  .insert([{
+    name: name || "",
+    address: address || "",
+    rating: rating || 0,
+    google_place_id: google_place_id || "",
+    photo_url: photo_url || "",
+    user_id,
+    category: category || "beauty"
+  }])
+  .select()
 
     if (error) {
       return res.status(500).json({ error: error.message })
