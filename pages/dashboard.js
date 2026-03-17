@@ -1,4 +1,5 @@
 import Layout from "../components/Layout"
+import { useEffect, useState } from "react"
 
 import {
   LineChart,
@@ -12,14 +13,21 @@ import {
 } from "recharts"
 
 export default function Dashboard() {
-  const salon = {
-    name: "Mein Salon",
-    rating: 4.6,
-    logo: "/trustia-logo3.png"
+ const [salon, setSalon] = useState(null)
+
+useEffect(() => {
+  async function loadSalon() {
+    const res = await fetch("/api/salon")
+    const data = await res.json()
+    setSalon(data)
   }
 
+  loadSalon()
+}, [])
+  
  const reviews = [
   {
+    
     author_name: "Max",
     rating: 5,
     text: "Top Service!",
@@ -64,6 +72,9 @@ const funnelData = [
   { name: "Bewertungen", value: 90 },
   { name: "Google Bewertungen", value: 65 }
   ]
+  
+  if (!salon) return <div>Lade...</div>
+  
   return (
     <Layout>
 
