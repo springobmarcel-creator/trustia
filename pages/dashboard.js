@@ -1,5 +1,14 @@
 import Layout from "../components/Layout"
 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts"
+
 export default function Dashboard() {
   const salon = {
     name: "Mein Salon",
@@ -12,7 +21,26 @@ export default function Dashboard() {
     { author_name: "Anna", rating: 4, text: "Sehr gut", time: 1700500000 },
     { author_name: "Tom", rating: 2, text: "Naja", time: 1701000000 }
   ]
+function getChartData() {
+  const days = {}
 
+  reviews.forEach(r => {
+    const date = new Date(r.time * 1000)
+      .toLocaleDateString("de-DE")
+
+    if (!days[date]) {
+      days[date] = 0
+    }
+
+    days[date]++
+  })
+
+  return Object.keys(days).map(date => ({
+    date,
+    count: days[date]
+  }))
+}
+  
   return (
     <Layout>
 
@@ -64,6 +92,29 @@ export default function Dashboard() {
           <h2>+2</h2>
         </div>
       </div>
+<div style={{
+  background: "#020617",
+  padding: "25px",
+  borderRadius: "14px",
+  border: "1px solid #1e293b",
+  marginBottom: "40px"
+}}>
+  <h2 style={{ marginBottom: "20px" }}>Bewertungen Verlauf</h2>
+
+  <ResponsiveContainer width="100%" height={300}>
+    <LineChart data={getChartData()}>
+      <XAxis dataKey="date" stroke="#94a3b8" />
+      <YAxis stroke="#94a3b8" />
+      <Tooltip />
+      <Line
+        type="monotone"
+        dataKey="count"
+        stroke="#6366f1"
+        strokeWidth={3}
+      />
+    </LineChart>
+  </ResponsiveContainer>
+</div>
 
       {/* LETZTE BEWERTUNGEN */}
       <div>
