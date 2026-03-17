@@ -1,5 +1,10 @@
 import Layout from "../components/Layout"
 import { useEffect, useState } from "react"
+import { createClient } from "@supabase/supabase-js"
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 import {
   LineChart,
@@ -17,8 +22,16 @@ export default function Dashboard() {
 
 useEffect(() => {
   async function loadSalon() {
-    const res = await fetch("/api/salon")
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      console.log("Kein User eingeloggt")
+      return
+    }
+
+    const res = await fetch(`/api/salon?user_id=${user.id}`)
     const data = await res.json()
+
     setSalon(data)
   }
 
