@@ -1,5 +1,9 @@
 export default async function handler(req, res) {
-  const { salon, category } = req.body
+  const { salon, category } = req.body || {}
+
+  if (!salon) {
+    return res.status(400).json({ error: "Salon name required" })
+  }
 
   const apiKey = process.env.GOOGLE_API_KEY
 
@@ -12,61 +16,59 @@ export default async function handler(req, res) {
   }
 
   const type = typeMap[category] || "establishment"
- 
-// 1 Salon suchen
-const searchUrl =
-  `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(salon)}&type=${type}&key=${apiKey}`
- 
-const searchRes = await fetch(searchUrl)
-const searchData = await searchRes.json()
 
-if (!searchData.results || searchData.results.length === 0) {
- return res.status(200).json({ error: "Salon not found" })
-}
+  // 1 Salon suchen
+  const searchUrl =
+    `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(salon)}&type=${type}&key=${apiKey}`
 
-const place = searchData.results[0]
-const placeId = place.place_id
+  const searchRes = await fetch(searchUrl)
+  const searchData = await searchRes.json()
 
-// 2 Details holen
-const detailsUrl =
-`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,website,formatted_phone_number,rating,photos,url&key=${apiKey}`
+  if (!searchData.results || searchData.results.length === 0) {
+    return res.status(200).json({ error: "Salon not found" })
+  }
 
-const detailsRes = await fetch(detailsUrl)
-const detailsData = await detailsRes.json()
+  const place =
+    searchData.results.find(p =>
+      p.name.toLowerCase().includes(salon.toLowerCase())
+    ) || searchData.results[0]
 
-const details = detailsData.result
+  const placeId = place.place_id
 
+  // 2 Details holen
+  const detailsUrl =
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,website,formatted_phone_number,rating,photos,url&key=${apiKey}`
 
-// Foto holen
-let photo = null
+  const detailsRes = await fetch(detailsUrl)
+  const detailsData = await detailsRes.json()
 
-if (details.photos && details.photos.length > 0) {
+  const details = detailsData.result
 
-photo =
-`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${details.photos[0].photo_reference}&key=${apiKey}`
+  if (!details) {
+    return res.status(200).json({ error: "No details found" })
+  }
 
-}
+  // Foto holen
+  let photo = null
 
+  if (details.photos && details.photos.length > 0) {
+    photo =
+      `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${details.photos[0].photo_reference}&key=${apiKey}`
+  }
 
-// Review Link
-const reviewLink =
-`https://search.google.com/local/writereview?placeid=${placeId}`
+  // Review Link
+  const reviewLink =
+    `https://search.google.com/local/writereview?placeid=${placeId}`
 
-
-res.status(200).json({
-
-name: details.name,
-address: details.formatted_address,
-phone: details.formatted_phone_number,
-website: details.website,
-rating: details.rating,
-photo: photo,
-
-placeId: placeId,
-reviewLink: reviewLink,
-
-googleMaps: details.url
-
-})
-
+  res.status(200).json({
+    name: details.name,
+    address: details.formatted_address,
+    phone: details.formatted_phone_number,
+    website: details.website,
+    rating: details.rating,
+    photo: photo,
+    placeId: placeId,
+    reviewLink: reviewLink,
+    googleMaps: details.url
+  })
 }
