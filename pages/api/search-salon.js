@@ -1,13 +1,22 @@
 export default async function handler(req, res) {
+  const { salon, category } = req.body
 
-const { salon } = req.body || req.query
-const apiKey = process.env.GOOGLE_API_KEY
+  const apiKey = process.env.GOOGLE_API_KEY
 
+  const typeMap = {
+    hair: "hair_salon",
+    beauty: "beauty_salon",
+    restaurant: "restaurant",
+    doctor: "doctor",
+    car: "car_repair"
+  }
 
+  const type = typeMap[category] || "establishment"
+ 
 // 1 Salon suchen
 const searchUrl =
-`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(salon)}&type=hair_care&key=${apiKey}`
-
+  `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(salon)}&type=${type}&key=${apiKey}`
+ 
 const searchRes = await fetch(searchUrl)
 const searchData = await searchRes.json()
 
