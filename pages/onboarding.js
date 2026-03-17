@@ -37,7 +37,9 @@ const res = await fetch("/api/search-salon", {
 const data = await res.json()
 
 if (!data || data.error) return null
-
+  
+const { data: { user } } = await supabase.auth.getUser()
+  
 await fetch("/api/salon", {
   method: "POST",
   headers: {
