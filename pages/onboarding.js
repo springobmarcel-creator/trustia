@@ -91,23 +91,19 @@ const { error } = await supabase
 .from("salons")
 .insert({
 
-user_id: user.id,
-name: salonData.name,
-email: user.email,
-phone: phone,
-
-address: salonData.address,
-rating: salonData.rating,
-
-google_place_id: salonData.placeId,
-google_review_link: salonData.url,
-  
-photo_url: salonData.photo,
-website: salonData.website,
-
-token: token,
-qr_code_url: qr
-
+.upsert({
+  user_id: user.id,
+  name: salonData.name,
+  category: "beauty", 
+  email: user.email,
+  phone: phone,
+  address: salonData.address,
+  rating: salonData.rating,
+  google_place_id: salonData.placeId,
+  photo_url: salonData.photo,
+  website: salonData.website,
+  token: token,
+  qr_code_url: qr
 })
 
 if(error){
