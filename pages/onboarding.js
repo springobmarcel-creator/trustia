@@ -23,10 +23,36 @@ return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://tr
 
 async function findSalon(name){
 
-const res = await fetch(`/api/search-salon?salon=${encodeURIComponent(name)}`)
+const res = await fetch("/api/search-salon", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    salon: name,
+    category: "beauty"
+  })
+})
+  
 const data = await res.json()
 
-if(!data) return null
+if (!data || data.error) return null
+
+await fetch("/api/salon", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: data.name,
+    address: data.address,
+    rating: data.rating,
+    google_place_id: data.placeId,
+    photo_url: data.photo,
+    user_id: user.id,
+    category: "beauty"
+  })
+})
 
 return data
 }
