@@ -6,21 +6,64 @@ const supabase = createClient(
 )
 
 export default async function handler(req, res) {
-  const { user_id } = req.query
 
-  if (!user_id) {
-    return res.status(400).json({ error: "No user_id" })
+  // ✅ GET → SALON LADEN
+  if (req.method === "GET") {
+    const { user_id } = req.query
+
+    if (!user_id) {
+      return res.status(400).json({ error: "No user_id" })
+    }
+
+    const { data, error } = await supabase
+      .from("salons")
+      .select("*")
+      .eq("user_id", user_id)
+      .single()
+
+    if (error) {
+      return res.status(500).json({ error: error.message })
+    }
+
+    return res.status(200).json(data)
   }
 
-  const { data, error } = await supabase
-    .from("salons")
-    .select("*")
-    .eq("owner_id", user_id)
-    .single()
+  // ✅ POST → SALON ERSTELLEN
+  if (req.method === "POST") {
+    const {
+      name,
+      address,
+      rating,
+      google_place_id,
+      photo_url,
+      user_id,
+      category
+    } = req.body
 
-  if (error) {
-    return res.status(500).json({ error: error.message })
+    if (!user_id) {
+      return res.status(400).json({ error: "No user_id" })
+    }
+
+    const { data, error } = await supabase
+      .from("salons")
+      .insert([{
+        name,
+        address,
+        rating,
+        google_place_id,
+        photo_url,
+        user_id,
+        category: category || "beauty" // 👈 fallback!
+      }])
+      .select()
+
+    if (error) {
+      return res.status(500).json({ error: error.message })
+    }
+
+    return res.status(200).json(data)
   }
 
-  res.status(200).json(data)
+  // ❌ andere Methoden blocken
+  return res.status(405).json({ error: "Method not allowed" })
 }
