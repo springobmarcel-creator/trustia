@@ -40,21 +40,7 @@ if (!data || data.error) return null
   
 const { data: { user } } = await supabase.auth.getUser()
   
-await fetch("/api/salon", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    name: data.name,
-    address: data.address,
-    rating: data.rating,
-    google_place_id: data.placeId,
-    photo_url: data.photo,
-    user_id: user.id,
-    category: "beauty"
-  })
-})
+
 
 return data
 }
