@@ -70,53 +70,63 @@ export default function Dashboard() {
           <p style={{ opacity: 0.6, margin: 0 }}>
             Willkommen zurück 👋
           </p>
+              </div>   // ← dein Header endet hier
+
+{/* HIER EINFÜGEN 👇 */}
+<div style={{ marginTop: "40px" }}>
+  <h2 style={{ marginBottom: "20px" }}>Letzte Bewertungen</h2>
+
+  {reviews.slice(0, 5).map((r, i) => {
+    const isBad = r.rating <= 3
+
+    return (
+      <div key={i} style={{
+        background: isBad ? "#7f1d1d" : "#020617",
+        padding: "15px",
+        borderRadius: "10px",
+        marginBottom: "15px",
+        border: "1px solid #1e293b"
+      }}>
+        <div>{"⭐".repeat(r.rating)}</div>
+        <strong>{r.author_name}</strong>
+        <p style={{ opacity: 0.8 }}>{r.text}</p>
+      </div>
+    )
+  })}
+</div>
         </div>
 
       </div>
 
-      {/* 🔥 STATS */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: "20px"
+     </div>   // ← dein Header endet hier
+
+{/* HIER EINFÜGEN 👇 */}
+<div style={{ marginTop: "40px" }}>
+  <h2 style={{ marginBottom: "20px" }}>Letzte Bewertungen</h2>
+
+  {reviews.slice(0, 5).map((r, i) => {
+    const isBad = r.rating <= 3
+
+    return (
+      <div key={i} style={{
+        background: isBad ? "#7f1d1d" : "#020617",
+        padding: "15px",
+        borderRadius: "10px",
+        marginBottom: "15px",
+        border: "1px solid #1e293b"
       }}>
-
-        <div style={card}>
-          <p style={label}>Bewertungen</p>
-          <h2>{reviews.length}</h2>
-        </div>
-
-        <div style={card}>
-          <p style={label}>Ø Rating</p>
-          <h2>{salon.rating || "0"} ⭐</h2>
-        </div>
-
-        <div style={card}>
-          <p style={label}>Neue diese Woche</p>
-          <h2>
-            {
-              reviews.filter(r => {
-                const d = new Date(r.time * 1000)
-                const now = new Date()
-                return d > new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-              }).length
-            }
-          </h2>
+        <div>{"⭐".repeat(r.rating)}</div>
+        <strong>{r.author_name}</strong>
+        <p style={{ opacity: 0.8 }}>{r.text}</p>
+      </div>
+    )
+  })}
+</div>
+        
         </div>
 
       </div>
 
     </Layout>
   )
-}
-
-const card = {
-  background: "#020617",
-  padding: "20px",
-  borderRadius: "12px",
-  border: "1px solid #1e293b"
-}
-
-const label = {
-  opacity: 0.6
 }
