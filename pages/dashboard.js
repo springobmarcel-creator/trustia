@@ -98,35 +98,3 @@ export default function Dashboard() {
 
       </div>
 
-     </div>   // ← dein Header endet hier
-
-{/* HIER EINFÜGEN 👇 */}
-<div style={{ marginTop: "40px" }}>
-  <h2 style={{ marginBottom: "20px" }}>Letzte Bewertungen</h2>
-
-  {reviews.slice(0, 5).map((r, i) => {
-    const isBad = r.rating <= 3
-
-    return (
-      <div key={i} style={{
-        background: isBad ? "#7f1d1d" : "#020617",
-        padding: "15px",
-        borderRadius: "10px",
-        marginBottom: "15px",
-        border: "1px solid #1e293b"
-      }}>
-        <div>{"⭐".repeat(r.rating)}</div>
-        <strong>{r.author_name}</strong>
-        <p style={{ opacity: 0.8 }}>{r.text}</p>
-      </div>
-    )
-  })}
-</div>
-        
-        </div>
-
-      </div>
-
-    </Layout>
-  )
-}
