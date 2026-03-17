@@ -22,7 +22,7 @@ export default function Layout({ children }) {
 
         {/* LOGO */}
         <img 
-          src="/logo.png" 
+          src="/trustia-logo3.png"
           alt="Trustia Logo"
           style={{ width: "140px", marginBottom: "40px" }}
         />
