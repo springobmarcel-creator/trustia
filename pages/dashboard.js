@@ -16,11 +16,26 @@ export default function Dashboard() {
     logo: "/trustia-logo3.png"
   }
 
-  const reviews = [
-    { author_name: "Max", rating: 5, text: "Top Service!", time: 1700000000 },
-    { author_name: "Anna", rating: 4, text: "Sehr gut", time: 1700500000 },
-    { author_name: "Tom", rating: 2, text: "Naja", time: 1701000000 }
-  ]
+ const reviews = [
+  {
+    author_name: "Max",
+    rating: 5,
+    text: "Top Service!",
+    time: Math.floor(Date.now() / 1000)
+  },
+  {
+    author_name: "Anna",
+    rating: 4,
+    text: "Sehr gut",
+    time: Math.floor(Date.now() / 1000) - 86400
+  },
+  {
+    author_name: "Tom",
+    rating: 2,
+    text: "Naja",
+    time: Math.floor(Date.now() / 1000) - 2 * 86400
+  }
+]
 function getChartData() {
   const days = {}
 
