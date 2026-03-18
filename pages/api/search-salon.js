@@ -19,8 +19,7 @@ export default async function handler(req, res) {
     const type = typeMap[category] || "establishment"
 
     const searchUrl =
-  `  https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(salon + ", Köln, Deutschland")}&type=${type}&key=${apiKey}`
-
+    `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(salon)}&key=${apiKey}`
     
     const searchRes = await fetch(searchUrl)
     const searchData = await searchRes.json()
