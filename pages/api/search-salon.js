@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function handler(req, res) {.
   try {
     const { salon, category } = req.body || {}
 
