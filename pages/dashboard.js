@@ -26,10 +26,18 @@ useEffect(() => {
       return
     }
 
-  const res = await fetch(`/api/salon?user_id=${user.id}`)
-  const data = await res.json()
+const { data, error } = await supabase
+  .from("salons")
+  .select("*")
+  .eq("user_id", user.id)
+  .single()
 
-    setSalon(data)
+if (error) {
+  console.log(error)
+  return
+}
+
+setSalon(data)
   }
 
   loadSalon()
