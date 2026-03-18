@@ -104,7 +104,7 @@ const funnelData = [
         marginBottom: "30px"
       }}>
         <img
-          src={salon.logo}
+          src={salon.photo_url || "/placeholder.png"}
           alt="Logo"
           style={{
             width: "50px",
