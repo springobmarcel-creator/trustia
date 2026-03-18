@@ -38,32 +38,21 @@ if (error) {
 }
 
 setSalon(data)
-  }
+
+
+  const reviewsRes = await fetch(`/api/google-reviews?placeId=${data.google_place_id}`)
+  const reviewsData = await reviewsRes.json()
+
+  setReviews(reviewsData.reviews || [])
+}
+
+    
+  
 
   loadSalon()
 }, [])
   
- const reviews = [
-  {
-    
-    author_name: "Max",
-    rating: 5,
-    text: "Top Service!",
-    time: Math.floor(Date.now() / 1000)
-  },
-  {
-    author_name: "Anna",
-    rating: 4,
-    text: "Sehr gut",
-    time: Math.floor(Date.now() / 1000) - 86400
-  },
-  {
-    author_name: "Tom",
-    rating: 2,
-    text: "Naja",
-    time: Math.floor(Date.now() / 1000) - 2 * 86400
-  }
-]
+const [reviews, setReviews] = useState([])
   
 function getChartData() {
   const days = {}
