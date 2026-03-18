@@ -89,23 +89,23 @@ const token = generateToken()
 const qr = generateQR(token)
 
 const { error } = await supabase
-.from("salons")
-.insert({
-
-.upsert({
-  user_id: user.id,
-  name: salonData.name,
-  category: "beauty", 
-  email: user.email,
-  phone: phone,
-  address: salonData.address,
-  rating: salonData.rating,
-  google_place_id: salonData.placeId,
-  photo_url: salonData.photo,
-  website: salonData.website,
-  token: token,
-  qr_code_url: qr
-})
+  .from("salons")
+  .upsert({
+    user_id: user.id,
+    name: salonData.name,
+    category: "beauty",
+    email: user.email,
+    phone: phone,
+    address: salonData.address,
+    rating: salonData.rating,
+    google_place_id: salonData.placeId,
+    photo_url: salonData.photo,
+    website: salonData.website,
+    token: token,
+    qr_code_url: qr
+  }, {
+    onConflict: "user_id"
+  })
 
 if(error){
 console.log(error)
