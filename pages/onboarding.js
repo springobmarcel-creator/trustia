@@ -12,7 +12,8 @@ const [loading,setLoading] = useState(false)
 
 const [results,setResults] = useState([])
 const [search,setSearch] = useState("")
-  
+const [salonData, setSalonData] = useState(null) // ✅ FIX
+
 function generateToken(){
 return Math.random().toString(36).substring(2,10)
 }
@@ -38,15 +39,33 @@ const data = await res.json()
 console.log("SEARCH RESULTS:", data)
   
 if (!data || data.error) return null
-  
-const { data: { user } } = await supabase.auth.getUser()
-  
-
 
 return data
 }
 
- async function handleSearch(value){
+// ✅ FIX: NEUE FUNKTION (WICHTIG!)
+async function selectSalon(place) {
+  const res = await fetch("/api/place-details", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      placeId: place.place_id
+    })
+  })
+
+  const data = await res.json()
+
+  console.log("SELECTED:", data)
+
+  setSalonData(data)
+  setSalonName(data.name)
+  setSearch(data.name)
+  setResults([])
+}
+
+async function handleSearch(value){
 
   setSearch(value)
 
@@ -58,11 +77,10 @@ return data
   const data = await findSalon(value)
 
   if(data){
-  setResults([data])
+    setResults(data) // ✅ FIX (kein [data])
+  }
 }
 
-} 
-  
 async function finishOnboarding(){
 
 setLoading(true)
@@ -76,16 +94,13 @@ if(!user){
  return
 }
 
-const salonData = await findSalon(search)
-  
-if(!salonData){
-alert("Salon nicht gefunden")
-setLoading(false)
-return
+if (!salonData) {
+  alert("Bitte Salon auswählen")
+  setLoading(false)
+  return
 }
 
 const token = generateToken()
-
 const qr = generateQR(token)
 
 const { error } = await supabase
@@ -95,7 +110,7 @@ const { error } = await supabase
     name: salonData.name,
     category: "beauty",
     email: user.email,
-    phone: phone,
+    phone: salonData.phone || phone, // ✅ FIX
     address: salonData.address,
     rating: salonData.rating,
     google_place_id: salonData.placeId,
@@ -115,7 +130,6 @@ return
 }
 
 router.push("/dashboard")
-
 }
 
 return(
@@ -156,11 +170,8 @@ style={{
 {results.map((place)=>(
   <div
     key={place.place_id}
-    onClick={()=>{
-      setSalonName(place.name)
-      setSearch(place.name)
-      setResults([])
-    }}
+    onClick={() => selectSalon(place)} // ✅ FIX
+
     style={{
       padding:"10px",
       cursor:"pointer",
