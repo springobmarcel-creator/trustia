@@ -27,22 +27,13 @@ export default async function handler(req, res) {
   if (!searchData.results || searchData.results.length === 0) {
     return res.status(200).json({ error: "Salon not found" })
   }
-
-  const place =
-    searchData.results.find(p =>
-      p.name.toLowerCase().includes(salon.toLowerCase())
-    ) || searchData.results[0]
-
-  const placeId = place.place_id
-
-  // 2 Details holen
-  const detailsUrl =
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,website,formatted_phone_number,rating,photos,url&key=${apiKey}`
-
-  const detailsRes = await fetch(detailsUrl)
-  const detailsData = await detailsRes.json()
-
-  const details = detailsData.result
+res.status(200).json(
+  searchData.results.slice(0, 5).map(place => ({
+    name: place.name,
+    address: place.formatted_address,
+    placeId: place.place_id
+  }))
+)
 
   if (!details) {
     return res.status(200).json({ error: "No details found" })
