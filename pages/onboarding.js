@@ -35,7 +35,8 @@ const res = await fetch("/api/search-salon", {
 })
   
 const data = await res.json()
-
+console.log("SEARCH RESULTS:", data)
+  
 if (!data || data.error) return null
   
 const { data: { user } } = await supabase.auth.getUser()
