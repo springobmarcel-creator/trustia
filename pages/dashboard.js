@@ -1,7 +1,7 @@
 import Layout from "../components/Layout"
 import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabase"
-
+import Loader from "../components/Loader"
 
 import {
   LineChart,
@@ -16,7 +16,9 @@ import {
 
 export default function Dashboard() {
  const [salon, setSalon] = useState(null)
+ const [loadingScreen, setLoadingScreen] = useState(true)
 
+  
 useEffect(() => {
   async function loadSalon() {
     const { data: { user } } = await supabase.auth.getUser()
@@ -48,8 +50,12 @@ setSalon(data)
 
     
   
+loadSalon()
 
-  loadSalon()
+setTimeout(() => {
+  setLoadingScreen(false)
+}, 1500)
+
 }, [])
   
 const [reviews, setReviews] = useState([])
@@ -80,7 +86,9 @@ const funnelData = [
   { name: "Google Bewertungen", value: reviews.length }
 ]
   
-  if (!salon) return <div>Lade...</div>
+if (loadingScreen) return <Loader />
+
+if (!salon) return null
   
   return (
     <Layout>
