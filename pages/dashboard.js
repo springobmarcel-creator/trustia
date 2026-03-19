@@ -28,34 +28,31 @@ useEffect(() => {
       return
     }
 
-const { data, error } = await supabase
-  .from("salons")
-  .select("*")
-  .eq("user_id", user.id)
-  .single()
+    const { data, error } = await supabase
+      .from("salons")
+      .select("*")
+      .eq("user_id", user.id)
+      .single()
 
-if (error) {
-  console.log(error)
-  return
-}
+    if (error) {
+      console.log(error)
+      return
+    }
 
-setSalon(data)
+    setSalon(data)
 
+    const reviewsRes = await fetch(`/api/google-reviews?placeId=${data.google_place_id}`)
+    const reviewsData = await reviewsRes.json()
 
-  const reviewsRes = await fetch(`/api/google-reviews?placeId=${data.google_place_id}`)
-  const reviewsData = await reviewsRes.json()
+    setReviews(reviewsData.reviews || [])
+  }
 
-  setReviews(reviewsData.reviews || [])
-}
+  async function init() {
+    await loadSalon()
+    setLoadingScreen(false)
+  }
 
-    
-  
-loadSalon()
-
-setTimeout(() => {
-  setLoadingScreen(false)
-}, 1500)
-
+  init()
 }, [])
   
 const [reviews, setReviews] = useState([])
