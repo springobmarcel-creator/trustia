@@ -14,7 +14,7 @@ BarChart,
 Bar
 } from “recharts”
 
-// ✅ SAFE COUNT UP
+
 function useCountUp(target) {
 const [value, setValue] = useState(0)
 
@@ -83,9 +83,9 @@ if (!user) return
 
 loadData()
 
-          }, [])
+ }, [])
 
-// ✅ KPI SAFE
+
 const totalReviews = reviews.length
 
 const weeklyReviews = reviews.filter(r => {
@@ -100,7 +100,7 @@ const growth = totalReviews > 0
 ? Math.round((weeklyReviews / totalReviews) * 100)
 : 0
 
-// ✅ ANIMATION
+
 const aTotal = useCountUp(totalReviews)
 const aWeekly = useCountUp(weeklyReviews)
 const aNegative = useCountUp(negativeReviews)
@@ -146,7 +146,7 @@ return (
     <div>
       <h1 style={{margin:0}}>{salon.name || "Salon"}</h1>
       <p style={{opacity:0.6, margin:0}}>
-        Willkommen zurück 👋
+        Willkommen bei Trustia 👋
       </p>
     </div>
   </div>
