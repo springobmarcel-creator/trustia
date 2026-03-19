@@ -1,4 +1,3 @@
-:::writing{variant=“standard” id=“dashboard_clean_final”}
 import Layout from “../components/Layout”
 import { useEffect, useState } from “react”
 import { supabase } from “../lib/supabase”
@@ -298,4 +297,4 @@ borderRadius:“6px”,
 color:”#fff”,
 cursor:“pointer”
 }
-:::
+
