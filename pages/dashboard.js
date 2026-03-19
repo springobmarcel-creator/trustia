@@ -1,7 +1,7 @@
-import Layout from “../components/Layout”
+import Layout from "../components/Layout"
 import { useEffect, useState } from “react”
-import { supabase } from “../lib/supabase”
-import Loader from “../components/Loader”
+import { supabase } from "../lib/supabase"
+import Loader from "../components/Loader"
 
 import {
 LineChart,
