@@ -75,10 +75,10 @@ function getChartData() {
 }
  // 👇 DAS HIER EINFÜGEN
 const funnelData = [
-  { name: "Besucher", value: 120 },
-  { name: "Bewertungen", value: 90 },
-  { name: "Google Bewertungen", value: 65 }
-  ]
+  { name: "Besucher", value: 0 },
+  { name: "Bewertungen", value: reviews.length },
+  { name: "Google Bewertungen", value: reviews.length }
+]
   
   if (!salon) return <div>Lade...</div>
   
@@ -93,7 +93,7 @@ const funnelData = [
         marginBottom: "30px"
       }}>
         <img
-          src={salon.photo_url || "/placeholder.png"}
+        src={salon.logo_url || salon.photo_url || "/placeholder.png"}
           alt="Logo"
           style={{
             width: "50px",
@@ -130,8 +130,17 @@ const funnelData = [
 
         <div style={card}>
           <p style={label}>Diese Woche</p>
-          <h2>+2</h2>
-        </div>
+<h2>
+{
+  reviews.filter(r => {
+    const reviewDate = new Date(r.time * 1000)
+    const now = new Date()
+    const diff = (now - reviewDate) / (1000 * 60 * 60 * 24)
+    return diff <= 7
+  }).length
+}
+</h2>
+  </div>
       </div>
 <div style={{
   background: "#020617",
