@@ -240,9 +240,8 @@ return (
               Antwort generieren
             </button>
           )}
-        </div>
-      )
-    }}
+</div>
+          
   </div>
 
 </Layout>
