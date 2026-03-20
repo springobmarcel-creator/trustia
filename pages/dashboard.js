@@ -130,55 +130,56 @@ const funnelData = [
 { name: "Google", value: totalReviews }
 ]
 
-if (loading) return 
+if (loading) return null
 if (!salon) return <div style={{ color: "white" }}>Kein Salon gefunden</div>
 
 return (
-
+  <>
     {/* HEADER */}
-  <div style={header}>
-    <img
-      src={salon.logo_url || salon.photo_url || "/placeholder.png"}
-      alt="Logo"
-      style={logo}
-    />
+    <div style={header}>
+      <img
+        src={salon.logo_url || salon.photo_url || "/placeholder.png"}
+        alt="Logo"
+        style={logo}
+      />
 
-    <div>
-      <h1 style={{margin:0}}>{salon.name || "Salon"}</h1>
-      <p style={{opacity:0.6, margin:0}}>
-        Willkommen bei Trustia 👋
-      </p>
-    </div>
-  </div>
-
-  {/* KPI */}
-  <div style={kpiGrid}>
-
-    <div style={kpiCard}>
-      <p>⭐ Bewertungen</p>
-      <h2>{aTotal}</h2>
+      <div>
+        <h1 style={{ margin: 0 }}>
+          {salon.name || "Salon"}
+        </h1>
+        <p style={{ opacity: 0.6, margin: 0 }}>
+          Willkommen bei Trustia 👋
+        </p>
+      </div>
     </div>
 
-    <div style={kpiCard}>
-      <p>📈 Wachstum</p>
-      <h2>{growth}%</h2>
+    {/* KPI */}
+    <div style={kpiGrid}>
+      <div style={kpiCard}>
+        <p>⭐ Bewertungen</p>
+        <h2>{aTotal}</h2>
+      </div>
+
+      <div style={kpiCard}>
+        <p>📈 Wachstum</p>
+        <h2>{growth}%</h2>
+      </div>
+
+      <div style={kpiCard}>
+        <p>🔥 Diese Woche</p>
+        <h2>{aWeekly}</h2>
+      </div>
+
+      <div style={{
+        ...kpiCard,
+        border: "1px solid rgba(255,0,0,0.3)"
+      }}>
+        <p>⚠️ Kritisch</p>
+        <h2 style={{ color: "#ef4444" }}>{aNegative}</h2>
+      </div>
     </div>
-
-    <div style={kpiCard}>
-      <p>🔥 Diese Woche</p>
-      <h2>{aWeekly}</h2>
-    </div>
-
-    <div style={{
-      ...kpiCard,
-      border:"1px solid rgba(255,0,0,0.3)"
-    }}>
-      <p>⚠️ Kritisch</p>
-      <h2 style={{color:"#ef4444"}}>{aNegative}</h2>
-    </div>
-
-  </div>
-
+  </>
+)
   {/* CHART */}
   <div style={box}>
     <h2>Bewertungen Verlauf</h2>
