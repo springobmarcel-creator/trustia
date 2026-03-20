@@ -131,7 +131,7 @@ const funnelData = [
 ]
 
 if (loading) return 
-if (!salon) return <div style={{color:“white”}}>Kein Salon gefunden
+if (!salon) return <div style={{ color: "white" }}>Kein Salon gefunden</div>
 
 return (
 
