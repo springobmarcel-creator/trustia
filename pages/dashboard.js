@@ -1,5 +1,5 @@
 import Layout from "../components/Layout"
-import { useEffect, useState } from “react"
+import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabase"
 import Loader from "../components/Loader"
 
