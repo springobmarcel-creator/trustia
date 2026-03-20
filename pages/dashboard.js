@@ -12,7 +12,7 @@ Tooltip,
 ResponsiveContainer,
 BarChart,
 Bar
-} from “recharts”
+} from "recharts"
 
 
 function useCountUp(target) {
