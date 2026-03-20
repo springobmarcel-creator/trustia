@@ -125,9 +125,9 @@ return Object.keys(days).map(date => ({
   }
 
 const funnelData = [
-{ name: “Besucher”, value: 0 },
-{ name: “Bewertungen”, value: totalReviews },
-{ name: “Google”, value: totalReviews }
+{ name: "Besucher", value: 0 },
+{ name: "Bewertungen", value: totalReviews },
+{ name: "Google", value: totalReviews }
 ]
 
 if (loading) return 
