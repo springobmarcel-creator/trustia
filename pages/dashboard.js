@@ -227,7 +227,7 @@ return (
           marginBottom:"15px",
           border: bad
             ? "1px solid rgba(255,0,0,0.3)"
-            : "1px solid #1e293b"
+            : "1px solid #1e293b",
         }}>
           <div>{"⭐".repeat(r.rating || 0)}</div>
           <strong>{r.author_name || "User"}</strong>
