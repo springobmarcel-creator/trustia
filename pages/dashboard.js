@@ -219,16 +219,18 @@ return (
     {reviews.map((r, i) => {
       const bad = r.rating && r.rating <= 3
 
-      return (
-        <div key={i} style={{
-          background: bad ? "rgba(127,29,29,0.4)" : "#020617",
-          padding:"15px",
-          borderRadius:"10px",
-          marginBottom:"15px",
-          border: bad
-            ? "1px solid rgba(255,0,0,0.3)"
-            : "1px solid #1e293b",
-        }}>
+  <div
+  key={i}
+  style={{
+    background: bad ? "rgba(127,29,29,0.4)" : "#020617",
+    padding: "15px",
+    borderRadius: "10px",
+    marginBottom: "15px",
+    border: bad
+      ? "1px solid rgba(255,0,0,0.3)"
+      : "1px solid #1e293b"
+  }}
+>
                  
           <div>{"⭐".repeat(r.rating || 0)}</div>
           <strong>{r.author_name || "User"}</strong>
