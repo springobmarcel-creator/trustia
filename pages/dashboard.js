@@ -50,9 +50,14 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadData() {
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) return
-
+const { data: { session } } = await supabase.auth.getSession()
+const user = session?.user
+  
+if (!user) {
+  console.log("Kein User")
+  setLoading(false)
+  return
+}
         const { data } = await supabase
           .from("salons")
           .select("*")
