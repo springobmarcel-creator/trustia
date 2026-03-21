@@ -64,9 +64,34 @@ if (!user) {
           .eq("user_id", user.id)
           .single()
 
-        if (!data) return
+if (!data) {
 
-        setSalon(data)
+  console.log("Erstelle Salon...")
+
+  const { data: newSalon, error } = await supabase
+    .from("salons")
+    .insert([
+      {
+        user_id: user.id,
+        name: "Mein Salon",
+        rating: 0
+      }
+    ])
+    .select()
+    .single()
+
+  if (error) {
+    console.log("Fehler beim Erstellen:", error)
+    setLoading(false)
+    return
+  }
+
+  setSalon(newSalon)
+
+} else {
+  setSalon(data)
+}
+        
 
         if (data.google_place_id) {
           const res = await fetch(`/api/google-reviews?placeId=${data.google_place_id}`)
@@ -124,7 +149,7 @@ if (!user) {
     { name: "Google", value: totalReviews }
   ]
 
-  if (loading) return null
+  if (loading) return <div style={{color:"white"}}>Lade...</div>
   if (!salon) return <div style={{ color: "white" }}>Kein Salon gefunden</div>
 
   return (
