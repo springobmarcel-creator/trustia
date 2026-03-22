@@ -58,11 +58,11 @@ if (!user) {
   setLoading(false)
   return
 }
-        const { data } = await supabase
-          .from("salons")
-          .select("*")
-          .eq("user_id", user.id)
-          .single()
+       const { data } = await supabase
+  .from("salons")
+  .select("*")
+  .eq("user_id", user.id)
+  .single()
 
 if (!data) {
 
