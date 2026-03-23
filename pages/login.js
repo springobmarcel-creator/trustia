@@ -23,8 +23,7 @@ export default function Login() {
       return
     }
 
-    router.push("/onboarding")
-  }
+router.push("/dashboard")  }
 
   return (
     <div style={{
