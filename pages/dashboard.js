@@ -58,7 +58,9 @@ if (!user) {
   setLoading(false)
   return
 }
-       const { data } = await supabase
+  let salonData = null
+
+const { data } = await supabase
   .from("salons")
   .select("*")
   .eq("user_id", user.id)
@@ -86,19 +88,19 @@ if (!data) {
     return
   }
 
-  setSalon(newSalon)
+  salonData = newSalon
 
 } else {
-  setSalon(data)
+  salonData = data
 }
-        
 
-        if (data.google_place_id) {
-          const res = await fetch(`/api/google-reviews?placeId=${data.google_place_id}`)
-          const json = await res.json()
-          setReviews(json?.reviews || [])
-        }
+setSalon(salonData)
 
+if (salonData?.google_place_id) {
+  const res = await fetch(`/api/google-reviews?placeId=${salonData.google_place_id}`)
+  const json = await res.json()
+  setReviews(json?.reviews || [])
+}
       } catch (err) {
         console.log(err)
       } finally {
