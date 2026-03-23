@@ -1,7 +1,7 @@
 import Layout from "../components/Layout"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
 import { supabase } from "../lib/supabase"
-
 
 import {
   LineChart,
@@ -14,6 +14,7 @@ import {
   Bar
 } from "recharts"
 
+// 🔢 Animation Hook
 function useCountUp(target) {
   const [value, setValue] = useState(0)
 
@@ -44,82 +45,108 @@ function useCountUp(target) {
 }
 
 export default function Dashboard() {
-  
-  
+  const router = useRouter()
+
   const [salon, setSalon] = useState(null)
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
 
- useEffect(() => {
-async function loadData() {
-  try {
-    console.log("START loadData")
+  useEffect(() => {
+    let isMounted = true
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser()
+    async function loadData() {
+      try {
+        console.log("🚀 START loadData")
 
-    console.log("USER:", user)
-    console.log("USER ERROR:", userError)
+        // 👉 User holen
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
 
-    if (!user) {
-      console.log("❌ Kein User → stop")
-      setLoading(false)
-      return
-    }
+        console.log("USER:", user)
+        console.log("USER ERROR:", userError)
 
-    // 👉 Salon laden
-    const { data, error } = await supabase
-      .from("salons")
-      .select("*")
-      .eq("user_id", user.id)
-      .maybeSingle()
+        // ❌ Kein User → Login
+        if (!user) {
+          router.push("/login")
+          return
+        }
 
-    console.log("SALON DATA:", data)
-    console.log("SALON ERROR:", error)
+        // 👉 Salon laden
+        const { data, error } = await supabase
+          .from("salons")
+          .select("*")
+          .eq("user_id", user.id)
+          .maybeSingle()
 
-    let salonData = data
+        console.log("SALON DATA:", data)
+        console.log("SALON ERROR:", error)
 
-    // 👉 Wenn kein Salon → erstellen
-    if (!data) {
-      console.log("⚠️ Kein Salon → erstelle jetzt")
+        let salonData = data
 
-      const { data: newSalon, error: insertError } = await supabase
-        .from("salons")
-        .insert([
-          {
-            user_id: user.id,
-            name: "Mein Salon",
-            rating: 0
+        // 👉 Wenn kein Salon → erstellen
+        if (!data) {
+          console.log("⚠️ Kein Salon → erstelle jetzt")
+
+          const { data: newSalon, error: insertError } = await supabase
+            .from("salons")
+            .insert([
+              {
+                user_id: user.id,
+                name: "Mein Salon",
+                rating: 0
+              }
+            ])
+            .select()
+            .single()
+
+          console.log("INSERT RESULT:", newSalon)
+          console.log("INSERT ERROR:", insertError)
+
+          if (insertError) {
+            console.log("❌ Insert Fehler → STOP")
+            return
           }
-        ])
-        .select()
-        .single()
 
-      console.log("INSERT RESULT:", newSalon)
-      console.log("INSERT ERROR:", insertError)
+          salonData = newSalon
+        }
 
-      if (insertError) {
-        console.log("❌ Insert kaputt → STOP")
-        setLoading(false)
-        return
+        // 👉 State setzen
+        if (isMounted) {
+          setSalon(salonData)
+        }
+
+        // 👉 Reviews laden (optional)
+        if (salonData?.google_place_id) {
+          try {
+            const res = await fetch(`/api/google-reviews?placeId=${salonData.google_place_id}`)
+            const json = await res.json()
+            if (isMounted) {
+              setReviews(json?.reviews || [])
+            }
+          } catch (err) {
+            console.log("Review Fehler:", err)
+            if (isMounted) {
+              setReviews([])
+            }
+          }
+        }
+
+      } catch (err) {
+        console.log("❌ SYSTEM ERROR:", err)
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
       }
-
-      salonData = newSalon
     }
 
-    // 👉 FINAL setzen
-    setSalon(salonData)
+    loadData()
 
-  } catch (err) {
-    console.log("❌ SYSTEM ERROR:", err)
-  } finally {
-    setLoading(false)
-  }
-}
-   
+    return () => {
+      isMounted = false
+    }
+  }, []) // ✅ KEIN salon hier → kein Loop
 
-  loadData()
-}, [salon])
-  
+  // 📊 Stats
   const totalReviews = reviews.length
 
   const weeklyReviews = reviews.filter(r => {
@@ -138,6 +165,7 @@ async function loadData() {
   const aWeekly = useCountUp(weeklyReviews)
   const aNegative = useCountUp(negativeReviews)
 
+  // 📈 Chart Data
   function getChartData() {
     const days = {}
 
@@ -160,7 +188,8 @@ async function loadData() {
     { name: "Google", value: totalReviews }
   ]
 
-  if (loading) return <div style={{color:"white"}}>Lade...</div>
+  // 🛑 Render Guards
+  if (loading) return <div style={{ color: "white" }}>Lade...</div>
   if (!salon) return <div style={{ color: "white" }}>Kein Salon gefunden</div>
 
   return (
@@ -208,7 +237,6 @@ async function loadData() {
       {/* CHART */}
       <div style={box}>
         <h2>Bewertungen Verlauf</h2>
-
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={getChartData()}>
             <XAxis dataKey="date" />
@@ -222,7 +250,6 @@ async function loadData() {
       {/* FUNNEL */}
       <div style={box}>
         <h2>Conversion Funnel</h2>
-
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={funnelData}>
             <XAxis dataKey="name" />
@@ -275,7 +302,7 @@ async function loadData() {
 }
 
 
-// STYLES
+// 🎨 STYLES
 
 const header = {
   display: "flex",
