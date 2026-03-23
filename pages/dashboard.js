@@ -47,70 +47,83 @@ export default function Dashboard() {
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-const { data: { session } } = await supabase.auth.getSession()
-const user = session?.user
-  
-if (!user) {
-  console.log("Kein User")
-  setLoading(false)
-  return
-}
-  let salonData = null
+ useEffect(() => {
+  async function loadData() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const user = session?.user
 
-const { data } = await supabase
-  .from("salons")
-  .select("*")
-  .eq("user_id", user.id)
-  .single()
-
-if (!data) {
-
-  console.log("Erstelle Salon...")
-
-  const { data: newSalon, error } = await supabase
-    .from("salons")
-    .insert([
-      {
-        user_id: user.id,
-        name: "Mein Salon",
-        rating: 0
+      if (!user) {
+        console.log("Kein User")
+        setLoading(false)
+        return
       }
-    ])
-    .select()
-    .single()
 
-  if (error) {
-    console.log("Fehler beim Erstellen:", error)
-    setLoading(false)
-    return
+      let salonData = null
+
+      // 1. Salon suchen (SAFE)
+      const { data, error } = await supabase
+        .from("salons")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle()
+
+      if (error) {
+        console.log("Fetch Fehler:", error)
+      }
+
+      // 2. Wenn keiner existiert → erstellen
+      if (!data) {
+        console.log("Erstelle Salon...")
+
+        const { data: newSalon, error: insertError } = await supabase
+          .from("salons")
+          .insert([
+            {
+              user_id: user.id,
+              name: "Mein Salon",
+              rating: 0
+            }
+          ])
+          .select()
+          .single()
+
+        if (insertError) {
+          console.log("Insert Fehler:", insertError)
+          setLoading(false)
+          return
+        }
+
+        salonData = newSalon
+
+      } else {
+        salonData = data
+      }
+
+      // 3. State setzen
+      setSalon(salonData)
+
+      // 4. Reviews laden (optional)
+      if (salonData?.google_place_id) {
+        try {
+          const res = await fetch(`/api/google-reviews?placeId=${salonData.google_place_id}`)
+          const json = await res.json()
+          setReviews(json?.reviews || [])
+        } catch (err) {
+          console.log("Review Fehler:", err)
+          setReviews([])
+        }
+      }
+
+    } catch (err) {
+      console.log("System Fehler:", err)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  salonData = newSalon
-
-} else {
-  salonData = data
-}
-
-setSalon(salonData)
-
-if (salonData?.google_place_id) {
-  const res = await fetch(`/api/google-reviews?placeId=${salonData.google_place_id}`)
-  const json = await res.json()
-  setReviews(json?.reviews || [])
-}
-      } catch (err) {
-        console.log(err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadData()
-  }, [])
-
+  loadData()
+}, [])
   const totalReviews = reviews.length
 
   const weeklyReviews = reviews.filter(r => {
