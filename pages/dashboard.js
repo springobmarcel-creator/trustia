@@ -50,14 +50,12 @@ export default function Dashboard() {
  useEffect(() => {
   async function loadData() {
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      const user = session?.user
-
-      if (!user) {
-        console.log("Kein User")
-        setLoading(false)
-        return
-      }
+     const { data: { user } } = await supabase.auth.getUser()
+      
+     if (!user) {
+  window.location.href = "/login"
+  return
+}
 
       let salonData = null
 
