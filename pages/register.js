@@ -35,7 +35,7 @@ async function handleRegister(e){
     return
   }
 
-  router.push("/onboarding")
+router.push("/dashboard")
 }
 
 
