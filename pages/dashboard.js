@@ -59,17 +59,21 @@ export default function Dashboard() {
         console.log("🚀 START loadData")
 
         // 👉 User holen
-const { data: { session } } = await supabase.auth.getSession()
-const user = session?.user
+const {
+  data: { user },
+  error: userError,
+} = await supabase.auth.getUser()
         
         console.log("USER:", user)
 
         // ❌ Kein User → Login
-      if (!user) {
-        console.log("Noch kein User → retry...")
-        setTimeout(loadData, 500)
-        return
-      }
+     if (!user) {
+  console.log("❌ NO USER")
+  setLoading(false)
+  router.push("/login")
+  return
+}
+      
         // 👉 Salon laden
         const { data, error } = await supabase
           .from("salons")
