@@ -2,6 +2,7 @@ import Layout from "../components/Layout"
 import { useEffect, useState } from "react"
 import { supabase } from "../lib/supabase"
 
+
 import {
   LineChart,
   Line,
@@ -43,6 +44,8 @@ function useCountUp(target) {
 }
 
 export default function Dashboard() {
+  
+  
   const [salon, setSalon] = useState(null)
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
@@ -53,9 +56,11 @@ export default function Dashboard() {
      const { data: { user } } = await supabase.auth.getUser()
       
 if (!user) {
-  router.push("/login")
+  console.log("Kein User – retry...")
+  setTimeout(loadData, 500)
   return
 }
+      
       let salonData = null
 
       // 1. Salon suchen (SAFE)
@@ -120,7 +125,8 @@ if (!user) {
   }
 
   loadData()
-}, [])
+}, [salon])
+  
   const totalReviews = reviews.length
 
   const weeklyReviews = reviews.filter(r => {
