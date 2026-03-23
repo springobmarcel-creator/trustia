@@ -65,9 +65,10 @@ export default function Dashboard() {
         console.log("USER ERROR:", userError)
 
         // ❌ Kein User → Login
-        if (!user) {
-          router.push("/login")
-          return
+       if (!user) {
+        setLoading(false)   
+        router.push("/login")
+        return
         }
 
         // 👉 Salon laden
