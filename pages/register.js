@@ -24,19 +24,41 @@ async function handleRegister(e){
     return
   }
 
-  // Auto Login nach Registrierung
-  const { error: loginError } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password
-  })
+ const { error: loginError } = await supabase.auth.signInWithPassword({
+  email: email,
+  password: password
+})
 
-  if(loginError){
-    setError(loginError.message)
-    return
-  }
-
-router.push("/dashboard")
+if (loginError) {
+  setError(loginError.message)
+  return
 }
+
+// 🔥 User holen
+const { data: { user } } = await supabase.auth.getUser()
+
+if (user) {
+  const { data: newSalon, error: salonError } = await supabase
+  .from("salons")
+  .insert([
+    {
+      user_id: user.id,
+      name: name,
+      rating: 0
+    }
+  ])
+  .select()
+  .single()
+  
+
+  if (salonError) {
+    console.log("Salon Fehler:", salonError)
+  }
+}
+
+// 👉 DIREKT Dashboard
+router.push("/dashboard")
+  
 
 
 return(
