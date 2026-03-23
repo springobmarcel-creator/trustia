@@ -51,78 +51,71 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
 
  useEffect(() => {
-  async function loadData() {
-    try {
-     const { data: { user } } = await supabase.auth.getUser()
-      
-if (!user) {
-  console.log("Kein User – retry...")
-  setTimeout(loadData, 500)
-  return
-}
-      
-      let salonData = null
+async function loadData() {
+  try {
+    console.log("START loadData")
 
-      // 1. Salon suchen (SAFE)
-      const { data, error } = await supabase
-        .from("salons")
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle()
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
 
-      if (error) {
-        console.log("Fetch Fehler:", error)
-      }
+    console.log("USER:", user)
+    console.log("USER ERROR:", userError)
 
-      // 2. Wenn keiner existiert → erstellen
-      if (!data) {
-        console.log("Erstelle Salon...")
-
-        const { data: newSalon, error: insertError } = await supabase
-          .from("salons")
-          .insert([
-            {
-              user_id: user.id,
-              name: "Mein Salon",
-              rating: 0
-            }
-          ])
-          .select()
-          .single()
-
-        if (insertError) {
-          console.log("Insert Fehler:", insertError)
-          setLoading(false)
-          return
-        }
-
-        salonData = newSalon
-
-      } else {
-        salonData = data
-      }
-
-      // 3. State setzen
-      setSalon(salonData)
-
-      // 4. Reviews laden (optional)
-      if (salonData?.google_place_id) {
-        try {
-          const res = await fetch(`/api/google-reviews?placeId=${salonData.google_place_id}`)
-          const json = await res.json()
-          setReviews(json?.reviews || [])
-        } catch (err) {
-          console.log("Review Fehler:", err)
-          setReviews([])
-        }
-      }
-
-    } catch (err) {
-      console.log("System Fehler:", err)
-    } finally {
+    if (!user) {
+      console.log("❌ Kein User → stop")
       setLoading(false)
+      return
     }
+
+    // 👉 Salon laden
+    const { data, error } = await supabase
+      .from("salons")
+      .select("*")
+      .eq("user_id", user.id)
+      .maybeSingle()
+
+    console.log("SALON DATA:", data)
+    console.log("SALON ERROR:", error)
+
+    let salonData = data
+
+    // 👉 Wenn kein Salon → erstellen
+    if (!data) {
+      console.log("⚠️ Kein Salon → erstelle jetzt")
+
+      const { data: newSalon, error: insertError } = await supabase
+        .from("salons")
+        .insert([
+          {
+            user_id: user.id,
+            name: "Mein Salon",
+            rating: 0
+          }
+        ])
+        .select()
+        .single()
+
+      console.log("INSERT RESULT:", newSalon)
+      console.log("INSERT ERROR:", insertError)
+
+      if (insertError) {
+        console.log("❌ Insert kaputt → STOP")
+        setLoading(false)
+        return
+      }
+
+      salonData = newSalon
+    }
+
+    // 👉 FINAL setzen
+    setSalon(salonData)
+
+  } catch (err) {
+    console.log("❌ SYSTEM ERROR:", err)
+  } finally {
+    setLoading(false)
   }
+}
+   
 
   loadData()
 }, [salon])
