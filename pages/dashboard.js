@@ -52,11 +52,10 @@ export default function Dashboard() {
     try {
      const { data: { user } } = await supabase.auth.getUser()
       
-     if (!user) {
-  window.location.href = "/login"
+if (!user) {
+  router.push("/login")
   return
 }
-
       let salonData = null
 
       // 1. Salon suchen (SAFE)
