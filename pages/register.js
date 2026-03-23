@@ -174,5 +174,6 @@ marginTop:"10px"
 link:{
 marginTop:"15px",
 color:"#9ca3af"
+  
 }
 }
