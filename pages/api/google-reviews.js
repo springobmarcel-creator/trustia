@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Missing placeId" })
   }
 
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY
+  const apiKey = process.env.GOOGLE_API_KEY
 
   const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}`
 
