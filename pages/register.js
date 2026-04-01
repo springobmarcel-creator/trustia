@@ -14,9 +14,13 @@ const [error,setError] = useState("")
 async function handleRegister(e){
   e.preventDefault()
 
+  // 🔒 Basic Schutz
+  if (!email || !email.includes("@")) return
+  if (!password || password.length < 6) return
+
   const { error } = await supabase.auth.signUp({
-    email: email,
-    password: password
+    email,
+    password
   })
 
   if(error){
@@ -24,41 +28,9 @@ async function handleRegister(e){
     return
   }
 
- const { error: loginError } = await supabase.auth.signInWithPassword({
-  email: email,
-  password: password
-})
-
-if (loginError) {
-  setError(loginError.message)
-  return
+  // ❗ KEIN LOGIN, KEIN DB INSERT
+  router.push("/login")
 }
-
-// 🔥 User holen
-const { data: { user } } = await supabase.auth.getUser()
-
-if (user) {
-  const { data: newSalon, error: salonError } = await supabase
-  .from("salons")
-  .insert([
-    {
-      user_id: user.id,
-      name: name,
-      rating: 0
-    }
-  ])
-  .select()
-  .single()
-  
-
-  if (salonError) {
-    console.log("Salon Fehler:", salonError)
-  }
-}
-
-// 👉 DIREKT Dashboard
-router.push("/dashboard")
-  }
   
 
 
